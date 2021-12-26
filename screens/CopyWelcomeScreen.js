@@ -15,42 +15,45 @@ const CopyWelcomeScreen = (props) => {
     return (
         <View style={styles.screenContainer}>
             <View style={styles.screenWrapper}>
-                <View style={styles.signWrapper}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.image}
-                            source={require("../assets/images/logo_no_desc.png")}
-                        />
-                    </View>
-                    <View style={styles.textWrapper}>
-                        <Text style={styles.textH1}>
-                            Help discover{" "}
-                            <Text
-                                style={{ ...styles.textH1, color: "#1aa1f5" }}
-                            >
-                                amazing{" "}
-                            </Text>
-                        </Text>
-                        <Text style={styles.textH1}>findings. It's easy.</Text>
-                    </View>
-                    <View style={styles.twitterButtonContainer}>
-                        <FontAwesome.Button
-                            name="twitter"
-                            backgroundColor="#1da1f2"
-                            onPress={onSignInHandler}
-                            iconStyle={{
-                                backgroundColor: "white",
-                                color: "#1da1f2",
-                            }}
-                            style={styles.twitterButton}
-                        >
-                            Sign in with Twitter
-                        </FontAwesome.Button>
-                    </View>
-                    <View style={styles.footerCopyright} >
-                            <Text style={styles.copyrightText}>Twixper will record data regarding your usage and it will be available to the researchers that own the experiment.</Text>
-                    </View>
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.image}
+                        source={require("../assets/images/logo_no_desc.png")}
+                    />
                 </View>
+                <View style={styles.textWrapper}>
+                    <Text style={styles.textH1}>
+                        Help discover{" "}
+                        <Text style={{ ...styles.textH1, color: "#1aa1f5" }}>
+                            amazing{" "}
+                        </Text>
+                    </Text>
+                    <Text style={styles.textH1}>findings. It's easy.</Text>
+                </View>
+                <View style={styles.twitterButtonContainer}>
+                    <FontAwesome.Button
+                        name="twitter"
+                        backgroundColor="#1da1f2"
+                        onPress={onSignInHandler}
+                        size={29}
+                        iconStyle={{
+                            backgroundColor: "white",
+                            color: "#1da1f2",
+                        }}
+                        style={styles.twitterButton}
+                    >
+                        Sign in with Twitter
+                    </FontAwesome.Button>
+                </View>
+            </View>
+            <View style={styles.footerCopyright}>
+                <Text style={styles.copyrightText}>
+                    Twixper will record data regarding your usage and it will be
+                    available to the researchers that own the experiment.
+                    Twixper might make changes in content you would normally see
+                    in twitter. We will never post on behalf of your name or
+                    change things you write.
+                </Text>
             </View>
         </View>
     );
@@ -67,14 +70,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginHorizontal: "3%",
     },
-    signWrapper: {
-        textAlign: "center",
-        justifyContent: "center",
-        fontSize: 14.8,
+    imageContainer: {
+        paddingVertical: "5%",
     },
     image: {
-        marginTop: "10%",
-        paddingBottom: "2%",
         maxWidth: "100%",
         maxHeight: "100%",
         resizeMode: "contain",
@@ -94,23 +93,24 @@ const styles = StyleSheet.create({
     },
     twitterButtonContainer: {
         justifyContent: "center",
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: "9%",
     },
     footerCopyright: {
-        bottom: '0%',
-        paddingVertical: '3%',
-        paddingHorizontal: '8%',
+        bottom: "0%",
+        paddingVertical: "15%",
+        paddingHorizontal: "8%",
     },
     copyrightText: {
         marginTop: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
 
         fontSize: 13,
-        color: '#aaa',
-        marginBottom: 0
-    }
+        color: "#aaa",
+        marginBottom: 0,
+    },
 });
 
 export default CopyWelcomeScreen;
