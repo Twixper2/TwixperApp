@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     View,
     Text,
     Image,
-    Button,
-    Dimensions,
     StyleSheet,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
 
+import * as authActions from "../store/actions/auth";
+
+
+
 const CopyWelcomeScreen = (props) => {
-    const onSignInHandler = () => {};
+
+    // const [authUrl, setAuthUrl] = useState();
+    const oauthToken = useSelector(state => state.auth.oauthToken);
+    const authUrl = useSelector(state => state.auth.authUrl);
+    console.log("oath: " + oauthToken);
+    console.log("url: " + authUrl);
+    const dispatch = useDispatch();
+
+    const onSignInHandler = async() => {
+
+        await dispatch(authActions.authenticate_twitter("oob"));
+        console.log("res1");
+    };
 
     return (
         <View style={styles.screenContainer}>
@@ -65,7 +80,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(207, 242, 253, 0.5)",
     },
     screenWrapper: {
-        height: "70%",
+        height: "65%",
         display: "flex",
         justifyContent: "center",
         marginHorizontal: "3%",
@@ -98,7 +113,7 @@ const styles = StyleSheet.create({
     },
     footerCopyright: {
         bottom: "0%",
-        paddingVertical: "15%",
+        paddingVertical: "27%",
         paddingHorizontal: "8%",
     },
     copyrightText: {

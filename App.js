@@ -1,22 +1,28 @@
-import { StatusBar } from "expo-status-bar";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { StyleSheet, Text, View } from "react-native";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+
 
 //  TODO: Look on rn-shop-app :
 //          - enableScreens ?
 //          - rootReducer !
 //          - store = createStore ??
 
-
+import authReducer from "./store/reducers/auth";
 import CopyWelcomeScreen from "./screens/CopyWelcomeScreen";
+
+const rootReducer = combineReducers({
+    auth: authReducer,
+});
+
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
     return (
-        <CopyWelcomeScreen />
-        
-        // <View style={styles.container}>
-        //     <Text>Open up App.js to start working on your app!</Text>
-        //     <StatusBar style="auto" />
-        // </View>
+        <Provider store={store}>
+            <CopyWelcomeScreen />
+        </Provider>
     );
 }
 
