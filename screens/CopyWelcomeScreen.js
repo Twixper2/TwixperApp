@@ -1,31 +1,50 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-    View,
-    Text,
-    Image,
-    StyleSheet,
-} from "react-native";
+import { View, Text, Linking, Image, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
 
 import * as authActions from "../store/actions/auth";
 
-
-
 const CopyWelcomeScreen = (props) => {
 
-    // const [authUrl, setAuthUrl] = useState();
-    const oauthToken = useSelector(state => state.auth.oauthToken);
-    const authUrl = useSelector(state => state.auth.authUrl);
-    console.log("oath: " + oauthToken);
-    console.log("url: " + authUrl);
+    const authUrl = useSelector((state) => state.auth.authUrl);
+
     const dispatch = useDispatch();
 
-    const onSignInHandler = async() => {
-
+    const onSignInHandler = async () => {
         await dispatch(authActions.authenticate_twitter("oob"));
-        console.log("res1");
+
     };
+
+    const openAuthLink = async (url) => {
+        // Checking if the link is supported for links with custom URL scheme.
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+        } else {
+            console.log(`Don't know how to open this URL: ${url}`);
+        }
+    };
+
+    if (authUrl) {
+
+        openAuthLink(authUrl);
+
+        // return (
+        //     <View
+        //         style={{
+        //             flex: 1,
+        //             justifyContent: "center",
+        //             alignItems: "center",
+        //         }}
+        //     >
+        //         <Text>Goog Job Dini !!!</Text>
+        //     </View>
+        // );
+    }
 
     return (
         <View style={styles.screenContainer}>

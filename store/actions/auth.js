@@ -12,65 +12,16 @@ export const authenticate_twitter = (oauthCb) => {
     return async (dispatch) => {
         const requestUrl = ENV.serverUrl + ENV.twitterRequestTokenEndpoint;
         const headers = await createAuthHeaderObj();
-        const payload = {
-            oauth_callback: oauthCb,
-        };
-        // const options = {
-        //     method: "POST",
-        //     headers: headers,
-        //     body: JSON.stringify(payload),
-        // };
-        const options = {
-            headers: headers
-        };
+        const payload = { oauth_callback: oauthCb };
+        const options = { headers: headers };
+
         try {
+            const response = await axios.post(requestUrl, payload, options);
+            const oauthToken = JSON.parse(JSON.stringify(response.data));
 
-            console.log("res 0");
-            // const response = await fetch(requestUrl, options);
+            const authUrl = ENV.twitterOauthPath + oauthToken;
 
-            // const response = await fetch(requestUrl, {
-            //     method: "POST",
-            //     headers: {'Content-Type': 'application/json'},
-            //     body: JSON.stringify({ oauth_callback: oauthCb }),
-            // });
-            let x = axios.post(requestUrl, payload, options);
-            x.then(res => {
-                // console.log("YYYY");
-                // let y = JSON.parse(JSON.stringify(res));
-                // console.log(y);
-                // console.log(y._bodyInit._data);
-                // const urlParams = new URLSearchParams(y._bodyBlob._data);
-                // console.log(urlParams);
-                // const oauthToken = urlParams.get("oauth_token")
-                // console.log(oauthToken);
-                // console.log(res);
-                const urlParams = new URLSearchParams(res.data)
-                console.log(urlParams._searchParams);
-                // console.log(res.data);
-                // const oauthToken = urlParams.get("oauth_token")
-                // const oauthToken = urlParams
-                console.log(JSON.stringify(res.data));
-                // console.log(res.data)
-
-            }).catch(err=>console.log(err));
-
-            console.log("res 0");
-            // const resData = await JSON.stringify(response);
-            // console.log(response.ok);
-            // console.log("res" + resData); 
-
-
-            // console.log(response._bodyInit._data + "?");
-            // const urlParams = new URLSearchParams(response.data);
-            // const oauthToken = urlParams.get("oauth_token")
-            // console.log(oauthToken);
-
-
-            // dispatch({
-            //     type: AUTHENTICATE_TWITTER,
-            //     oauthToken: 111,
-            //     authUrl: 222,
-            // });
+            dispatch({ type: AUTHENTICATE_TWITTER, authUrl: authUrl });
         } catch (err) {
             console.log("error in auth_twitter");
             console.log(err);
@@ -84,7 +35,7 @@ export const authenticate_twitter = (oauthCb) => {
 
 // Create auth header object
 const createAuthHeaderObj = async () => {
-    let headerObj = {'Content-Type': 'application/json'};
+    let headerObj = { "Content-Type": "application/json" };
 
     const userTwitterToken = await AsyncStorage.getItem("user_twitter_token");
     const userTwitterTokenSecret = await AsyncStorage.getItem(
