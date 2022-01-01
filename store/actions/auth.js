@@ -5,6 +5,7 @@ import axios from "axios";
 import ENV from "../../env.js";
 
 export const AUTHENTICATE_TWITTER = "AUTHENTICATE_TWITTER";
+export const AUTHENTICATE_ACCESS_TOKEN = "AUTHENTICATE_ACCESS_TOKEN";
 
 /**********    Action Functions    **********/
 
@@ -21,12 +22,38 @@ export const authenticate_twitter = (oauthCb) => {
 
             const authUrl = ENV.twitterOauthPath + oauthToken;
 
-            dispatch({ type: AUTHENTICATE_TWITTER, authUrl: authUrl });
+            dispatch({ type: AUTHENTICATE_TWITTER, authUrl: authUrl, oauthToken: oauthToken });
         } catch (err) {
             console.log("error in auth_twitter");
             console.log(err);
         }
     };
+};
+
+export const authenticate_access_token = pinCode => {
+
+    return async (dispatch, getState) => {
+        const oauthToken = getState().auth.oauthToken;
+
+        const requestUrl = ENV.serverUrl + ENV.twitterAccessTokenEndpoint;
+        const headers = await createAuthHeaderObj();
+        const payload = { oauth_token: oauthToken, oauth_verifier: pinCode };
+        const options = { headers: headers };
+
+        try {
+            const response = await axios.post(requestUrl, payload, options);
+
+            console.log(response);
+            // const oauthToken = JSON.parse(JSON.stringify(response.data));
+
+            // const authUrl = ENV.twitterOauthPath + oauthToken;
+
+            // dispatch({ type: AUTHENTICATE_TWITTER, authUrl: authUrl, oauthToken: oauthToken });
+        } catch (err) {
+            console.log("error in authenticate_access_token");
+            console.log(err);
+        }
+    }
 };
 
 /**********    Helper Functions    **********/
