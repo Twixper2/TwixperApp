@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
 
+import 'react-native-url-polyfill/auto';
+
+
 
 //  TODO: Look on rn-shop-app :
 //          - enableScreens ?

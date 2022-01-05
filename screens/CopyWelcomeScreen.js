@@ -6,6 +6,7 @@ import {
     Image,
     TextInput,
     Button,
+    Alert,
     StyleSheet,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,16 +16,28 @@ import * as authActions from "../store/actions/auth";
 
 const CopyWelcomeScreen = (props) => {
     const authUrl = useSelector((state) => state.auth.authUrl);
+
     const [code, setCode] = useState();
+    const [error, setError] = useState();
     const [openUrl, setOpenUrl] = useState(false);
-    
+
     const dispatch = useDispatch();
 
     const onSignInHandler = async () => {
-        await dispatch(authActions.authenticate_twitter("oob"));
-        setOpenUrl(true);
+        try {
+            await dispatch(authActions.authenticate_twitter("oob"));
+            setOpenUrl(true);
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
+    useEffect(() => {
+        if (error) {
+            Alert.alert("An Error Occurred!", error, [{ text: "Okay" }]);
+            // TODO:  Add ReRender !!
+        }
+    }, [error]);
 
     const openAuthLink = async (url) => {
         // Checking if the link is supported for links with custom URL scheme.
@@ -44,7 +57,11 @@ const CopyWelcomeScreen = (props) => {
     };
 
     const onInsertCodeHandler = async () => {
-        await dispatch(authActions.authenticate_access_token(code));
+        try {
+            await dispatch(authActions.authenticate_access_token(code));
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     let signIn = (
@@ -91,7 +108,7 @@ const CopyWelcomeScreen = (props) => {
     );
     let insertCode = (
         <View style={styles.insertCodeWrapper}>
-            <View style={{...styles.textWrapper, ...styles.textInsertCode }}>
+            <View style={{ ...styles.textWrapper, ...styles.textInsertCode }}>
                 <Text style={styles.textH3}>
                     Please insert the code from Twitter:
                 </Text>
@@ -105,7 +122,7 @@ const CopyWelcomeScreen = (props) => {
                     keyboardType="numeric"
                 />
             </View>
-            <View style={styles.buttonContainer} >
+            <View style={styles.buttonContainer}>
                 <Button title="Ok" onPress={onInsertCodeHandler} />
             </View>
         </View>
@@ -177,7 +194,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         marginTop: "45%",
         paddingVertical: "5%",
-        paddingHorizontal: '2%'
+        paddingHorizontal: "2%",
     },
     image: {
         maxWidth: "100%",
@@ -200,9 +217,9 @@ const styles = StyleSheet.create({
     textH3: {
         fontSize: 19,
         fontWeight: "bold",
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignContent: "center",
+        alignItems: "center",
     },
     twitterButtonContainer: {
         justifyContent: "center",
@@ -215,8 +232,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: "5%",
     },
     textInsertCode: {
-        marginTop: '10%',
-
+        marginTop: "10%",
     },
     copyrightText: {
         marginTop: 15,
@@ -229,25 +245,25 @@ const styles = StyleSheet.create({
         marginBottom: 0,
     },
     inputContainer: {
-        width: '80%',
-        marginHorizontal: '10%',
-        marginTop: '10%',
-        marginBottom: '2%'
+        width: "80%",
+        marginHorizontal: "10%",
+        marginTop: "10%",
+        marginBottom: "2%",
     },
     input: {
-        width: '100%',
-        backgroundColor: 'white',
+        width: "100%",
+        backgroundColor: "white",
         paddingHorizontal: 2,
         paddingVertical: 5,
-        borderBottomColor: '#ccc',
+        borderBottomColor: "#ccc",
         borderBottomWidth: 1,
     },
     buttonContainer: {
-        width: '40%',
-        marginHorizontal: '30%',
-        marginTop: '3%',
-        justifyContent: 'center'
-    }
+        width: "40%",
+        marginHorizontal: "30%",
+        marginTop: "3%",
+        justifyContent: "center",
+    },
 });
 
 export default CopyWelcomeScreen;

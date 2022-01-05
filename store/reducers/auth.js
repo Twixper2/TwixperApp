@@ -1,8 +1,12 @@
-import { AUTHENTICATE_TWITTER } from "../actions/auth";
+import {
+    AUTHENTICATE_TWITTER,
+    AUTHENTICATE_ACCESS_TOKEN,
+} from "../actions/auth";
 
 const initialState = {
     authUrl: null,
-    oauthToken: null
+    oauthToken: null,
+    oauthTokenSecret: null,
 };
 
 export default (state = initialState, action) => {
@@ -10,9 +14,14 @@ export default (state = initialState, action) => {
         case AUTHENTICATE_TWITTER:
             return {
                 authUrl: action.authUrl,
-                oauthToken: action.oauthToken
+                oauthToken: action.oauthToken,
             };
-
+        case AUTHENTICATE_ACCESS_TOKEN:
+            return {
+                ...state,
+                oauthToken: action.oauthToken,
+                oauthTokenSecret: action.oauthTokenSecret,
+            };
         default:
             return state;
     }

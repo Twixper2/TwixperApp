@@ -18,20 +18,29 @@ export const authenticate_twitter = (oauthCb) => {
 
         try {
             const response = await axios.post(requestUrl, payload, options);
-            const oauthToken = JSON.parse(JSON.stringify(response.data));
+
+            const urlParams = new URLSearchParams(response.data);
+
+            const oauthToken = urlParams.get("oauth_token");
 
             const authUrl = ENV.twitterOauthPath + oauthToken;
 
-            dispatch({ type: AUTHENTICATE_TWITTER, authUrl: authUrl, oauthToken: oauthToken });
+            dispatch({
+                type: AUTHENTICATE_TWITTER,
+                authUrl: authUrl,
+                oauthToken: oauthToken,
+            });
         } catch (err) {
             console.log("error in auth_twitter");
             console.log(err);
+            let message =
+                "Error while loading the sign-in button. Please refresh to try again.";
+            throw new Error(message);
         }
     };
 };
 
-export const authenticate_access_token = pinCode => {
-
+export const authenticate_access_token = (pinCode) => {
     return async (dispatch, getState) => {
         const oauthToken = getState().auth.oauthToken;
 
@@ -43,17 +52,98 @@ export const authenticate_access_token = pinCode => {
         try {
             const response = await axios.post(requestUrl, payload, options);
 
-            console.log(response);
-            // const oauthToken = JSON.parse(JSON.stringify(response.data));
+            if (response.status != 200) {
+                console.log("Incorrect PIN in authenticate_access_token");
+                let message =
+                    "Incorrect PIN code. Please wait for the page to refresh and try again";
+                throw new Error(message);
+            }
 
-            // const authUrl = ENV.twitterOauthPath + oauthToken;
+            const urlParams = new URLSearchParams(response.data);
+            const oauthToken = urlParams.get("oauth_token");
+            const oauthTokenSecret = urlParams.get("oauth_token_secret");
 
-            // dispatch({ type: AUTHENTICATE_TWITTER, authUrl: authUrl, oauthToken: oauthToken });
+            dispatch(server_check_credentials(oauthToken, oauthTokenSecret));
+
+            dispatch({
+                type: AUTHENTICATE_ACCESS_TOKEN,
+                oauthToken: oauthToken,
+                oauthTokenSecret: oauthTokenSecret,
+            });
         } catch (err) {
             console.log("error in authenticate_access_token");
             console.log(err);
+
+            let message =
+                "There was an error while processing the authorization. Please wait for the page to refresh and try again";
+            throw new Error(message);
         }
-    }
+    };
+};
+
+export const server_check_credentials = (oauthToken, oauthTokenSecret) => {
+    return async (dispatch) => {
+        const requestUrl = ENV.serverUrl + ENV.checkCredentialsEndpoint;
+
+        const headers = await createAuthHeaderObj();
+        const payload = {
+            oauth_token: oauthToken,
+            oauth_token_secret: oauthTokenSecret,
+        };
+        const options = { headers: headers };
+
+        try {
+            const credentialsResponse = await axios.post(
+                requestUrl,
+                payload,
+                options
+            );
+
+            if (credentialsResponse.status == 200) {
+                // TODO:  From Participants
+                // if(response.status == 200){
+                //     // Set "user_twitter_token" and "user_twitter_token_secret" in LS from the response header.
+                //     localStorage.setItem("user_twitter_token", response.headers["user-twitter-token"])
+                //     localStorage.setItem("user_twitter_token_secret", response.headers["user-twitter-token-secret"])
+                // }
+
+                console.log(credentialsResponse);
+
+                const responseData = credentialsResponse.data;
+
+                console.log(responseData);
+            } else {
+                console.log("error in server_check_credentials");
+                console.log(err);
+
+                let message =
+                    "There was an error while processing the authorization. Please wait for the page to refresh and try again";
+                throw new Error(message);
+            }
+
+            return;
+
+            // const urlParams = new URLSearchParams(response.data);
+            // const oauthToken = urlParams.get("oauth_token");
+            // const oauthTokenSecret = urlParams.get("oauth_token_secret");
+
+            // // console.log(oauthToken);
+            // // console.log(oauthTokenSecret);
+
+            // dispatch({
+            //     type: AUTHENTICATE_ACCESS_TOKEN,
+            //     oauthToken: oauthToken,
+            //     oauthTokenSecret: oauthTokenSecret,
+            // });
+        } catch (err) {
+            console.log("error in server_check_credentials");
+            console.log(err);
+
+            let message =
+                "There was an error while processing the authorization. Please wait for the page to refresh and try again";
+            throw new Error(message);
+        }
+    };
 };
 
 /**********    Helper Functions    **********/
