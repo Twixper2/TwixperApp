@@ -100,12 +100,32 @@ export const server_check_credentials = (oauthToken, oauthTokenSecret) => {
             );
 
             if (credentialsResponse.status == 200) {
-                // TODO:  From Participants
-                // if(response.status == 200){
-                //     // Set "user_twitter_token" and "user_twitter_token_secret" in LS from the response header.
-                //     localStorage.setItem("user_twitter_token", response.headers["user-twitter-token"])
-                //     localStorage.setItem("user_twitter_token_secret", response.headers["user-twitter-token-secret"])
-                // }
+
+                
+
+                AsyncStorage.setItem("providedCredentials", true); 
+                
+                const responseData = credentialsResponse.data
+                if(responseData.twitter_user_found == true && responseData.user_registered_to_experiment == true){
+
+                    // Already registered to experiment
+                    AsyncStorage.setItem("registeredToExperiment", true);
+
+                    const userTwitterEntity = await AsyncStorage.getItem('user_twitter_entity');
+
+                    if(userTwitterEntity == null){
+                        AsyncStorage.setItem("user_twitter_entity", JSON.stringify(responseData.participant_twitter_info));
+                    }
+
+                    // Telling the root the session validated (so it will start to collect actions)
+                    // this.$root.sessionValidated()
+                    // this.$router.replace('feed')
+                    window.location.reload()
+                }
+                else{ // Need to register to experiment
+                    // this.$router.replace('insertExpCode')
+                    window.location.reload()
+                }
 
                 console.log(credentialsResponse);
 

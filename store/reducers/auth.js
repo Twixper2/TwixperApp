@@ -7,6 +7,9 @@ const initialState = {
     authUrl: null,
     oauthToken: null,
     oauthTokenSecret: null,
+    user_twitter_token: null,
+    user_twitter_token_secret: null
+
 };
 
 export default (state = initialState, action) => {
