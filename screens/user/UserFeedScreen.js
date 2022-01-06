@@ -12,6 +12,12 @@ const UserFeedScreen = (props) => {
 };
 
 
+UserFeedScreen.navigationOptions = (navData) => {
+    return {
+        headerTitle: "",
+    };
+};
+
 const styles = StyleSheet.create({});
 
 

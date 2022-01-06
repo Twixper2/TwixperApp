@@ -1,14 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-    View,
-    Text,
-    Linking,
-    Image,
-    TextInput,
-    Button,
-    Alert,
-    StyleSheet,
-} from "react-native";
+import { View, Text, Linking, Image, TextInput, Button, Alert, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
@@ -60,9 +51,7 @@ const CopyWelcomeScreen = (props) => {
     const onInsertCodeHandler = async () => {
         try {
             await dispatch(authActions.authenticate_access_token(code));
-            const registeredToExperiment = await AsyncStorage.getItem(
-                "registeredToExperiment"
-            );
+            const registeredToExperiment = await AsyncStorage.getItem("registeredToExperiment");
             if (!registeredToExperiment) {
                 props.navigation.navigate("LoginExperiment");
             } else {
@@ -108,11 +97,8 @@ const CopyWelcomeScreen = (props) => {
             </View>
             <View style={styles.footerCopyright}>
                 <Text style={styles.copyrightText}>
-                    Twixper will record data regarding your usage and it will be
-                    available to the researchers that own the experiment.
-                    Twixper might make changes in content you would normally see
-                    in twitter. We will never post on behalf of your name or
-                    change things you write.
+                    Twixper will record data regarding your usage and it will be available to the researchers that own the experiment. Twixper might make
+                    changes in content you would normally see in twitter. We will never post on behalf of your name or change things you write.
                 </Text>
             </View>
         </View>
@@ -120,18 +106,10 @@ const CopyWelcomeScreen = (props) => {
     let insertCode = (
         <View style={styles.insertCodeWrapper}>
             <View style={{ ...styles.textWrapper, ...styles.textInsertCode }}>
-                <Text style={styles.textH3}>
-                    Please insert the code from Twitter :
-                </Text>
+                <Text style={styles.textH3}>Please insert the code from Twitter :</Text>
             </View>
             <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeCode}
-                    value={code}
-                    placeholder="twitter pin code"
-                    keyboardType="numeric"
-                />
+                <TextInput style={styles.input} onChangeText={onChangeCode} value={code} placeholder="twitter pin code" keyboardType="numeric" />
             </View>
             <View style={styles.buttonContainer}>
                 <Button title="Ok" onPress={onInsertCodeHandler} />
@@ -172,15 +150,18 @@ const CopyWelcomeScreen = (props) => {
         <View style={styles.screenContainer}>
             <View style={styles.screenWrapper}>
                 <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.image}
-                        source={require("../assets/images/logo_no_desc.png")}
-                    />
+                    <Image style={styles.image} source={require("../assets/images/logo_no_desc.png")} />
                 </View>
                 {authUrl ? insertCode : signIn}
             </View>
         </View>
     );
+};
+
+CopyWelcomeScreen.navigationOptions = (navData) => {
+    return {
+        headerTitle: "",
+    };
 };
 
 const styles = StyleSheet.create({

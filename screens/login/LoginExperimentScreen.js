@@ -41,7 +41,7 @@ const LoginExperimentScreen = (props) => {
             }
         } catch (err) {
             setError(err.message);
-            props.navigation.navigate("Welcome");
+            props.navigation.navigate("LoginTwitter");
         }
     };
 
@@ -77,6 +77,13 @@ const LoginExperimentScreen = (props) => {
         </View>
     );
 };
+
+LoginExperimentScreen.navigationOptions = (navData) => {
+    return {
+        headerTitle: "",
+    };
+};
+
 
 const styles = StyleSheet.create({
     screenContainer: {
