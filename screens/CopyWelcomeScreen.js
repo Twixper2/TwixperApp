@@ -36,7 +36,7 @@ const CopyWelcomeScreen = (props) => {
     useEffect(() => {
         if (error) {
             Alert.alert("An Error Occurred!", error, [{ text: "Okay" }]);
-            // TODO:  Add ReRender !!
+            props.navigation.navigate("Welcome");
         }
     }, [error]);
 
@@ -67,9 +67,11 @@ const CopyWelcomeScreen = (props) => {
                 props.navigation.navigate("LoginExperiment");
             } else {
                 // TODO: Navigate To Feed Screen
+                props.navigation.navigate("UserFeed");
             }
         } catch (err) {
             setError(err.message);
+            props.navigation.navigate("Welcome");
         }
     };
 

@@ -7,11 +7,13 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import CopyWelcomeScreen from "../screens/CopyWelcomeScreen";
 import LoginExperimentScreen from "../screens/login/LoginExperimentScreen";
+import UserFeedScreen from "../screens/user/UserFeedScreen";
 
 const TwixperNavigator = createStackNavigator(
     {
         Welcome: CopyWelcomeScreen,
         LoginExperiment: LoginExperimentScreen,
+        UserFeed: UserFeedScreen
     },
     {
         // defaultNavigationOptions: {

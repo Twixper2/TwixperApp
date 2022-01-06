@@ -1,16 +1,49 @@
-import React, { useState } from "react";
-import { View, Text, Image, TextInput, Button, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, TextInput, Alert, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
+import * as authActions from '../../store/actions/auth';
 import ConfirmButton from "../../components/ConfirmButton";
 
+
 const LoginExperimentScreen = (props) => {
+
+    const [error, setError] = useState();
     const [expCode, setExpCode] = useState("");
+
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        if (error) {
+            Alert.alert("An Error Occurred!", error, [{ text: "Okay" }]);
+            // TODO:  Add ReRender !!
+        }
+    }, [error]);
 
     const onChangeExpCode = (text) => {
         setExpCode(text);
     };
 
-    const onInsertExpCodeHandler = async () => {};
+    const onInsertExpCodeHandler = async () => {
+        try {
+            await dispatch(authActions.register_to_experiment(expCode));
+            const registeredToExperiment = await AsyncStorage.getItem(
+                "registeredToExperiment"
+            );
+            if ( registeredToExperiment ) {
+                props.navigation.navigate("UserFeed");
+            } else {
+                // TODO: Navigate To ** I Don't Know ** Screen
+                props.navigation.navigate("LoginExperiment");
+            }
+        } catch (err) {
+            setError(err.message);
+            props.navigation.navigate("Welcome");
+        }
+    };
 
     return (
         <View style={styles.screenContainer}>
@@ -30,7 +63,6 @@ const LoginExperimentScreen = (props) => {
                         onChangeText={onChangeExpCode}
                         value={expCode}
                         placeholder="experiment code"
-                        keyboardType="numeric"
                     />
                 </View>
                 <View style={styles.buttonContainer}>
