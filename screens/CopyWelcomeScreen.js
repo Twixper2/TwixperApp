@@ -110,7 +110,7 @@ const CopyWelcomeScreen = (props) => {
         <View style={styles.insertCodeWrapper}>
             <View style={{ ...styles.textWrapper, ...styles.textInsertCode }}>
                 <Text style={styles.textH3}>
-                    Please insert the code from Twitter:
+                    Please insert the code from Twitter :
                 </Text>
             </View>
             <View style={styles.inputContainer}>

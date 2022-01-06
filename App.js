@@ -14,6 +14,7 @@ import 'react-native-url-polyfill/auto';
 
 import authReducer from "./store/reducers/auth";
 import CopyWelcomeScreen from "./screens/CopyWelcomeScreen";
+import LoginExperimentScreen from "./screens/login/LoginExperimentScreen";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -25,10 +26,13 @@ export default function App() {
     return (
         <Provider store={store}>
             <CopyWelcomeScreen />
+            {/* <LoginExperimentScreen /> */}
         </Provider>
     );
 }
 
+// First - Vertical  | Second - Horizontal
+// padding: 20% 10%
 const styles = StyleSheet.create({
     // container: {
     //     flex: 1,
