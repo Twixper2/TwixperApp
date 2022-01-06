@@ -6,6 +6,7 @@ import ENV from "../../env.js";
 
 export const AUTHENTICATE_TWITTER = "AUTHENTICATE_TWITTER";
 export const AUTHENTICATE_ACCESS_TOKEN = "AUTHENTICATE_ACCESS_TOKEN";
+export const USER_TWITTER_TOKEN = "USER_TWITTER_TOKEN";
 
 /**********    Action Functions    **********/
 
@@ -100,38 +101,58 @@ export const server_check_credentials = (oauthToken, oauthTokenSecret) => {
             );
 
             if (credentialsResponse.status == 200) {
+                await AsyncStorage.setItem(
+                    "user_twitter_token",
+                    credentialsResponse.headers["user-twitter-token"]
+                );
+                await AsyncStorage.setItem(
+                    "user_twitter_token_secret",
+                    credentialsResponse.headers["user-twitter-token-secret"]
+                );
 
-                
+                dispatch({
+                    type: USER_TWITTER_TOKEN,
+                    user_twitter_token:
+                        credentialsResponse.headers["user-twitter-token"],
+                    user_twitter_token_secret:
+                        credentialsResponse.headers[
+                            "user-twitter-token-secret"
+                        ],
+                });
 
-                AsyncStorage.setItem("providedCredentials", true); 
-                
-                const responseData = credentialsResponse.data
-                if(responseData.twitter_user_found == true && responseData.user_registered_to_experiment == true){
+                await AsyncStorage.setItem("providedCredentials", JSON.stringify(true));
 
+                const responseData = credentialsResponse.data;
+                if (
+                    responseData.twitter_user_found == true &&
+                    responseData.user_registered_to_experiment == true
+                ) {
                     // Already registered to experiment
-                    AsyncStorage.setItem("registeredToExperiment", true);
+                    await AsyncStorage.setItem("registeredToExperiment", JSON.stringify(true));
+                    const userTwitterEntity = await AsyncStorage.getItem(
+                        "user_twitter_entity"
+                    );
 
-                    const userTwitterEntity = await AsyncStorage.getItem('user_twitter_entity');
-
-                    if(userTwitterEntity == null){
-                        AsyncStorage.setItem("user_twitter_entity", JSON.stringify(responseData.participant_twitter_info));
+                    if (userTwitterEntity == null) {
+                        AsyncStorage.setItem(
+                            "user_twitter_entity",
+                            JSON.stringify(
+                                responseData.participant_twitter_info
+                            )
+                        );
                     }
+                    // TODO: Check What Need To Be Here !!!
 
                     // Telling the root the session validated (so it will start to collect actions)
                     // this.$root.sessionValidated()
                     // this.$router.replace('feed')
-                    window.location.reload()
-                }
-                else{ // Need to register to experiment
+                    // window.location.reload()
+                } else {
+                    // TODO: Check What Need To Be Here !!!
+                    // Need to register to experiment
                     // this.$router.replace('insertExpCode')
-                    window.location.reload()
+                    // window.location.reload()
                 }
-
-                console.log(credentialsResponse);
-
-                const responseData = credentialsResponse.data;
-
-                console.log(responseData);
             } else {
                 console.log("error in server_check_credentials");
                 console.log(err);
@@ -140,21 +161,6 @@ export const server_check_credentials = (oauthToken, oauthTokenSecret) => {
                     "There was an error while processing the authorization. Please wait for the page to refresh and try again";
                 throw new Error(message);
             }
-
-            return;
-
-            // const urlParams = new URLSearchParams(response.data);
-            // const oauthToken = urlParams.get("oauth_token");
-            // const oauthTokenSecret = urlParams.get("oauth_token_secret");
-
-            // // console.log(oauthToken);
-            // // console.log(oauthTokenSecret);
-
-            // dispatch({
-            //     type: AUTHENTICATE_ACCESS_TOKEN,
-            //     oauthToken: oauthToken,
-            //     oauthTokenSecret: oauthTokenSecret,
-            // });
         } catch (err) {
             console.log("error in server_check_credentials");
             console.log(err);

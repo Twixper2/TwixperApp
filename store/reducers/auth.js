@@ -1,6 +1,7 @@
 import {
     AUTHENTICATE_TWITTER,
     AUTHENTICATE_ACCESS_TOKEN,
+    USER_TWITTER_TOKEN
 } from "../actions/auth";
 
 const initialState = {
@@ -24,6 +25,12 @@ export default (state = initialState, action) => {
                 ...state,
                 oauthToken: action.oauthToken,
                 oauthTokenSecret: action.oauthTokenSecret,
+            };
+        case USER_TWITTER_TOKEN:
+            return {
+                ...state,
+                user_twitter_token: action.user_twitter_token,
+                user_twitter_token_secret: action.user_twitter_token_secret
             };
         default:
             return state;

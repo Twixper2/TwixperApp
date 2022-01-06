@@ -10,6 +10,7 @@ import {
     StyleSheet,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
 
 import * as authActions from "../store/actions/auth";
@@ -59,6 +60,14 @@ const CopyWelcomeScreen = (props) => {
     const onInsertCodeHandler = async () => {
         try {
             await dispatch(authActions.authenticate_access_token(code));
+            const registeredToExperiment = await AsyncStorage.getItem(
+                "registeredToExperiment"
+            );
+            if (!registeredToExperiment) {
+                props.navigation.navigate("LoginExperiment");
+            } else {
+                // TODO: Navigate To Feed Screen
+            }
         } catch (err) {
             setError(err.message);
         }

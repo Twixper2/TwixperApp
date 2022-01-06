@@ -5,16 +5,9 @@ import ReduxThunk from "redux-thunk";
 
 import 'react-native-url-polyfill/auto';
 
-
-
-//  TODO: Look on rn-shop-app :
-//          - enableScreens ?
-//          - rootReducer !
-//          - store = createStore ??
-
+import TwixperNavigator from "./navigation/TwixperNavigator";
 import authReducer from "./store/reducers/auth";
-import CopyWelcomeScreen from "./screens/CopyWelcomeScreen";
-import LoginExperimentScreen from "./screens/login/LoginExperimentScreen";
+
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -25,8 +18,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 export default function App() {
     return (
         <Provider store={store}>
-            <CopyWelcomeScreen />
-            {/* <LoginExperimentScreen /> */}
+            <TwixperNavigator />
         </Provider>
     );
 }

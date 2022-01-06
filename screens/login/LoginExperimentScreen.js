@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, TextInput, Button, StyleSheet } from "react-native";
 
-import ConfirmButton from "../../components/confirmButton";
+import ConfirmButton from "../../components/ConfirmButton";
 
 const LoginExperimentScreen = (props) => {
     const [expCode, setExpCode] = useState("");
