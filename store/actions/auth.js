@@ -13,6 +13,11 @@ export const AUTHENTICATE_ACCESS_TOKEN = "AUTHENTICATE_ACCESS_TOKEN";
 
 export const authenticate_twitter = (oauthCb) => {
     return async (dispatch) => {
+
+        // TODO: Need This?
+        // await emptyLs();
+        await emptyStorageFromLs();
+
         const requestUrl = ENV.serverUrl + ENV.twitterRequestTokenEndpoint;
         const headers = await createAuthHeaderObj();
         const payload = { oauth_callback: oauthCb };
@@ -121,6 +126,8 @@ export const server_check_credentials = (oauthToken, oauthTokenSecret) => {
                     // this.$root.sessionValidated()
                     // this.$router.replace('feed')
                     // window.location.reload()
+                    // NOTE:
+                    // FIXME: 
                 } else {
                     // TODO: Check What Need To Be Here !!!
                     // Need to register to experiment
