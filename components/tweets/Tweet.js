@@ -4,31 +4,42 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 const Tweet = (props) => {
 	const { tweetData } = props;
 
-
-
 	return (
-		<View>
-			<Text>Yea??</Text>
+		<View style={styles.screenContainer}>
+			<View style={styles.postBorder}>
+				<View style={styles.userAvatarContainer}>
+					<View style={styles.userAvatar}></View>
+				</View>
+				<View style={styles.postContent}></View>
+			</View>
 		</View>
-		// <TouchableOpacity activeOpacity={0.6} onPress={props.onPress}>
-		// 	<View style={styles.button}>
-		// 		<Text style={styles.buttonText}> {props.children} </Text>{" "}
-		// 	</View>{" "}
-		// </TouchableOpacity>
 	);
 };
 
 const styles = StyleSheet.create({
-	button: {
-		backgroundColor: "#1aa1f5",
-		paddingVertical: 12,
-		paddingHorizontal: 30,
-		borderRadius: 25,
+	screenContainer: {
+		flex: 1,
 	},
-	buttonText: {
-		color: "white",
-		fontFamily: "sans-serif",
-		fontSize: 18,
+	postBorder: {
+		display: "flex",
+		flexDirection: "column",
+		paddingVertical: 16,
+		paddingRight: 0,
+		paddingLeft: 16,
+		borderBottomColor: "#eee",
+		borderBottomWidth: 2,
+	},
+	userAvatarContainer: {
+		width: "100%",
+		height: "100%",
+		flex: 12,
+	},
+	userAvatar: {
+		width: 80,
+		height: 80,
+	},
+	postContent: {
+		flex: 86.5,
 	},
 });
 

@@ -66,14 +66,18 @@ const UserFeedScreen = (props) => {
 
 	return (
 		<View>
-			<Text>User Feed Screen</Text>
-			<FlatList
-				onRefresh={loadFeedTweets}
-				refreshing={isLoading}
-				data={feedTweetsArr}
-				keyExtractor={(item) => item.id}
-				renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
-			/>
+			<View style={styles.menuBar}></View>
+			<View style={styles.writeNewTweet}></View>
+			<View style={styles.tweetsList}>
+				<FlatList
+					//  TODO: onRefresh Function
+					onRefresh={loadFeedTweets}
+					refreshing={isLoading}
+					data={feedTweetsArr}
+					keyExtractor={(item) => item.id}
+					renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
+				/>
+			</View>
 		</View>
 	);
 };
@@ -85,6 +89,13 @@ UserFeedScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
+	menuBar: {},
+	writeNewTweet: {},
+	tweetsList: {
+		height: "90%",
+		display: "flex",
+		justifyContent: "center",
+	},
 	centered: {
 		flex: 1,
 		justifyContent: "center",

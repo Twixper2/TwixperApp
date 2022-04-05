@@ -1,10 +1,18 @@
+import TweetData from "../../models/tweet-data";
+
 import { getFeed } from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 
 export const get_feed_tweets = (maxID = null) => {
 	return async (dispatch, getState) => {
-		let feedTweetsArr = getState().tweets.feedTweets;
+		let feedTweetsArr;
+
+		if (maxID === null) {
+			feedTweetsArr = [];
+		} else {
+			feedTweetsArr = getState().tweets.feedTweets;
+		}
 
 		try {
 			const response = await getFeed(maxID);
