@@ -9,19 +9,20 @@ import LoginExperimentScreen from "../screens/login/LoginExperimentScreen";
 import UserFeedScreen from "../screens/user/UserFeedScreen";
 
 const TwixperNavigator = createStackNavigator(
-    {
-        LoginTwitter: LoginTwitterScreen,
-        LoginExperiment: LoginExperimentScreen,
-        UserFeed: UserFeedScreen
-    },
-    {
-        defaultNavigationOptions: {
-            headerStyle: {
-                backgroundColor: "rgba(207, 242, 253, 0.5)"
-            },
-            headerTintColor:'white'
-        }
-    }
+	{
+		//  TODO: Remove from comment when finish feed
+		// LoginTwitter: LoginTwitterScreen,
+		// LoginExperiment: LoginExperimentScreen,
+		UserFeed: UserFeedScreen,
+	},
+	{
+		defaultNavigationOptions: {
+			headerStyle: {
+				backgroundColor: "rgba(207, 242, 253, 0.5)",
+			},
+			headerTintColor: "white",
+		},
+	}
 );
 
 export default createAppContainer(TwixperNavigator);
