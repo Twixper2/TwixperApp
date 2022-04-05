@@ -2,7 +2,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { serverEndpoints } from "../constants/endpoints";
-import { serverUrl, actuallySendReqToServer } from "./config";
+import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
+
+import { data as feedJSON } from "../data/FeedJSON";
 
 /* ----------------------------------------
     Authenticate Functions
@@ -58,6 +60,29 @@ export const registerToExperiment = async (expCode) => {
 };
 
 /* ----------------------------------------
+    Requests for data from Twitter to display
+   ---------------------------------------- */
+
+export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: feedJSON };
+	}
+	// Else, send the request to the server
+	let requestUrl = serverUrl + serverEndpoints.feedEndpoint;
+	if (maxId || count) {
+		requestUrl += "?";
+	}
+	if (maxId) {
+		requestUrl += "maxId=" + maxId + "&";
+	}
+	if (count) {
+		requestUrl += "count=" + count;
+	}
+	return await sendGetRequest(requestUrl);
+};
+
+/* ----------------------------------------
     Helper Functions
    ---------------------------------------- */
 
@@ -105,3 +130,8 @@ const createAuthHeaderObj = async () => {
 	}
 	return headerObj;
 };
+
+// For mocking server delay
+function sleep(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}

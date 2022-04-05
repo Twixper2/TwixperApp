@@ -6,6 +6,9 @@ export const serverEndpoints = {
 
 	/* Experiment Register */
 	registerToExperimentEndpoint: "/registerToExperiment",
+
+	/* Data to Display */
+	feedEndpoint: "/participants/getFeed",
 };
 
 /* Twitter Endpoint */
