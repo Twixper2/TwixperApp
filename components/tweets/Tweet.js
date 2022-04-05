@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const Tweet = (props) => {
 	const { tweetData } = props;
@@ -8,7 +8,9 @@ const Tweet = (props) => {
 		<View style={styles.screenContainer}>
 			<View style={styles.postBorder}>
 				<View style={styles.userAvatarContainer}>
-					<View style={styles.userAvatar}></View>
+					<View style={styles.userAvatar}>
+						<Image source={{ uri: tweetData.author.profileImgUrl }} style={styles.userImage} />
+					</View>
 				</View>
 				<View style={styles.postContent}></View>
 			</View>
@@ -37,6 +39,12 @@ const styles = StyleSheet.create({
 	userAvatar: {
 		width: 80,
 		height: 80,
+	},
+	userImage: {
+		width: 80,
+		height: 80,
+		resizeMode: "contain",
+		borderRadius: 50
 	},
 	postContent: {
 		flex: 86.5,

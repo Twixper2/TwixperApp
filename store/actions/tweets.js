@@ -1,6 +1,7 @@
 import TweetData from "../../models/tweet-data";
 
 import { getFeed } from "../../utils/serverService";
+import { parseTwitterDate } from "../../utils/helperFunctions";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 
@@ -28,7 +29,65 @@ export const get_feed_tweets = (maxID = null) => {
 						tweetsFromServer.shift(); // Remove the first tweet from the server
 					}
 				}
-				feedTweetsArr.push(...tweetsFromServer);
+
+				for (const tweet in tweetsFromServer) {
+					let myTweetPreview = null;
+					let tweetId = "";
+					let time = "";
+					let retweet_details = {
+						is_retweet: false,
+						retweet_author_username: "",
+						retweet_author_fullName: "",
+						retweet_author_idStr: "",
+					};
+					let author = {
+						userFullName: "",
+						userName: "",
+						idStr: "",
+						profileImgUrl: "",
+						isVerified: false,
+					};
+
+					myTweetPreview = tweetsFromServer[tweet];
+					let tweetPrev = myTweetPreview;
+					tweetId = tweetPrev.id_str;
+					time = parseTwitterDate(tweetPrev.created_at);
+
+					// If this is a retweet, the tweetPrev should be the original tweet
+					if (tweetPrev.retweeted_status) {
+						retweet_details = {
+							is_retweet: true,
+							retweet_author_username: tweetPrev.user.screen_name,
+							retweet_author_fullName: tweetPrev.user.name,
+							retweet_author_idStr: tweetPrev.user.id_str,
+						};
+						tweetPrev = tweetPrev.retweeted_status;
+						/* The time of the retweet: */
+						// this.time = parseTwitterDateFunc(tweetPrev.created_at);
+						/* The id of the retweet: */
+						// this.tweetId = tweetPrev.id;
+
+						/* The time of the original tweet: */
+						time = parseTwitterDate(tweetPrev.created_at);
+						/* The id of the original tweet: */
+						// Should be in comment for later use
+						const original_retweeted_id = tweetPrev.id;
+						myTweetPreview = tweetPrev;
+					}
+
+					const userJson = tweetPrev.user;
+
+					author.idStr = userJson.id_str;
+					author.userFullName = userJson.name;
+					author.userName = userJson.screen_name;
+					// In order to get high quality img:  replace("_normal", "").
+					author.profileImgUrl = userJson.profile_image_url_https.replace("_normal", "");
+					author.isVerified = userJson.verified;
+
+					feedTweetsArr.push(new TweetData(tweetId, time, retweet_details, author));
+				}
+
+				// feedTweetsArr.push(...tweetsFromServer);
 
 				dispatch({
 					type: SET_FEED_TWEETS,
