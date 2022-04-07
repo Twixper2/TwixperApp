@@ -6,6 +6,7 @@ import ReduxThunk from "redux-thunk";
 import "react-native-url-polyfill/auto";
 
 import TwixperNavigator from "./navigation/TwixperNavigator";
+import AppNavigator from "./navigation/AppNavigator";
 import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
 
@@ -19,7 +20,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 export default function App() {
 	return (
 		<Provider store={store}>
-			<TwixperNavigator />
+			<AppNavigator />
 		</Provider>
 	);
 }

@@ -3,6 +3,7 @@ import { View, Text, FlatList, Button, StyleSheet, Platform, ActivityIndicator }
 import { useSelector, useDispatch } from "react-redux";
 
 import Tweet from "../../components/tweets/Tweet";
+import Tweet2 from "../../components/tweets/Tweet2";
 
 import * as tweetsActions from "../../store/actions/tweets";
 
@@ -75,7 +76,7 @@ const UserFeedScreen = (props) => {
 					refreshing={isLoading}
 					data={feedTweetsArr}
 					keyExtractor={(item) => item.tweetId}
-					renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
+					renderItem={(itemData) => <Tweet2 tweetData={itemData.item} />}
 				/>
 			</View>
 		</View>
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
 	menuBar: {},
 	writeNewTweet: {},
 	tweetsList: {
-		height: "90%",
+		// height: "90%",
 		display: "flex",
 		justifyContent: "center",
 	},

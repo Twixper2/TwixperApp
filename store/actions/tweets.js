@@ -77,12 +77,12 @@ export const get_feed_tweets = (maxID = null) => {
 
 					const userJson = tweetPrev.user;
 
-					author.idStr = userJson.id_str;
-					author.userFullName = userJson.name;
-					author.userName = userJson.screen_name;
+					author.idStr = userJson?.id_str;
+					author.userFullName = userJson?.name;
+					author.userName = userJson?.screen_name;
 					// In order to get high quality img:  replace("_normal", "").
-					author.profileImgUrl = userJson.profile_image_url_https.replace("_normal", "");
-					author.isVerified = userJson.verified;
+					author.profileImgUrl = userJson?.profile_image_url_https.replace("_normal", "");
+					author.isVerified = userJson?.verified;
 
 					feedTweetsArr.push(new TweetData(tweetId, time, retweet_details, author));
 				}
