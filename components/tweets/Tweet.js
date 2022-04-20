@@ -44,7 +44,7 @@ const Tweet = (props) => {
 			setLiked(false);
 			setLikes(likes - 1);
 		} else {
-			setLiked(false);
+			setLiked(true);
 			setLikes(likes + 1);
 		}
 	};
@@ -57,7 +57,6 @@ const Tweet = (props) => {
 
 	return (
 		<TouchableHighlight onPress={() => navigation.navigate("Thread")} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
-			{/* <View key={thekey} style={styles.container}> */}
 			<View key={tweetId} style={styles.container}>
 				{!isReply ? (
 					<View style={styles.isReplyContainer}>
