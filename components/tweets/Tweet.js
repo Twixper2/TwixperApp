@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableHighlight, TouchableOpacity } from "react-native";
-import PropTypes from "prop-types";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
-import Entypo from "react-native-vector-icons/Entypo";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+
+import TweetActionsInfoBar from "./TweetActionsInfoBar";
 
 const Tweet = (props) => {
 	const [touched, setTouched] = useState(false);
-	const [retweeted, setRetweeted] = useState(false);
-	const [retweets, setRetweets] = useState(10);
-	const [liked, setLiked] = useState(true);
-	const [likes, setLikes] = useState(10);
-
-	const tweet = "Let's get it! 💙\n\nYou can follow today's game live on CITY+ with a subscription - https://t.co/BfVGtMgtQW https://t.co/YM571qZL8k";
 
 	const { tweetData } = props;
 
 	const { tweetId, time, author } = tweetData;
+
+	const tweet = tweetData.myTweetPreview.full_text;
+
 	const photo = { uri: author.profileImgUrl };
 	const name = author.userFullName;
 
@@ -28,25 +24,6 @@ const Tweet = (props) => {
 
 	const tweetPressed = (pressed = false) => {
 		setTouched(pressed);
-	};
-
-	const retweet = () => {
-		if (retweeted) {
-			setRetweeted(false);
-			setRetweets(retweets - 1);
-		} else {
-			setRetweeted(true);
-			setRetweets(retweets + 1);
-		}
-	};
-	const like = () => {
-		if (liked) {
-			setLiked(false);
-			setLikes(likes - 1);
-		} else {
-			setLiked(true);
-			setLikes(likes + 1);
-		}
 	};
 
 	// this.state = {
@@ -89,39 +66,7 @@ const Tweet = (props) => {
 							<Text style={styles.tweetText}>{tweet}</Text>
 						</View>
 						<View style={styles.tweetActionsContainer}>
-							<TouchableOpacity style={styles.commentButton}>
-								<EvilIcons name={"comment"} style={styles.commentButtonIcon} size={25} color={"rgb(136, 153, 166)"} />
-								<Text style={styles.commentsCount}>20</Text>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => retweet()} style={styles.retweetButton}>
-								<EvilIcons name={"retweet"} size={25} color={retweeted ? "rgb(23, 191, 99)" : "rgb(136, 153, 166)"} />
-								<Text
-									style={[
-										styles.retweetButtonIcon,
-										{ color: retweeted ? "rgb(23, 191, 99)" : "rgb(136, 153, 166)", fontWeight: retweeted ? "bold" : "300" },
-									]}
-								>
-									{retweets}
-								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => like()} style={styles.likeButton}>
-								{liked ? (
-									<Entypo name={"heart"} size={18} style={{ marginLeft: 4 }} color={liked ? "rgb(224, 36, 94)" : "rgb(136, 153, 166)"} />
-								) : (
-									<EvilIcons name={"heart"} size={25} color={liked ? "rgb(224, 36, 94)" : "rgb(136, 153, 166)"} />
-								)}
-								<Text
-									style={[
-										styles.likeButtonIcon,
-										{ color: liked ? "rgb(224, 36, 94)" : "rgb(136, 153, 166)", fontWeight: liked ? "bold" : "300" },
-									]}
-								>
-									{likes}
-								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.shareButton}>
-								<SimpleLineIcons name={"share"} size={16} color={"rgb(136, 153, 166)"} />
-							</TouchableOpacity>
+							<TweetActionsInfoBar tweetData={tweetData} />
 						</View>
 					</View>
 				</View>
