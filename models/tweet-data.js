@@ -1,5 +1,6 @@
 class TweetData {
-	constructor(tweetId, time, retweet_details, author) {
+	constructor(myTweetPreview, tweetId, time, retweet_details, author) {
+		this.myTweetPreview = myTweetPreview
 		this.tweetId = tweetId;
 		this.time = time;
 		this.retweet_details = retweet_details;

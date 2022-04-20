@@ -74,7 +74,7 @@ const UserFeedScreen = (props) => {
 					onRefresh={loadFeedTweets}
 					refreshing={isLoading}
 					data={feedTweetsArr}
-					keyExtractor={(item) => item.tweetId}
+					keyExtractor={(item) => item.myTweetPreview.id_str}
 					renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
 				/>
 			</View>

@@ -83,8 +83,9 @@ export const get_feed_tweets = (maxID = null) => {
 					// In order to get high quality img:  replace("_normal", "").
 					author.profileImgUrl = userJson?.profile_image_url_https.replace("_normal", "");
 					author.isVerified = userJson?.verified;
-
-					feedTweetsArr.push(new TweetData(tweetId, time, retweet_details, author));
+					if (tweetId) {
+						feedTweetsArr.push(new TweetData(myTweetPreview, tweetId, time, retweet_details, author));
+					}
 				}
 
 				// feedTweetsArr.push(...tweetsFromServer);
