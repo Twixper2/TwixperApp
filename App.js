@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 
 import "react-native-url-polyfill/auto";
 
+import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { StyleSheet } from "react-native";
@@ -27,6 +28,7 @@ const isAuthenticated = true;
 export default function App() {
 	return (
 		<Provider store={store}>
+			<StatusBar style="light" />
 			<NavigationContainer>
 				{!isAuthenticated && <AuthNavigator />}
 				{isAuthenticated && <AppNavigator />}
