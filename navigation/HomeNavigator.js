@@ -9,7 +9,7 @@ const HomeBottomTabs = createBottomTabNavigator();
 
 const HomeNavigator = () => {
 	return (
-		<HomeBottomTabs.Navigator>
+		<HomeBottomTabs.Navigator screenOptions={{ headerShown: false }}>
 			<HomeBottomTabs.Screen name="Home" component={HomeScreen} />
 			<HomeBottomTabs.Screen name="Search" component={SearchScreen} />
 			<HomeBottomTabs.Screen name="Notifications" component={NotificationsScreen} />
