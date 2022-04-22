@@ -51,7 +51,7 @@ const HomeScreen = () => {
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
-				<ActivityIndicator size="large" />
+				<ActivityIndicator size="small" color="rgb(29, 161, 242)" />
 			</View>
 		);
 	}
@@ -94,6 +94,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
+		backgroundColor: "rgb(27, 40, 54)",
 	},
 });
 

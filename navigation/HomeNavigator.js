@@ -6,9 +6,9 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import HomeScreen from "../screens/home/HomeScreen";
+import SearchScreen from "../screens/home/SearchScreen";
 import MessagesScreen from "../screens/home/MessagesScreen";
 import NotificationsScreen from "../screens/home/NotificationsScreen";
-import SearchScreen from "../screens/home/SearchScreen";
 
 const HomeBottomTabs = createBottomTabNavigator();
 
