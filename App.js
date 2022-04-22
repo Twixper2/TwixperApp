@@ -1,14 +1,18 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { StyleSheet, Text, View } from "react-native";
-import { Provider } from "react-redux";
-import ReduxThunk from "redux-thunk";
+import "react-native-gesture-handler";
 
 import "react-native-url-polyfill/auto";
 
-import TwixperNavigator from "./navigation/TwixperNavigator";
-import AppNavigator from "./navigation/AppNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { StyleSheet } from "react-native";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+
 import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
+
+import AppNavigator from "./navigation/AppNavigator";
+import AuthNavigator from "./navigation/AuthNavigator";
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -17,10 +21,16 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
+//  TODO: Check if is Authenticated !!
+const isAuthenticated = true;
+
 export default function App() {
 	return (
 		<Provider store={store}>
-			<AppNavigator />
+			<NavigationContainer>
+				{!isAuthenticated && <AuthNavigator />}
+				{isAuthenticated && <AppNavigator />}
+			</NavigationContainer>
 		</Provider>
 	);
 }
