@@ -1,6 +1,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { sleep } from "./helperFunctions";
 import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
 
@@ -130,8 +131,3 @@ const createAuthHeaderObj = async () => {
 	}
 	return headerObj;
 };
-
-// For mocking server delay
-function sleep(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}

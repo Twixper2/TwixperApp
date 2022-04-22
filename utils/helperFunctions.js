@@ -4,8 +4,8 @@ export const parseTwitterDate = (twitterDate) => {
 	var system_date = new Date(Date.parse(twitterDate));
 	var user_date = new Date();
 
-    //  TODO: K ??
-    // if (K.ie) {
+	//  TODO: K ??
+	// if (K.ie) {
 	// 	system_date = Date.parse(twitterDate.replace(/( \+)/, " UTC$1"));
 	// }
 	var diff = Math.floor((user_date - system_date) / 1000);
@@ -40,4 +40,9 @@ export const parseTwitterDate = (twitterDate) => {
 	}
 	// Change format to "19 Oct 20" for example
 	return moment(system_date).format("D MMM YY");
+};
+
+// For mocking server delay
+export const sleep = (ms) => {
+	return new Promise((resolve) => setTimeout(resolve, ms));
 };
