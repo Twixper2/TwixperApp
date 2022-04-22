@@ -9,17 +9,22 @@ const Tweet = (props) => {
 
 	const { tweetData } = props;
 
-	const { tweetId, time, author } = tweetData;
+	const { tweetId, time, retweet_details, author } = tweetData;
 
 	const tweet = tweetData.myTweetPreview.full_text;
 
 	const photo = { uri: author.profileImgUrl };
 	const name = author.userFullName;
 
-	const handle = "@Yair";
+	const handle = author.userName;
 
-	const isReply = false;
-	const retweetedBy = "Sandra";
+	const isRetweet = retweet_details.is_retweet;
+	let retweetedBy;
+
+	if (isRetweet) {
+		retweetedBy = retweet_details.retweet_author_fullName;
+	}
+
 	const navigation = props.navigation;
 
 	const tweetPressed = (pressed = false) => {
@@ -35,7 +40,7 @@ const Tweet = (props) => {
 	return (
 		<TouchableHighlight onPress={() => navigation.navigate("Thread")} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
 			<View key={tweetId} style={styles.container}>
-				{!isReply ? (
+				{!isRetweet ? (
 					<View style={styles.isReplyContainer}>
 						<View style={{ flex: 0.23, borderColor: "red", borderWidth: 0, alignItems: "flex-end" }}>
 							<EvilIcons name={"retweet"} size={25} color={"rgb(136, 153, 166)"} />
