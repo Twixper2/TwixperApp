@@ -1,0 +1,9 @@
+{
+	"cSpell.words": ["Dini", "Entypo", "favorited", "ishlach", "Koren", "Liad", "Noam", "Octicons", "Twixper", "twixperapp", "Yossi"],
+	"editor.wordWrapColumn": 160,
+	"prettier.printWidth": 160,
+	"todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "NOTE"],
+	"todo-tree.highlights.useColourScheme": true,
+	"emulator.emulatorPathWindows": "C:\\Users\\Daniel\\AppData\\Local\\Android\\Sdk\\emulator",
+	"cSpell.ignoreWords": ["checkcircle"]
+}
