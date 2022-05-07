@@ -13,9 +13,7 @@ const LoginScreen = ({ navigation }) => {
 
 	const onSignInHandler = async () => {
 		try {
-			console.log(username);
-			console.log(password);
-			// await dispatch(authActions.user_login(username, password));
+			await dispatch(authActions.user_login(username, password));
 		} catch (err) {
 			setError(err.message);
 		}

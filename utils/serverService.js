@@ -6,6 +6,7 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
+import { userEntity } from "../data/Selenium/user_entity";
 
 /* ----------------------------------------
     User Login Functions
@@ -14,7 +15,7 @@ import { data as feedJSON } from "../data/FeedJSON";
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200 };
+		return { status: 200, data: { participant_twitter_info: userEntity, user_registered_to_experiment: false } };
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
 	const payload = {

@@ -1,8 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import UserTwitterEntity from "../../models/user-twitter-entity";
+
 import { emptyLs, emptyStorageFromLs } from "../../utils/storageFunctions";
 import { participantLogin, registerToExperiment } from "../../utils/serverService";
 
+export const LOGOUT = "LOGOUT";
 export const USER_LOGIN = "USER_LOGIN";
 export const REGISTER_TO_EXPERIMENT = "REGISTER_TO_EXPERIMENT";
 
@@ -16,8 +19,21 @@ export const user_login = (username, password) => {
 			if (participantLoginResponse.status == 200) {
 				//  TODO: What To I receive after successful login?
 
-				let resData = participantLoginResponse.data;
-				console.log(resData);
+				//  TODO: Check what variable name we receive from server
+				const participantTwitterInfo = participantLoginResponse.data.participant_twitter_info;
+
+				const userTwitterEntity = new UserTwitterEntity(
+					participantTwitterInfo.id_str,
+					participantTwitterInfo.screen_name,
+					participantTwitterInfo.name,
+					participantTwitterInfo.friends_count,
+					participantTwitterInfo.followers_count,
+					participantTwitterInfo.profile_image_url_https
+				);
+
+				const registeredToExperiment = participantLoginResponse.data.user_registered_to_experiment;
+
+				dispatch({ type: USER_LOGIN, username: username, userTwitterEntity: userTwitterEntity, registeredToExperiment: registeredToExperiment });
 
 				//  NOTE: Old Version off Auth - Need This??
 
@@ -32,11 +48,15 @@ export const user_login = (username, password) => {
 				// this.$root.sessionValidated()
 				// this.$router.replace('feed')
 				// window.location.reload();
+			} else if (registerToExpResponse.status == 401) {
+				let message = "No params supplied.\nPlease Login again.";
+				throw new Error(message);
+			} else if (registerToExpResponse.status == 400) {
+				let message = "This user has already been authenticated.\nPlease Login again.";
+				throw new Error(message);
 			} else if (registerToExpResponse.status == 502) {
-				// Tab is closed for some reason. Please authenticate again.
-				//	Or
-				// error thrown from the api
-				let message = "Something went wrong.\nPlease Login again.";
+				let message = "Something went wrong in the server.\nPlease Login again.";
+				dispatch({ type: LOGOUT });
 				throw new Error(message);
 			} else if (registerToExpResponse.status == 500) {
 				let message = "Something went wrong, Server unreachable.\nPlease try again later.";
