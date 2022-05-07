@@ -11,13 +11,17 @@ import ReduxThunk from "redux-thunk";
 
 import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
+import twitterAuthReducer from "./store/reducers/twitterAuth";
 
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
 const rootReducer = combineReducers({
-	auth: authReducer,
+	authReducer: authReducer,
 	tweets: tweetsReducer,
+
+	//  TODO: Old Version Auth
+	twitterAuth: twitterAuthReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

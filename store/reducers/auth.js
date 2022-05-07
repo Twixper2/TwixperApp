@@ -1,31 +1,21 @@
-import { AUTHENTICATE_TWITTER, AUTHENTICATE_ACCESS_TOKEN, USER_TWITTER_TOKEN } from "../actions/auth";
+import { USER_LOGIN } from "../actions/auth";
 
 const initialState = {
-	authUrl: null,
-	oauthToken: null,
-	oauthTokenSecret: null,
-	user_twitter_token: null,
-	user_twitter_token_secret: null,
+	username: "",
+	userTwitterEntity: null,
+
+	// TODO: Maybe save in LocalStorage
+	registeredToExperiment: false,
+	providedCredentials: false,
 };
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case AUTHENTICATE_TWITTER:
+		case USER_LOGIN:
 			return {
-				authUrl: action.authUrl,
-				oauthToken: action.oauthToken,
-			};
-		case AUTHENTICATE_ACCESS_TOKEN:
-			return {
+				username: action.username,
+				providedCredentials: true,
 				...state,
-				oauthToken: action.oauthToken,
-				oauthTokenSecret: action.oauthTokenSecret,
-			};
-		case USER_TWITTER_TOKEN:
-			return {
-				...state,
-				user_twitter_token: action.user_twitter_token,
-				user_twitter_token_secret: action.user_twitter_token_secret,
 			};
 		default:
 			return state;

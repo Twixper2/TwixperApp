@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
 
-import * as authActions from "../../store/actions/auth";
+import * as titterAuthActions from "../../store/actions/twitterAuth";
 
 const LoginTwitterScreen = (props) => {
 	const authUrl = useSelector((state) => state.auth.authUrl);
@@ -17,7 +17,7 @@ const LoginTwitterScreen = (props) => {
 
 	const onSignInHandler = async () => {
 		try {
-			await dispatch(authActions.authenticate_twitter("oob"));
+			await dispatch(titterAuthActions.authenticate_twitter("oob"));
 			setOpenUrl(true);
 		} catch (err) {
 			setError(err.message);
@@ -50,7 +50,7 @@ const LoginTwitterScreen = (props) => {
 
 	const onInsertCodeHandler = async () => {
 		try {
-			await dispatch(authActions.authenticate_access_token(code));
+			await dispatch(titterAuthActions.authenticate_access_token(code));
 			const registeredToExperiment = await AsyncStorage.getItem("registeredToExperiment");
 			if (!registeredToExperiment) {
 				props.navigation.navigate("LoginExperiment");
