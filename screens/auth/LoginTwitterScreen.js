@@ -7,7 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as titterAuthActions from "../../store/actions/twitterAuth";
 
 const LoginTwitterScreen = (props) => {
-	const authUrl = useSelector((state) => state.auth.authUrl);
+	const authUrl = useSelector((state) => state.twitterAuth.authUrl);
 
 	const [code, setCode] = useState();
 	const [error, setError] = useState();
