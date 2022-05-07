@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 //  TODO: Check if is Authenticated !!
-const isAuthenticated = true;
+const isAuthenticated = false;
 
 export default function App() {
 	return (
