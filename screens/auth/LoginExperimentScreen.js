@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 import * as authActions from '../../store/actions/auth';
-import ConfirmButton from "../../components/ConfirmButton";
+import ConfirmButton from "../../components/UI/ConfirmButton";
 
 
 const LoginExperimentScreen = (props) => {

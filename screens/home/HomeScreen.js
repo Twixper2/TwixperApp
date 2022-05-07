@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, FlatList, Button, StyleSheet, Platform, ActivityIndicator } from "react-native";
+import { useState, useEffect, useCallback } from "react";
+import { View, Text, FlatList, Button, StyleSheet, ActivityIndicator } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import Tweet from "../../components/tweets/Tweet";
 
 import * as tweetsActions from "../../store/actions/tweets";
 
-const UserFeedScreen = (props) => {
+const HomeScreen = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
@@ -51,7 +51,7 @@ const UserFeedScreen = (props) => {
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
-				<ActivityIndicator size="large" />
+				<ActivityIndicator size="small" color="rgb(29, 161, 242)" />
 			</View>
 		);
 	}
@@ -82,12 +82,6 @@ const UserFeedScreen = (props) => {
 	);
 };
 
-UserFeedScreen.navigationOptions = (navData) => {
-	return {
-		headerTitle: "",
-	};
-};
-
 const styles = StyleSheet.create({
 	menuBar: {},
 	writeNewTweet: {},
@@ -100,7 +94,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
+		backgroundColor: "rgb(27, 40, 54)",
 	},
 });
 
-export default UserFeedScreen;
+export default HomeScreen;
