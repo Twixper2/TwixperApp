@@ -8,7 +8,40 @@ import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./confi
 import { data as feedJSON } from "../data/FeedJSON";
 
 /* ----------------------------------------
-    Authenticate Functions
+    User Login Functions
+   ---------------------------------------- */
+
+export const participantLogin = async (user, pass) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200 };
+	}
+	const requestUrl = serverUrl + serverEndpoints.participantLogin;
+	const payload = {
+		user: user,
+		pass: pass,
+	};
+	return await sendPostRequest(requestUrl, payload);
+};
+
+/* ----------------------------------------
+    Register Experiment Functions
+   ---------------------------------------- */
+
+export const registerToExperiment = async (expCode) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200 };
+	}
+	const requestUrl = serverUrl + serverEndpoints.registerToExperimentEndpoint;
+	const payload = {
+		exp_code: expCode,
+	};
+	return await sendPostRequest(requestUrl, payload);
+};
+
+/* ----------------------------------------
+    Twitter Authenticate Functions
    ---------------------------------------- */
 
 export const getTwitterAuthRequestToken = async (oauthCb) => {
@@ -44,18 +77,6 @@ export const checkCredentials = async (token, tokenSecret) => {
 	const payload = {
 		oauth_token: token,
 		oauth_token_secret: tokenSecret,
-	};
-	return await sendPostRequest(requestUrl, payload);
-};
-
-export const registerToExperiment = async (expCode) => {
-	if (!actuallySendReqToServer) {
-		await sleep(600);
-		return { status: 200 };
-	}
-	const requestUrl = serverUrl + serverEndpoints.registerToExperimentEndpoint;
-	const payload = {
-		exp_code: expCode,
 	};
 	return await sendPostRequest(requestUrl, payload);
 };

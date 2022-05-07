@@ -4,6 +4,9 @@ export const serverEndpoints = {
 	twitterAccessTokenEndpoint: "/twitterAuthAccessToken",
 	checkCredentialsEndpoint: "/checkUserByCredentials",
 
+	/* User Login - username & password */
+	participantLogin: "//twitterSeleniumAuth",
+
 	/* Experiment Register */
 	registerToExperimentEndpoint: "/registerToExperiment",
 

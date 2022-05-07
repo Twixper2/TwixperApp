@@ -5,16 +5,20 @@ import { useDispatch } from "react-redux";
 import * as authActions from "../../store/actions/auth";
 
 const LoginScreen = ({ navigation }) => {
-	const [username, setUsername] = useState();
-	const [password, setPassword] = useState();
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 	const [error, setError] = useState();
 
 	const dispatch = useDispatch();
 
 	const onSignInHandler = async () => {
 		try {
-			await dispatch(authActions.authenticate_twitter("oob"));
-			setOpenUrl(true);
+			console.log(username);
+			console.log(password);
+			// await dispatch(authActions.user_login(username, password));
+
+			// await dispatch(authActions.authenticate_twitter("oob"));
+			// setOpenUrl(true);
 		} catch (err) {
 			setError(err.message);
 		}
@@ -47,20 +51,20 @@ const LoginScreen = ({ navigation }) => {
 						<Text style={styles.textH3}>Username and Password :</Text>
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput value={username} style={styles.input} onChangeText={onChangeUsername} placeholder="username" autoCapitalize="none" />
+						<TextInput value={username} style={styles.input} onChangeText={onChangeUsername} placeholder="Username" autoCapitalize="none" />
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput
 							value={password}
 							style={styles.input}
 							onChangeText={onChangePassword}
-							placeholder="password"
+							placeholder="Password"
 							autoCapitalize="none"
 							secureTextEntry={true}
 						/>
 					</View>
 					<View style={styles.buttonContainer}>
-						<Button title="Login" onPress={onSignInHandler} />
+						<Button title="Login" onPress={onSignInHandler} disabled={password === "" || username === ""} />
 					</View>
 					<View style={styles.footerCopyright}>
 						<Text style={styles.copyrightText}>
