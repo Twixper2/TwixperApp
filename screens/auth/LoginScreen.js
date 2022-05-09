@@ -17,8 +17,7 @@ const LoginScreen = ({ navigation }) => {
 			if (!registeredToExperiment) {
 				navigation.replace("LoginExperiment");
 			} else {
-				//  TODO: Stopped Here!
-				console.log("TODO!");
+				navigation.replace("App");
 			}
 		} catch (err) {
 			setError(err.message);

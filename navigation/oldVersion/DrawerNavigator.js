@@ -1,9 +1,9 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import FollowersScreen from "../screens/user/FollowersScreen";
-import FollowingScreen from "../screens/user/FollowingScreen";
-import ProfileScreen from "../screens/user/ProfileScreen";
-import HomeNavigator from "./HomeNavigator";
+import FollowersScreen from "../../screens/user/FollowersScreen";
+import FollowingScreen from "../../screens/user/FollowingScreen";
+import ProfileScreen from "../../screens/user/ProfileScreen";
+import HomeNavigator from "../HomeNavigator";
 
 const Drawer = createDrawerNavigator();
 

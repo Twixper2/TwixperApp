@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import LoginScreen from "../screens/auth/LoginScreen";
-import LoginTwitterScreen from "../screens/auth/LoginTwitterScreen";
-import LoginExperimentScreen from "../screens/auth/LoginExperimentScreen";
+import LoginScreen from "../../screens/auth/LoginScreen";
+import LoginTwitterScreen from "../../screens/auth/LoginTwitterScreen";
+import LoginExperimentScreen from "../../screens/auth/LoginExperimentScreen";
 
-import { loginWithUsername } from "../utils/config";
+import { loginWithUsername } from "../../utils/config";
 
 const AuthStack = createNativeStackNavigator();
 
