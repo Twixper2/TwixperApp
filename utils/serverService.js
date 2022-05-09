@@ -15,7 +15,7 @@ import { userEntity } from "../data/Selenium/user_entity";
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: { participant_twitter_info: userEntity, user_registered_to_experiment: false } };
+		return { status: 200, data: { participant_twitter_info: userEntity, user_registered_to_experiment: true } };
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
 	const payload = {

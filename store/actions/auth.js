@@ -35,6 +35,8 @@ export const user_login = (username, password) => {
 
 				dispatch({ type: USER_LOGIN, username: username, userTwitterEntity: userTwitterEntity, registeredToExperiment: registeredToExperiment });
 
+				return registeredToExperiment;
+
 				//  NOTE: Old Version off Auth - Need This??
 
 				// Setting the registration in local storage

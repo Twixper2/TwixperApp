@@ -17,19 +17,19 @@ import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
 const rootReducer = combineReducers({
-	authReducer: authReducer,
+	auth: authReducer,
 	tweets: tweetsReducer,
-
 	//  TODO: Old Version Auth
 	twitterAuth: twitterAuthReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-//  TODO: Check if is Authenticated !!
-const isAuthenticated = false;
-
 export default function App() {
+	//  TODO: Check if is Authenticated !!
+	// const isAuthenticated = false;
+	const isAuthenticated = store.getState().auth.providedCredentials && store.getState().auth.registeredToExperiment;
+
 	return (
 		<Provider store={store}>
 			<StatusBar style="light" />
@@ -43,11 +43,4 @@ export default function App() {
 
 // First - Vertical  | Second - Horizontal
 // padding: 20% 10%
-const styles = StyleSheet.create({
-	// container: {
-	//     flex: 1,
-	//     backgroundColor: "#fff",
-	//     alignItems: "center",
-	//     justifyContent: "center",
-	// },
-});
+const styles = StyleSheet.create({});

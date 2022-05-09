@@ -13,7 +13,13 @@ const LoginScreen = ({ navigation }) => {
 
 	const onSignInHandler = async () => {
 		try {
-			await dispatch(authActions.user_login(username, password));
+			const registeredToExperiment = await dispatch(authActions.user_login(username, password));
+			if (!registeredToExperiment) {
+				navigation.replace("LoginExperiment");
+			} else {
+				//  TODO: Stopped Here!
+				console.log("TODO!");
+			}
 		} catch (err) {
 			setError(err.message);
 		}
