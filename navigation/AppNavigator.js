@@ -7,7 +7,7 @@ import FollowersScreen from "../screens/user/FollowersScreen";
 import FollowingScreen from "../screens/user/FollowingScreen";
 
 import { getUserTwitterEntity } from "../utils/storageFunctions";
-import { Image } from "react-native";
+import { Image, Text, View, TouchableOpacity } from "react-native";
 
 const AppDrawer = createDrawerNavigator();
 
@@ -16,8 +16,11 @@ const AppNavigator = () => {
 
 	useEffect(async () => {
 		let userData = await getUserTwitterEntity();
+		console.log(userData);
 		setUserEntityData(userData);
 	}, [getUserTwitterEntity, setUserEntityData]);
+
+	console.log(userEntityData.profile_image_url_https);
 
 	return (
 		<AppDrawer.Navigator
@@ -45,7 +48,36 @@ const AppNavigator = () => {
 				// },
 			}}
 		>
-			<AppDrawer.Screen name="HomeNavigator" component={HomeNavigator} options={{ headerTitle: "Home" }} />
+			<AppDrawer.Screen
+				name="HomeNavigator"
+				component={HomeNavigator}
+				options={{
+					title: "Home",
+					header: ({ navigation, route, options, layout }) => {
+						if (options) {
+							console.log(options.headerStyle);
+							console.log(layout);
+						}
+						console.log("This is an header\n Look at URL" + userEntityData.profile_image_url_https);
+						return (
+							<View style={[{ height: 100 }, options.headerStyle]}>
+								<TouchableOpacity onPress={() => navigation.openDrawer()}>
+									<Image
+										style={{
+											width: 50,
+											height: 50,
+											borderRadius: 50,
+											marginTop: 15,
+										}}
+										source={{ uri: userEntityData.profile_image_url_https }}
+									/>
+								</TouchableOpacity>
+								<Text>What?!?!</Text>
+							</View>
+						);
+					},
+				}}
+			/>
 			<AppDrawer.Screen name="Profile" component={ProfileScreen} />
 			<AppDrawer.Screen name="Following" component={FollowingScreen} />
 			<AppDrawer.Screen name="Followers" component={FollowersScreen} />
