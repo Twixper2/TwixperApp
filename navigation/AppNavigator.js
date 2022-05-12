@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Image, Text, View, TouchableOpacity } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import HomeNavigator from "./HomeNavigator";
@@ -6,8 +7,9 @@ import ProfileScreen from "../screens/user/ProfileScreen";
 import FollowersScreen from "../screens/user/FollowersScreen";
 import FollowingScreen from "../screens/user/FollowingScreen";
 
+import CustomHeader from "../components/UI/CustomHeader";
+
 import { getUserTwitterEntity } from "../utils/storageFunctions";
-import { Image, Text, View, TouchableOpacity } from "react-native";
 
 const AppDrawer = createDrawerNavigator();
 
@@ -53,29 +55,30 @@ const AppNavigator = () => {
 				component={HomeNavigator}
 				options={{
 					title: "Home",
-					header: ({ navigation, route, options, layout }) => {
-						if (options) {
-							console.log(options.headerStyle);
-							console.log(layout);
-						}
-						console.log("This is an header\n Look at URL" + userEntityData.profile_image_url_https);
-						return (
-							<View style={[{ height: 100 }, options.headerStyle]}>
-								<TouchableOpacity onPress={() => navigation.openDrawer()}>
-									<Image
-										style={{
-											width: 50,
-											height: 50,
-											borderRadius: 50,
-											marginTop: 15,
-										}}
-										source={{ uri: userEntityData.profile_image_url_https }}
-									/>
-								</TouchableOpacity>
-								<Text>What?!?!</Text>
-							</View>
-						);
-					},
+					header: (props) => <CustomHeader {...props} imageUri={userEntityData.profile_image_url_https} />,
+					// header: ({ navigation, route, options, layout }) => {
+					// 	if (options) {
+					// 		console.log(options.headerStyle);
+					// 		console.log(layout);
+					// 	}
+					// 	console.log("This is an header\n Look at URL" + userEntityData.profile_image_url_https);
+					// 	return (
+					// 		<View style={[{ height: 100 }, options.headerStyle]}>
+					// 			<TouchableOpacity onPress={() => navigation.openDrawer()}>
+					// 				<Image
+					// 					style={{
+					// 						width: 50,
+					// 						height: 50,
+					// 						borderRadius: 50,
+					// 						marginTop: 15,
+					// 					}}
+					// 					source={{ uri: userEntityData.profile_image_url_https }}
+					// 				/>
+					// 			</TouchableOpacity>
+					// 			<Text>What?!?!</Text>
+					// 		</View>
+					// 	);
+					// },
 				}}
 			/>
 			<AppDrawer.Screen name="Profile" component={ProfileScreen} />
