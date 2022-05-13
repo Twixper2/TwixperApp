@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
-// import { NavigationActions, DrawerActions } from "react-navigation";
 import { DrawerActions } from "@react-navigation/native";
 
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
+//  TODO: onPress => Navigate
 const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
@@ -39,75 +39,21 @@ const DrawerContainer = (props) => {
 						<Text style={styles.text}> Profile </Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => props.navigation.navigate("Site")} style={styles.list}>
+				<TouchableOpacity style={styles.list}>
 					<View>
-						<Ionicons style={styles.icon} name="list-outline" size={20} color="rgb(136, 153, 166)" />
-						<Text style={styles.text}> Lists </Text>
+						<Ionicons style={styles.icon} name="settings-outline" size={24} color="rgb(136, 153, 166)" />
+						<Text style={styles.text}> Settings and privacy</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.list}>
 					<View>
-						<FontAwesome style={styles.icon} name="bookmark-o" size={20} color="rgb(136, 153, 166)" />
-						<Text onPress={() => navigation.navigate("Profile")} style={styles.text}>
-							{" "}
-							Bookmarks{" "}
-						</Text>
+						<MaterialCommunityIcons style={styles.icon} name="help-circle-outline" size={24} color="rgb(136, 153, 166)" />
+						<Text style={styles.text}> Help Center</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity
-					style={[
-						styles.list,
-						{
-							borderBottomWidth: 0.3,
-							borderBottomColor: "black",
-						},
-					]}
-				>
+				<TouchableOpacity style={[styles.list, styles.firstList]}>
 					<View>
-						<Ionicons style={styles.icon} name="md-analytics" size={20} color="rgb(136, 153, 166)" />
-						<Text onPress={() => navigation.navigate("Profile")} style={styles.text}>
-							{" "}
-							Moments{" "}
-						</Text>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.list}>
-					<View>
-						<MaterialCommunityIcons style={styles.icon} name="arrow-top-right" size={20} color="rgb(136, 153, 166)" />
-						<Text onPress={() => navigation.navigate("Profile")} style={styles.text}>
-							{" "}
-							Twitter Ads{" "}
-						</Text>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.list}>
-					<View>
-						<Text
-							onPress={() => navigation.navigate("Profile")}
-							style={[
-								styles.text,
-								{
-									left: 20,
-								},
-							]}
-						>
-							Settings and privacy
-						</Text>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.list}>
-					<View>
-						<Text
-							onPress={() => navigation.navigate("Profile")}
-							style={[
-								styles.text,
-								{
-									left: 20,
-								},
-							]}
-						>
-							Help Centre
-						</Text>
+						<Text style={[styles.text, { left: 20 }]}> Log out</Text>
 					</View>
 				</TouchableOpacity>
 			</ScrollView>
@@ -139,6 +85,9 @@ const styles = StyleSheet.create({
 		paddingLeft: 30,
 		marginBottom: 10,
 	},
+	bottomText: {
+		left: 20,
+	},
 	headerContainer: {
 		display: "flex",
 		flexDirection: "row",
@@ -169,7 +118,7 @@ const styles = StyleSheet.create({
 		fontWeight: "300",
 	},
 	followCountsContainer: {
-		marginTop: 15,
+		marginTop: 10,
 	},
 	followingCount: {
 		color: "white",
@@ -194,10 +143,8 @@ const styles = StyleSheet.create({
 		fontWeight: "300",
 	},
 	firstList: {
-		marginTop: 0,
-		borderTopWidth: 0.3,
-		borderTopColor: "black",
 		height: 60,
+		marginTop: 0,
 		borderTopWidth: 0.3,
 		borderTopColor: "black",
 	},
