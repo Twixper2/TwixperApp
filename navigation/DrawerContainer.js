@@ -17,10 +17,12 @@ const DrawerContainer = (props) => {
 					<Ionicons name="close" size={23} color="white" onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} />
 				</View>
 
-				<Image onPress={() => props.navigation.navigate("Profile")} source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
+				<TouchableOpacity onPress={() => props.navigation.navigate("Profile")}>
+					<Image onPress={() => props.navigation.navigate("Profile")} source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
 
-				<Text style={styles.userName}>{userData.name} </Text>
-				<Text style={styles.userHandle}>@{userData.screen_name} </Text>
+					<Text style={styles.userName}>{userData.name} </Text>
+					<Text style={styles.userHandle}>@{userData.screen_name} </Text>
+				</TouchableOpacity>
 
 				<View style={styles.followCountsContainer}>
 					<Text style={styles.followingCount}>

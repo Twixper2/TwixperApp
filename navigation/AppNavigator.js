@@ -19,11 +19,9 @@ const AppNavigator = () => {
 
 	useEffect(async () => {
 		let userData = await getUserTwitterEntity();
-		console.log(userData);
+
 		setUserEntityData(userData);
 	}, [getUserTwitterEntity, setUserEntityData]);
-
-	console.log(userEntityData.profile_image_url_https);
 
 	return (
 		<AppDrawer.Navigator
@@ -38,7 +36,7 @@ const AppNavigator = () => {
 				drawerActiveBackgroundColor: "rgb(136, 153, 166)",
 			}}
 		>
-			<AppDrawer.Screen name="HomeNavigator" component={HomeNavigator} options={{ title: "Home" }} />
+			<AppDrawer.Screen name="Home" component={HomeNavigator} />
 			<AppDrawer.Screen name="Profile" component={ProfileScreen} />
 			<AppDrawer.Screen name="Following" component={FollowingScreen} />
 			<AppDrawer.Screen name="Followers" component={FollowersScreen} />

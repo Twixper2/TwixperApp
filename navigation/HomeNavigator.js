@@ -39,7 +39,7 @@ const HomeNavigator = () => {
 			}}
 		>
 			<HomeBottomTabs.Screen
-				name="Home"
+				name="HomeTab"
 				component={HomeScreen}
 				options={{
 					tabBarIcon: ({ color }) => <Octicons name={"home"} size={30} color={color} />,
