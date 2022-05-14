@@ -10,13 +10,17 @@ import SearchScreen from "../screens/home/SearchScreen";
 import MessagesScreen from "../screens/home/MessagesScreen";
 import NotificationsScreen from "../screens/home/NotificationsScreen";
 
+import CustomHeader from "../components/UI/CustomHeader";
+
 const HomeBottomTabs = createBottomTabNavigator();
+
+const profile_image_url_https = "https://pbs.twimg.com/profile_images/1515412932640886788/phVH3RLi_200x200.jpg";
 
 const HomeNavigator = () => {
 	return (
 		<HomeBottomTabs.Navigator
-			screenOptions={{
-				headerShown: false,
+			screenOptions={(props) => ({
+				// headerShown: false,
 				tabBarActiveTintColor: "rgb(29, 161, 242)",
 				tabBarInactiveTintColor: "rgb(136, 153, 166)",
 				tabBarActiveBackgroundColor: "rgb(0, 79, 114)",
@@ -36,12 +40,14 @@ const HomeNavigator = () => {
 				tabBarIconStyle: { marginBottom: 5, marginTop: 5 },
 				tabBarItemStyle: { justifyContent: "center", alignItems: "center" },
 				tabBarShowLabel: false,
-			}}
+				header: (props) => <CustomHeader {...props} imageUri={profile_image_url_https} />,
+			})}
 		>
 			<HomeBottomTabs.Screen
 				name="HomeTab"
 				component={HomeScreen}
 				options={{
+					title: "Home",
 					tabBarIcon: ({ color }) => <Octicons name={"home"} size={30} color={color} />,
 				}}
 			/>

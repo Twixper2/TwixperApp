@@ -12,31 +12,66 @@ import ProfileScreen from "../screens/user/ProfileScreen";
 import FollowersScreen from "../screens/user/FollowersScreen";
 import FollowingScreen from "../screens/user/FollowingScreen";
 
+import TweetScreen from "../screens/TweetScreen";
 import CreateTweetScreen from "../screens/CreateTweetScreen";
+import HomeAndTweetBtnWrapper from "../screens/HomeAndTweetBtnWrapper";
 
-// import CustomHeader from "../components/UI/CustomHeader";
-
-import { getUserTwitterEntity } from "../utils/storageFunctions";
-import { appColors } from "../constants/colors";
 import ConfirmButton from "../components/UI/ConfirmButton";
+import CustomHeader from "../components/UI/CustomHeader";
+
+import { appColors } from "../constants/colors";
+import { getUserTwitterEntity } from "../utils/storageFunctions";
+
+const HomeTweetScreenStack = createNativeStackNavigator();
+
+const HomeAndTweetStack = () => {
+	return (
+		<HomeTweetScreenStack.Navigator>
+			<HomeTweetScreenStack.Screen name="HomeWithTweet" component={HomeNavigator} options={{ header: () => null }} />
+			<HomeTweetScreenStack.Screen name="Profile" component={ProfileScreen} options={{ header: () => null }} />
+			<HomeTweetScreenStack.Screen
+				name="TweetScreen"
+				component={TweetScreen}
+				options={{
+					title: "Tweet",
+					headerTitleStyle: { textAlign: "center", maxWidth: 150, borderWidth: 0, borderColor: "white", color: "white" },
+					headerStyle: {
+						backgroundColor: appColors.backgroundColor,
+					},
+					headerTintColor: "white",
+				}}
+			/>
+		</HomeTweetScreenStack.Navigator>
+	);
+};
 
 const HomeTweetStack = createNativeStackNavigator();
 
 const HomeAndCreateTweetStack = () => {
 	return (
 		<HomeTweetStack.Navigator>
-			<HomeTweetStack.Screen name="HomeWithTweet" component={HomeNavigator} options={{ header: () => null }} />
+			<HomeTweetStack.Screen name="HomeWithCreateTweet" options={{ header: () => null }}>
+				{(props) => <HomeAndTweetBtnWrapper {...props} DisplayComponent={HomeAndTweetStack} />}
+			</HomeTweetStack.Screen>
 			<HomeTweetStack.Screen
 				name="CreateTweet"
 				component={CreateTweetScreen}
-				options={{
+				options={({ navigation }) => ({
 					headerStyle: {
 						backgroundColor: appColors.backgroundColor,
 					},
-					headerLeft: ({ navigation }) => (
-						<Ionicons name="close" size={30} color={appColors.iconColor} onPress={() => navigation.goBack()} style={{ marginBottom: 12 }} />
+					headerLeft: () => (
+						<Ionicons
+							name="close"
+							size={30}
+							color={appColors.iconColor}
+							onPress={() => {
+								navigation.goBack();
+							}}
+							style={{ marginBottom: 12 }}
+						/>
 					),
-					headerRight: ({ navigation }) => (
+					headerRight: () => (
 						<ConfirmButton
 							text={{ color: "white", fontSize: 16, fontWeight: "bold" }}
 							button={{ backgroundColor: appColors.iconColor, borderRadius: 30, paddingVertical: 10, paddingHorizontal: 20, marginBottom: 12 }}
@@ -46,11 +81,19 @@ const HomeAndCreateTweetStack = () => {
 						</ConfirmButton>
 					),
 					title: "",
-				}}
+				})}
 			/>
 		</HomeTweetStack.Navigator>
 	);
 };
+// Screens:
+// - HomeTabs With Create-Tweet-Button Screens Wrapper
+// - Tweet Screen
+// - Twixper Navigator Basicity Works !
+// Next:
+// - Custom Header: Styling
+// - Implement all goBack() Navigation Needed
+// - Check Tweet Screen
 
 const AppDrawer = createDrawerNavigator();
 
@@ -64,7 +107,7 @@ const TwixperNavigator = () => {
 	}, [getUserTwitterEntity, setUserEntityData]);
 
 	return (
-		<AppDrawer.Navigator drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}>
+		<AppDrawer.Navigator screenOptions={{ header: () => null }} drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}>
 			<AppDrawer.Screen name="Home" component={HomeAndCreateTweetStack} />
 			<AppDrawer.Screen name="Profile" component={ProfileScreen} />
 			<AppDrawer.Screen name="Following" component={FollowingScreen} />
