@@ -4,13 +4,14 @@ import { DrawerActions } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import PressableText from "../components/UI/PressableText";
 
 //  TODO: onPress => Navigate
 const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
-	const navigateToProfile = () => {
-		navigation.navigate("Profile");
+	const navigateTo = (screen) => {
+		navigation.navigate(screen);
 	};
 
 	return (
@@ -21,25 +22,26 @@ const DrawerContainer = (props) => {
 					<Ionicons name="close" size={23} color="white" onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} />
 				</View>
 
-				<TouchableOpacity onPress={navigateToProfile} style={[styles.photoContainer, styles.photo]}>
+				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.photoContainer, styles.photo]}>
 					<Image source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
 				</TouchableOpacity>
 
-				<TouchableOpacity onPress={navigateToProfile}>
+				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")}>
 					<Text style={styles.userName}>{userData.name}</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity onPress={navigateToProfile}>
+				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")}>
 					<Text style={styles.userHandle}>@{userData.screen_name}</Text>
 				</TouchableOpacity>
 
-				<View style={styles.followCountsContainer}>
-					<Text style={styles.followingCount}>
-						{userData.friends_count} <Text style={styles.followingText}> Following</Text>
-					</Text>
-					<Text style={styles.followersCount}>
-						{userData.followers_count} <Text style={styles.followersText}> Followers</Text>
-					</Text>
+				<View style={styles.followContainer}>
+					<PressableText onPress={navigateTo.bind(this, "Following")} textStyle={styles.followText}>
+						{userData.friends_count} <Text style={styles.followLightText}> Following</Text>
+					</PressableText>
+
+					<PressableText onPress={navigateTo.bind(this, "Followers")} textStyle={styles.followText}>
+						{userData.followers_count} <Text style={styles.followLightText}> Followers</Text>
+					</PressableText>
 				</View>
 			</View>
 
@@ -130,28 +132,19 @@ const styles = StyleSheet.create({
 		color: "rgb(136, 153, 166)",
 		fontWeight: "300",
 	},
-	followCountsContainer: {
-		marginTop: 10,
+	followContainer: {
+		display: "flex",
+		flexDirection: "row",
+		alignContent: "flex-start",
+		justifyContent: "space-between",
+		marginRight: 50,
+		marginTop: 15,
 	},
-	followingCount: {
+	followText: {
 		color: "white",
-		position: "absolute",
-		left: 0,
-		top: 10,
 		fontWeight: "bold",
 	},
-	followingText: {
-		color: "rgb(136, 153, 166)",
-		fontWeight: "300",
-	},
-	followersCount: {
-		color: "white",
-		position: "absolute",
-		right: 30,
-		top: 10,
-		fontWeight: "bold",
-	},
-	followersText: {
+	followLightText: {
 		color: "rgb(136, 153, 166)",
 		fontWeight: "300",
 	},
