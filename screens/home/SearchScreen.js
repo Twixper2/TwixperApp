@@ -1,17 +1,9 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-const SearchScreen = (props) => {
-	const { navigation } = props;
-
+const SearchScreen = () => {
 	return (
 		<View>
 			<Text>This is SearchScreen !!</Text>
-			<Button
-				title="Followers"
-				onPress={() => {
-					navigation.navigate("Followers");
-				}}
-			/>
 		</View>
 	);
 };

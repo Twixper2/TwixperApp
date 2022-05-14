@@ -4,15 +4,10 @@ const PressableText = (props) => {
 	const { onPress, textStyle } = props;
 
 	return (
-		<Pressable
-			onPress={onPress}
-			style={({ pressed }) => {
-				pressed && styles.pressed;
-			}}
-		>
+		<Pressable onPress={onPress}>
 			{({ pressed }) => (
-				<View style={pressed && styles.pressed}>
-					<Text style={textStyle}>{props.children}</Text>
+				<View>
+					<Text style={[textStyle, pressed && styles.pressed]}>{props.children}</Text>
 				</View>
 			)}
 		</Pressable>
