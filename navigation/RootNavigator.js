@@ -1,7 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AppNavigator from "./AppNavigator";
+// import AppNavigator from "./AppNavigator";
+import TwixperNavigator from "./TwixperNavigator";
 import LoginScreen from "../screens/auth/LoginScreen";
 import LoginTwitterScreen from "../screens/auth/LoginTwitterScreen";
 import LoginExperimentScreen from "../screens/auth/LoginExperimentScreen";
@@ -20,7 +21,7 @@ const RootNavigator = () => {
 					<RootStack.Screen name="LoginTwitter" component={LoginTwitterScreen} />
 				)}
 				<RootStack.Screen name="LoginExperiment" component={LoginExperimentScreen} />
-				<RootStack.Screen name="App" component={AppNavigator} />
+				<RootStack.Screen name="App" component={TwixperNavigator} />
 			</RootStack.Navigator>
 		</NavigationContainer>
 	);
