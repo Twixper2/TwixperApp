@@ -86,14 +86,6 @@ const HomeAndCreateTweetStack = () => {
 		</HomeTweetStack.Navigator>
 	);
 };
-// Screens:
-// - HomeTabs With Create-Tweet-Button Screens Wrapper
-// - Tweet Screen
-// - Twixper Navigator Basicity Works !
-// Next:
-// - Custom Header: Styling
-// - Implement all goBack() Navigation Needed
-// - Check Tweet Screen
 
 const AppDrawer = createDrawerNavigator();
 
