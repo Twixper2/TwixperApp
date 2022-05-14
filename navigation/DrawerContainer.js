@@ -9,6 +9,10 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
+	const navigateToProfile = () => {
+		navigation.navigate("Profile");
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.top}>
@@ -17,11 +21,16 @@ const DrawerContainer = (props) => {
 					<Ionicons name="close" size={23} color="white" onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} />
 				</View>
 
-				<TouchableOpacity onPress={() => props.navigation.navigate("Profile")}>
-					<Image onPress={() => props.navigation.navigate("Profile")} source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
+				<TouchableOpacity onPress={navigateToProfile} style={[styles.photoContainer, styles.photo]}>
+					<Image source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
+				</TouchableOpacity>
 
-					<Text style={styles.userName}>{userData.name} </Text>
-					<Text style={styles.userHandle}>@{userData.screen_name} </Text>
+				<TouchableOpacity onPress={navigateToProfile}>
+					<Text style={styles.userName}>{userData.name}</Text>
+				</TouchableOpacity>
+
+				<TouchableOpacity onPress={navigateToProfile}>
+					<Text style={styles.userHandle}>@{userData.screen_name}</Text>
 				</TouchableOpacity>
 
 				<View style={styles.followCountsContainer}>
@@ -98,11 +107,13 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		marginBottom: 10,
 	},
+	photoContainer: {
+		marginTop: 20,
+	},
 	photo: {
 		width: 50,
 		height: 50,
 		borderRadius: 50,
-		marginTop: 20,
 	},
 	accountInfo: {
 		fontSize: 18,
