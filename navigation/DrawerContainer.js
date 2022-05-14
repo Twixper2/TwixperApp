@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { DrawerActions } from "@react-navigation/native";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -6,7 +6,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import PressableText from "../components/UI/PressableText";
 
-//  TODO: onPress => Navigate
+//  TODO: Logout
 const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
@@ -26,13 +26,14 @@ const DrawerContainer = (props) => {
 					<Image source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
 				</TouchableOpacity>
 
-				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")}>
-					<Text style={styles.userName}>{userData.name}</Text>
-				</TouchableOpacity>
-
-				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")}>
-					<Text style={styles.userHandle}>@{userData.screen_name}</Text>
-				</TouchableOpacity>
+				<View style={styles.usernameContainer}>
+					<PressableText onPress={navigateTo.bind(this, "Profile")} textStyle={styles.userName}>
+						{userData.name}
+					</PressableText>
+					<PressableText onPress={navigateTo.bind(this, "Profile")} textStyle={styles.userHandle}>
+						@{userData.screen_name}
+					</PressableText>
+				</View>
 
 				<View style={styles.followContainer}>
 					<PressableText onPress={navigateTo.bind(this, "Following")} textStyle={styles.followText}>
@@ -52,19 +53,24 @@ const DrawerContainer = (props) => {
 						<Text style={styles.text}> Profile </Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.list}>
-					<View>
+				<TouchableOpacity style={styles.list} disabled={true}>
+					<View style={{ opacity: 0.5 }}>
 						<Ionicons style={styles.icon} name="settings-outline" size={24} color="rgb(136, 153, 166)" />
 						<Text style={styles.text}> Settings and privacy</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.list}>
-					<View>
+				<TouchableOpacity style={styles.list} disabled={true}>
+					<View style={{ opacity: 0.5 }}>
 						<MaterialCommunityIcons style={styles.icon} name="help-circle-outline" size={24} color="rgb(136, 153, 166)" />
 						<Text style={styles.text}> Help Center</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={[styles.list, styles.firstList]}>
+				<TouchableOpacity
+					onPress={() => {
+						Alert.alert("TODO", "Implement Logout", [{ text: "Okay" }]);
+					}}
+					style={[styles.list, styles.firstList]}
+				>
 					<View>
 						<Text style={[styles.text, { left: 20 }]}> Log out</Text>
 					</View>
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	top: {
-		paddingBottom: 40,
+		paddingBottom: 20,
 		paddingLeft: 30,
 		marginBottom: 10,
 	},
@@ -121,6 +127,12 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		color: "white",
 		fontWeight: "bold",
+	},
+	usernameContainer: {
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "baseline",
+		justifyContent: "space-between",
 	},
 	userName: {
 		marginTop: 15,

@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 
 const PressableText = (props) => {
-	const { onPress, textStyle, textContainer } = props;
+	const { onPress, textStyle } = props;
 
 	return (
-		// <View style={textContainer}>
 		<Pressable
 			onPress={onPress}
 			style={({ pressed }) => {
@@ -17,7 +16,6 @@ const PressableText = (props) => {
 				</View>
 			)}
 		</Pressable>
-		// </View>
 	);
 };
 
