@@ -22,7 +22,7 @@ const profile_image_url_https = "https://pbs.twimg.com/profile_images/1515412932
 const HomeNavigator = () => {
 	return (
 		<HomeBottomTabs.Navigator
-			screenOptions={(props) => ({
+			screenOptions={() => ({
 				tabBarActiveTintColor: appColors.iconColor,
 				tabBarInactiveTintColor: "rgb(136, 153, 166)",
 				tabBarActiveBackgroundColor: "rgb(0, 79, 114)",

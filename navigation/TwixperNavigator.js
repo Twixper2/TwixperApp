@@ -14,7 +14,7 @@ import HomeAndTweetBtnWrapper from "../screens/HomeAndTweetBtnWrapper";
 import ProfileScreen from "../screens/user/ProfileScreen";
 import FollowersScreen from "../screens/user/FollowersScreen";
 import FollowingScreen from "../screens/user/FollowingScreen";
-
+import CustomHeader from "../components/UI/CustomHeader";
 import ConfirmButton from "../components/UI/ConfirmButton";
 
 import { appColors } from "../constants/colors";
@@ -27,18 +27,11 @@ const HomeAndTweetStack = () => {
 		<HomeTweetScreenStack.Navigator>
 			<HomeTweetScreenStack.Screen name="HomeWithTweet" component={HomeNavigator} options={{ header: () => null }} />
 			<HomeTweetScreenStack.Screen name="Profile" component={ProfileScreen} options={{ header: () => null }} />
-			<HomeTweetScreenStack.Screen
+			{/* <HomeTweetScreenStack.Screen
 				name="TweetScreen"
 				component={TweetScreen}
-				options={{
-					title: "Tweet",
-					headerTitleStyle: { textAlign: "center", maxWidth: 150, borderWidth: 0, borderColor: "white", color: "white" },
-					headerStyle: {
-						backgroundColor: appColors.backgroundColor,
-					},
-					headerTintColor: "white",
-				}}
-			/>
+				options={() => ({ header: (props) => <CustomHeader {...props} />, headerTitle: "Tweet" })}
+			/>  */}
 		</HomeTweetScreenStack.Navigator>
 	);
 };
@@ -81,6 +74,11 @@ const HomeAndCreateTweetStack = () => {
 					title: "",
 				})}
 			/>
+			<HomeTweetScreenStack.Screen
+				name="TweetScreen"
+				component={TweetScreen}
+				options={() => ({ header: (props) => <CustomHeader {...props} />, headerTitle: "Tweet" })}
+			/>
 		</HomeTweetStack.Navigator>
 	);
 };
@@ -97,8 +95,11 @@ const TwixperNavigator = () => {
 	}, [getUserTwitterEntity, setUserEntityData]);
 
 	return (
-		<AppDrawer.Navigator screenOptions={{ header: () => null }} drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}>
-			<AppDrawer.Screen name="Home" component={HomeAndCreateTweetStack} />
+		<AppDrawer.Navigator
+			screenOptions={() => ({ header: (props) => <CustomHeader {...props} /> })}
+			drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}
+		>
+			<AppDrawer.Screen name="Home" component={HomeAndCreateTweetStack} options={{ header: () => null }} />
 			<AppDrawer.Screen name="Profile" component={ProfileScreen} />
 			<AppDrawer.Screen name="Following" component={FollowingScreen} />
 			<AppDrawer.Screen name="Followers" component={FollowersScreen} />

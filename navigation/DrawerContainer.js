@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
-import { DrawerActions } from "@react-navigation/native";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import PressableText from "../components/UI/PressableText";
 
 //  TODO: Logout
@@ -19,7 +19,7 @@ const DrawerContainer = (props) => {
 			<View style={styles.top}>
 				<View style={styles.headerContainer}>
 					<Text style={styles.accountInfo}>Account info</Text>
-					<Ionicons name="close" size={23} color="white" onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} />
+					<Ionicons name="close" size={23} color="white" onPress={() => navigation.closeDrawer()} />
 				</View>
 
 				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.photoContainer, styles.photo]}>
@@ -47,7 +47,7 @@ const DrawerContainer = (props) => {
 			</View>
 
 			<ScrollView>
-				<TouchableOpacity onPress={() => props.navigation.dispatch(DrawerActions.closeDrawer())} style={[styles.list, styles.firstList]}>
+				<TouchableOpacity onPress={() => navigation.closeDrawer()} style={[styles.list, styles.firstList]}>
 					<View>
 						<FontAwesome style={styles.icon} name="user-o" size={20} color="rgb(136, 153, 166)" />
 						<Text style={styles.text}> Profile </Text>

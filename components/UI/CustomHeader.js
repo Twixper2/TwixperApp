@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { getHeaderTitle } from "@react-navigation/elements";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import ProfileImage from "./ProfileImage";
 
@@ -8,13 +9,21 @@ import { appColors } from "../../constants/colors";
 const CustomHeader = ({ navigation, route, options, imageUri }) => {
 	const title = getHeaderTitle(options, route.name);
 
-	const ImagePressedHandler = () => {
-		navigation.openDrawer();
+	const onPressHandler = () => {
+		if (imageUri) {
+			navigation.openDrawer();
+		} else {
+			navigation.goBack();
+		}
 	};
 
 	return (
 		<View style={styles.container}>
-			<ProfileImage onPress={ImagePressedHandler} imageUri={imageUri} imageStyle={styles.image} />
+			{imageUri ? (
+				<ProfileImage onPress={onPressHandler} imageUri={imageUri} imageStyle={styles.image} />
+			) : (
+				<Ionicons name="arrow-back" size={24} color="white" onPress={onPressHandler} />
+			)}
 			<View style={styles.textContainer}>
 				<Text style={styles.text}>{title}</Text>
 			</View>
