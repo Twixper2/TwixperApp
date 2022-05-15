@@ -12,27 +12,29 @@ import NotificationsScreen from "../screens/home/NotificationsScreen";
 
 import CustomHeader from "../components/UI/CustomHeader";
 
+import { appColors } from "../constants/colors";
+
 const HomeBottomTabs = createBottomTabNavigator();
 
+//  TODO: Image URL
 const profile_image_url_https = "https://pbs.twimg.com/profile_images/1515412932640886788/phVH3RLi_200x200.jpg";
 
 const HomeNavigator = () => {
 	return (
 		<HomeBottomTabs.Navigator
 			screenOptions={(props) => ({
-				// headerShown: false,
-				tabBarActiveTintColor: "rgb(29, 161, 242)",
+				tabBarActiveTintColor: appColors.iconColor,
 				tabBarInactiveTintColor: "rgb(136, 153, 166)",
 				tabBarActiveBackgroundColor: "rgb(0, 79, 114)",
-				tabBarInActiveBackgroundColor: "rgb(27, 42, 51)",
+				tabBarInActiveBackgroundColor: appColors.backgroundColor,
 				tabBarStyle: {
 					borderWidth: 0,
 					position: "absolute",
 					bottom: 0,
 					left: 0,
 					width: "100%",
-					backgroundColor: "rgb(27, 42, 51)",
-					borderColor: "rgb(27, 42, 51)",
+					backgroundColor: appColors.backgroundColor,
+					borderColor: appColors.backgroundColor,
 					shadowColor: "red",
 					elevation: 2,
 				},

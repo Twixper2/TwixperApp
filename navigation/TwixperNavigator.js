@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -8,16 +7,15 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import HomeNavigator from "./HomeNavigator";
 import DrawerContainer from "./DrawerContainer";
 
-import ProfileScreen from "../screens/user/ProfileScreen";
-import FollowersScreen from "../screens/user/FollowersScreen";
-import FollowingScreen from "../screens/user/FollowingScreen";
-
 import TweetScreen from "../screens/TweetScreen";
 import CreateTweetScreen from "../screens/CreateTweetScreen";
 import HomeAndTweetBtnWrapper from "../screens/HomeAndTweetBtnWrapper";
 
+import ProfileScreen from "../screens/user/ProfileScreen";
+import FollowersScreen from "../screens/user/FollowersScreen";
+import FollowingScreen from "../screens/user/FollowingScreen";
+
 import ConfirmButton from "../components/UI/ConfirmButton";
-import CustomHeader from "../components/UI/CustomHeader";
 
 import { appColors } from "../constants/colors";
 import { getUserTwitterEntity } from "../utils/storageFunctions";
@@ -74,7 +72,7 @@ const HomeAndCreateTweetStack = () => {
 					headerRight: () => (
 						<ConfirmButton
 							text={{ color: "white", fontSize: 16, fontWeight: "bold" }}
-							button={{ backgroundColor: appColors.iconColor, borderRadius: 30, paddingVertical: 10, paddingHorizontal: 20, marginBottom: 12 }}
+							button={{ backgroundColor: appColors.iconColor, borderRadius: 30, paddingVertical: 7, paddingHorizontal: 20, marginBottom: 12 }}
 							onPress={() => {}}
 						>
 							Tweet
