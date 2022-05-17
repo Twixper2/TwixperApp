@@ -26,7 +26,11 @@ const HomeAndTweetStack = () => {
 	return (
 		<HomeTweetScreenStack.Navigator>
 			<HomeTweetScreenStack.Screen name="HomeWithTweet" component={HomeNavigator} options={{ header: () => null }} />
-			<HomeTweetScreenStack.Screen name="Profile" component={ProfileScreen} options={{ header: () => null }} />
+			<HomeTweetScreenStack.Screen
+				name="Profile"
+				component={ProfileScreen}
+				options={() => ({ header: (props) => <CustomHeader {...props} />, headerTitle: "Username" })}
+			/>
 			{/* <HomeTweetScreenStack.Screen
 				name="TweetScreen"
 				component={TweetScreen}
@@ -100,7 +104,6 @@ const TwixperNavigator = () => {
 			drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}
 		>
 			<AppDrawer.Screen name="Home" component={HomeAndCreateTweetStack} options={{ header: () => null }} />
-			<AppDrawer.Screen name="Profile" component={ProfileScreen} />
 			<AppDrawer.Screen name="Following" component={FollowingScreen} />
 			<AppDrawer.Screen name="Followers" component={FollowersScreen} />
 		</AppDrawer.Navigator>

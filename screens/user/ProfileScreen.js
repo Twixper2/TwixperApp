@@ -1,17 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
-
 const ProfileScreen = (props) => {
 	return (
 		<View style={styles.container}>
 			<Text>This is ProfileScreen !!</Text>
-
-			<View style={[styles.header, { backgroundColor: "pink" }]}>
-				<Ionicons name="arrow-back" size={30} color="white" style={styles.backButton} onPress={() => props.navigation.navigate("Home")} />
-
-				<Text style={[styles.headerName, { color: "white" }]}>Maverick </Text>
-			</View>
 		</View>
 	);
 };

@@ -47,7 +47,7 @@ const DrawerContainer = (props) => {
 			</View>
 
 			<ScrollView>
-				<TouchableOpacity onPress={() => navigation.closeDrawer()} style={[styles.list, styles.firstList]}>
+				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.list, styles.firstList]}>
 					<View>
 						<FontAwesome style={styles.icon} name="user-o" size={20} color="rgb(136, 153, 166)" />
 						<Text style={styles.text}> Profile </Text>
