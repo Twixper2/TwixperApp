@@ -7,7 +7,7 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 
-import { appColors } from "../constants/colors";
+import { appColors } from "../../constants/colors";
 
 //  TODO: Change ImageUrl & opPress?
 

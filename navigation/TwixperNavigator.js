@@ -7,9 +7,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import HomeNavigator from "./HomeNavigator";
 import DrawerContainer from "./DrawerContainer";
 
-import TweetScreen from "../screens/TweetScreen";
-import CreateTweetScreen from "../screens/CreateTweetScreen";
-import HomeAndTweetBtnWrapper from "../screens/HomeAndTweetBtnWrapper";
+import TweetScreen from "../screens/shared/TweetScreen";
+import CreateTweetScreen from "../screens/shared/CreateTweetScreen";
+import TweetButtonWrapper from "../screens/shared/TweetButtonWrapper";
 
 import ProfileScreen from "../screens/user/ProfileScreen";
 import FollowersScreen from "../screens/user/FollowersScreen";
@@ -20,35 +20,37 @@ import ConfirmButton from "../components/UI/ConfirmButton";
 import { appColors } from "../constants/colors";
 import { getUserTwitterEntity } from "../utils/storageFunctions";
 
-const HomeTweetScreenStack = createNativeStackNavigator();
+const HomeProfileNavigator = createNativeStackNavigator();
 
-const HomeAndTweetStack = () => {
+const HomeProfileStack = () => {
 	return (
-		<HomeTweetScreenStack.Navigator>
-			<HomeTweetScreenStack.Screen name="HomeWithTweet" component={HomeNavigator} options={{ header: () => null }} />
-			<HomeTweetScreenStack.Screen
+		<HomeProfileNavigator.Navigator>
+			<HomeProfileNavigator.Screen name="HomeTabs" component={HomeNavigator} options={{ header: () => null }} />
+			<HomeProfileNavigator.Screen
 				name="Profile"
 				component={ProfileScreen}
-				options={() => ({ header: (props) => <CustomHeader {...props} />, headerTitle: "Username" })}
+				options={() => ({
+					header: (props) => <CustomHeader {...props} />,
+					headerTitle: "Username",
+				})}
 			/>
-			{/* <HomeTweetScreenStack.Screen
-				name="TweetScreen"
-				component={TweetScreen}
-				options={() => ({ header: (props) => <CustomHeader {...props} />, headerTitle: "Tweet" })}
-			/>  */}
-		</HomeTweetScreenStack.Navigator>
+		</HomeProfileNavigator.Navigator>
 	);
 };
 
-const HomeTweetStack = createNativeStackNavigator();
+const HomeTweetNavigator = createNativeStackNavigator();
 
-const HomeAndCreateTweetStack = () => {
+const HomeTweetStack = () => {
 	return (
-		<HomeTweetStack.Navigator>
-			<HomeTweetStack.Screen name="HomeWithCreateTweet" options={{ header: () => null }}>
-				{(props) => <HomeAndTweetBtnWrapper {...props} DisplayComponent={HomeAndTweetStack} />}
-			</HomeTweetStack.Screen>
-			<HomeTweetStack.Screen
+		<HomeTweetNavigator.Navigator>
+			<HomeTweetNavigator.Screen name="HomeProfileScreens" options={{ header: () => null }}>
+				{(props) => (
+					<TweetButtonWrapper {...props}>
+						<HomeProfileStack />
+					</TweetButtonWrapper>
+				)}
+			</HomeTweetNavigator.Screen>
+			<HomeTweetNavigator.Screen
 				name="CreateTweet"
 				component={CreateTweetScreen}
 				options={({ navigation }) => ({
@@ -78,12 +80,15 @@ const HomeAndCreateTweetStack = () => {
 					title: "",
 				})}
 			/>
-			<HomeTweetScreenStack.Screen
+			<HomeProfileNavigator.Screen
 				name="TweetScreen"
 				component={TweetScreen}
-				options={() => ({ header: (props) => <CustomHeader {...props} />, headerTitle: "Tweet" })}
+				options={() => ({
+					header: (props) => <CustomHeader {...props} />,
+					headerTitle: "Tweet",
+				})}
 			/>
-		</HomeTweetStack.Navigator>
+		</HomeTweetNavigator.Navigator>
 	);
 };
 
@@ -103,7 +108,7 @@ const TwixperNavigator = () => {
 			screenOptions={() => ({ header: (props) => <CustomHeader {...props} /> })}
 			drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}
 		>
-			<AppDrawer.Screen name="Home" component={HomeAndCreateTweetStack} options={{ header: () => null }} />
+			<AppDrawer.Screen name="Home" component={HomeTweetStack} options={{ header: () => null }} />
 			<AppDrawer.Screen name="Following" component={FollowingScreen} />
 			<AppDrawer.Screen name="Followers" component={FollowersScreen} />
 		</AppDrawer.Navigator>

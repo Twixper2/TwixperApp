@@ -3,20 +3,17 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Octicons from "react-native-vector-icons/Octicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { appColors } from "../constants/colors";
+import { appColors } from "../../constants/colors";
 
-const HomeAndTweetBtnWrapper = ({ navigation, route, DisplayComponent }) => {
+const TweetButtonWrapper = ({ navigation, children }) => {
 	return (
 		<View style={styles.container}>
-			<DisplayComponent />
-			{route.name == "TweetScreen" ? (
-				true
-			) : (
-				<TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("CreateTweet")}>
-					<Octicons name={"plus-small"} size={26} style={styles.plusIcon} />
-					<MaterialCommunityIcons name={"feather"} size={26} style={styles.featherIcon} />
-				</TouchableOpacity>
-			)}
+			{children}
+
+			<TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("CreateTweet")}>
+				<Octicons name={"plus-small"} size={26} style={styles.plusIcon} />
+				<MaterialCommunityIcons name={"feather"} size={26} style={styles.featherIcon} />
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -49,4 +46,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default HomeAndTweetBtnWrapper;
+export default TweetButtonWrapper;
