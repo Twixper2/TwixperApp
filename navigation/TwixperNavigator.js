@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -18,7 +19,7 @@ import CustomHeader from "../components/UI/CustomHeader";
 import ConfirmButton from "../components/UI/ConfirmButton";
 
 import { appColors } from "../constants/colors";
-import { getUserTwitterEntity } from "../utils/storageFunctions";
+// import { getUserTwitterEntity } from "../utils/storageFunctions";
 
 const HomeProfileNavigator = createNativeStackNavigator();
 
@@ -95,13 +96,14 @@ const HomeTweetStack = () => {
 const AppDrawer = createDrawerNavigator();
 
 const TwixperNavigator = () => {
-	const [userEntityData, setUserEntityData] = useState("");
+	// const [userEntityData, setUserEntityData] = useState("");
+	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
 
-	useEffect(async () => {
-		let userData = await getUserTwitterEntity();
+	// useEffect(async () => {
+	// 	let userData = await getUserTwitterEntity();
 
-		setUserEntityData(userData);
-	}, [getUserTwitterEntity, setUserEntityData]);
+	// 	setUserEntityData(userData);
+	// }, [getUserTwitterEntity, setUserEntityData]);
 
 	return (
 		<AppDrawer.Navigator

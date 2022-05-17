@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
 				providedCredentials: true,
 				userTwitterEntity: action.userTwitterEntity,
 				registeredToExperiment: action.registeredToExperiment,
-				...state,
 			};
 		case LOGOUT:
 			return {

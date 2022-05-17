@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -16,10 +17,9 @@ import { appColors } from "../constants/colors";
 
 const HomeBottomTabs = createBottomTabNavigator();
 
-//  TODO: Image URL
-const profile_image_url_https = "https://pbs.twimg.com/profile_images/1515412932640886788/phVH3RLi_200x200.jpg";
-
 const HomeNavigator = () => {
+	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
+	const { profileImageUrlHttps } = userEntityData;
 	return (
 		<HomeBottomTabs.Navigator
 			screenOptions={() => ({
@@ -42,7 +42,7 @@ const HomeNavigator = () => {
 				tabBarIconStyle: { marginBottom: 5, marginTop: 5 },
 				tabBarItemStyle: { justifyContent: "center", alignItems: "center" },
 				tabBarShowLabel: false,
-				header: (props) => <CustomHeader {...props} imageUri={profile_image_url_https} />,
+				header: (props) => <CustomHeader {...props} imageUri={profileImageUrlHttps} />,
 			})}
 		>
 			<HomeBottomTabs.Screen

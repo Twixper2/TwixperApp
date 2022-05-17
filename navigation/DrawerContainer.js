@@ -23,7 +23,7 @@ const DrawerContainer = (props) => {
 				</View>
 
 				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.photoContainer, styles.photo]}>
-					<Image source={{ uri: userData.profile_image_url_https }} style={styles.photo} />
+					<Image source={{ uri: userData.profileImageUrlHttps }} style={styles.photo} />
 				</TouchableOpacity>
 
 				<View style={styles.usernameContainer}>
@@ -31,17 +31,17 @@ const DrawerContainer = (props) => {
 						{userData.name}
 					</PressableText>
 					<PressableText onPress={navigateTo.bind(this, "Profile")} textStyle={styles.userHandle}>
-						@{userData.screen_name}
+						@{userData.screenName}
 					</PressableText>
 				</View>
 
 				<View style={styles.followContainer}>
 					<PressableText onPress={navigateTo.bind(this, "Following")} textStyle={styles.followText}>
-						{userData.friends_count} <Text style={styles.followLightText}> Following</Text>
+						{userData.friendsCount} <Text style={styles.followLightText}> Following</Text>
 					</PressableText>
 
 					<PressableText onPress={navigateTo.bind(this, "Followers")} textStyle={styles.followText}>
-						{userData.followers_count} <Text style={styles.followLightText}> Followers</Text>
+						{userData.followersCount} <Text style={styles.followLightText}> Followers</Text>
 					</PressableText>
 				</View>
 			</View>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignContent: "flex-start",
 		justifyContent: "space-between",
-		marginRight: 50,
+		marginRight: 10,
 		marginTop: 15,
 	},
 	followText: {
