@@ -1,14 +1,47 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+
+import { appColors } from "../../constants/colors";
 
 const ProfileScreen = (props) => {
 	return (
 		<View style={styles.container}>
-			<Text>This is ProfileScreen !!</Text>
+			<Pressable onPress={() => {}}>
+				{({ pressed }) => (
+					<View>
+						<Image source={require("../../assets/images/LiadPic.jpg")} style={[styles.image, pressed && styles.pressed]} />
+					</View>
+				)}
+			</Pressable>
+
+			<Text style={styles.tempText}>This is :{"\n"}ProfileScreen !!</Text>
 		</View>
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: appColors.screenBackgroundColor,
+	},
+	tempText: {
+		fontSize: 32,
+		color: appColors.iconColor,
+		textAlign: "center",
+	},
+	image: {
+		height: 70,
+		width: 70,
+		borderRadius: 50,
+	},
+	pressed: {
+		opacity: 0.5,
+		height: 500,
+		width: 750,
+		borderRadius: 50,
+	},
+});
 
 // const styles = StyleSheet.create({
 // 	container: {

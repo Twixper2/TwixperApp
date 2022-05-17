@@ -1,4 +1,5 @@
 import { StyleSheet, View, Image, TextInput } from "react-native";
+import { useSelector } from "react-redux";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -9,18 +10,19 @@ import Feather from "react-native-vector-icons/Feather";
 
 import { appColors } from "../../constants/colors";
 
-//  TODO: Change ImageUrl & opPress?
+//  TODO: opPress?
 
 const CreateTweetScreen = (props) => {
 	const { navigation } = props;
 
-	const profile_image_url_https = "https://pbs.twimg.com/profile_images/1515412932640886788/phVH3RLi_200x200.jpg";
+	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
+	const { profileImageUrlHttps } = userEntityData;
 
 	return (
 		<View style={styles.screen}>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>
-					<Image onPress={() => navigation.navigate("DrawerToggle")} source={{ uri: profile_image_url_https }} style={styles.image} />
+					<Image onPress={() => navigation.navigate("DrawerToggle")} source={{ uri: profileImageUrlHttps }} style={styles.image} />
 				</View>
 				<View style={styles.inputContainer}>
 					<TextInput
