@@ -4,6 +4,8 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Entypo from "react-native-vector-icons/Entypo";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
+import { appColors } from "../../constants/colors";
+
 //  TODO: Hackathon- onPress: shareButton, comments and there amount?
 const TweetActionsInfoBar = (props) => {
 	const { favorited, favorite_count, retweet_count } = props.tweetData.myTweetPreview;
@@ -36,29 +38,32 @@ const TweetActionsInfoBar = (props) => {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity style={styles.commentButton}>
-				<EvilIcons name={"comment"} style={styles.commentButtonIcon} size={25} color={"rgb(136, 153, 166)"} />
+				<EvilIcons name={"comment"} style={styles.commentButtonIcon} size={25} color={appColors.lightFontColor} />
 				<Text style={styles.commentsCount}>20</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => retweet()} style={styles.retweetButton}>
-				<EvilIcons name={"retweet"} size={25} color={retweeted ? "rgb(23, 191, 99)" : "rgb(136, 153, 166)"} />
+				<EvilIcons name={"retweet"} size={25} color={retweeted ? "rgb(23, 191, 99)" : appColors.lightFontColor} />
 				<Text
-					style={[styles.retweetButtonIcon, { color: retweeted ? "rgb(23, 191, 99)" : "rgb(136, 153, 166)", fontWeight: retweeted ? "bold" : "300" }]}
+					style={[
+						styles.retweetButtonIcon,
+						{ color: retweeted ? "rgb(23, 191, 99)" : appColors.lightFontColor, fontWeight: retweeted ? "bold" : "300" },
+					]}
 				>
 					{retweets}
 				</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => like()} style={styles.likeButton}>
 				{liked ? (
-					<Entypo name={"heart"} size={18} style={{ marginLeft: 4 }} color={liked ? "rgb(224, 36, 94)" : "rgb(136, 153, 166)"} />
+					<Entypo name={"heart"} size={18} style={{ marginLeft: 4 }} color={liked ? "rgb(224, 36, 94)" : appColors.lightFontColor} />
 				) : (
-					<EvilIcons name={"heart"} size={25} color={liked ? "rgb(224, 36, 94)" : "rgb(136, 153, 166)"} />
+					<EvilIcons name={"heart"} size={25} color={liked ? "rgb(224, 36, 94)" : appColors.lightFontColor} />
 				)}
-				<Text style={[styles.likeButtonIcon, { color: liked ? "rgb(224, 36, 94)" : "rgb(136, 153, 166)", fontWeight: liked ? "bold" : "300" }]}>
+				<Text style={[styles.likeButtonIcon, { color: liked ? "rgb(224, 36, 94)" : appColors.lightFontColor, fontWeight: liked ? "bold" : "300" }]}>
 					{likes}
 				</Text>
 			</TouchableOpacity>
 			<TouchableOpacity style={styles.shareButton}>
-				<SimpleLineIcons name={"share"} size={16} color={"rgb(136, 153, 166)"} />
+				<SimpleLineIcons name={"share"} size={16} color={appColors.lightFontColor} />
 			</TouchableOpacity>
 		</View>
 	);
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
 	commentsCount: {
 		position: "absolute",
 		left: 27,
-		color: "rgb(136, 153, 166)",
+		color: appColors.lightFontColor,
 		marginLeft: -4,
 	},
 	retweetButton: {

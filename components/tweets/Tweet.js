@@ -7,6 +7,8 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import ProfileImage from "../UI/ProfileImage";
 import TweetActionsInfoBar from "./TweetActionsInfoBar";
 
+import { appColors } from "../../constants/colors";
+
 const Tweet = (props) => {
 	const navigation = useNavigation();
 	const [touched, setTouched] = useState(false);
@@ -39,9 +41,9 @@ const Tweet = (props) => {
 				{!isRetweet ? (
 					<View style={styles.isReplyContainer}>
 						<View style={{ flex: 0.23, borderColor: "red", borderWidth: 0, alignItems: "flex-end" }}>
-							<EvilIcons name={"retweet"} size={25} color={"rgb(136, 153, 166)"} />
+							<EvilIcons name={"retweet"} size={25} color={appColors.lightFontColor} />
 						</View>
-						<Text style={{ flex: 0.5, color: "rgb(136, 153, 166)" }}>{retweetedBy} Retweeted</Text>
+						<Text style={{ flex: 0.5, color: appColors.lightFontColor }}>{retweetedBy} Retweeted</Text>
 					</View>
 				) : (
 					true
@@ -120,13 +122,23 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 		marginBottom: 5,
 	},
-	userName: { color: "white", fontWeight: "bold" },
+	userName: {
+		color: "white",
+		fontWeight: "bold",
+	},
 	userHandleAndTime: {
-		color: "rgb(136, 153, 166)",
+		color: appColors.lightFontColor,
 		marginLeft: 5,
 	},
-	tweetTextContainer: { flex: 1, borderColor: "blue", borderWidth: 0 },
-	tweetText: { color: "white", paddingRight: 10 },
+	tweetTextContainer: {
+		flex: 1,
+		borderColor: "blue",
+		borderWidth: 0,
+	},
+	tweetText: {
+		color: "white",
+		paddingRight: 10,
+	},
 	tweetActionsContainer: {
 		flex: 1,
 		borderColor: "blue",
@@ -152,7 +164,7 @@ const styles = StyleSheet.create({
 	commentsCount: {
 		position: "absolute",
 		left: 27,
-		color: "rgb(136, 153, 166)",
+		color: appColors.lightFontColor,
 		marginLeft: -4,
 	},
 	retweetButton: {

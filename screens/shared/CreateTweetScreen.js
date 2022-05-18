@@ -31,7 +31,7 @@ const CreateTweetScreen = (props) => {
 						style={styles.textInput}
 						underlineColorAndroid="transparent"
 						placeholder="What's happening?"
-						placeholderTextColor="rgb(136, 153, 166)"
+						placeholderTextColor={appColors.lightFontColor}
 					/>
 				</View>
 			</View>

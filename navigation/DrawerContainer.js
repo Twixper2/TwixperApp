@@ -6,6 +6,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import PressableText from "../components/UI/PressableText";
 
+import { appColors } from "../constants/colors";
+
 //  TODO: Logout
 const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
@@ -49,19 +51,19 @@ const DrawerContainer = (props) => {
 			<ScrollView>
 				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.list, styles.firstList]}>
 					<View>
-						<FontAwesome style={styles.icon} name="user-o" size={20} color="rgb(136, 153, 166)" />
+						<FontAwesome style={styles.icon} name="user-o" size={20} color={appColors.lightFontColor} />
 						<Text style={styles.text}> Profile </Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.list} disabled={true}>
 					<View style={{ opacity: 0.5 }}>
-						<Ionicons style={styles.icon} name="settings-outline" size={24} color="rgb(136, 153, 166)" />
+						<Ionicons style={styles.icon} name="settings-outline" size={24} color={appColors.lightFontColor} />
 						<Text style={styles.text}> Settings and privacy</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.list} disabled={true}>
 					<View style={{ opacity: 0.5 }}>
-						<MaterialCommunityIcons style={styles.icon} name="help-circle-outline" size={24} color="rgb(136, 153, 166)" />
+						<MaterialCommunityIcons style={styles.icon} name="help-circle-outline" size={24} color={appColors.lightFontColor} />
 						<Text style={styles.text}> Help Center</Text>
 					</View>
 				</TouchableOpacity>
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
 	},
 	userHandle: {
 		marginTop: 5,
-		color: "rgb(136, 153, 166)",
+		color: appColors.lightFontColor,
 		fontWeight: "300",
 	},
 	followContainer: {
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	followLightText: {
-		color: "rgb(136, 153, 166)",
+		color: appColors.lightFontColor,
 		fontWeight: "300",
 	},
 	firstList: {

@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 // 		width: 100,
 // 	},
 // 	editProfileButtonText: {
-// 		color: "rgb(136, 153, 166)",
+// 		color: appColors.lightFontColor,
 // 		fontWeight: "bold",
 // 		backgroundColor: "transparent",
 // 		fontSize: 14,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 // 		paddingLeft: 15,
 // 	},
 // 	name: { color: "white", fontWeight: "bold", fontSize: 18 },
-// 	handle: { color: "rgb(136, 153, 166)", fontWeight: "bold", fontSize: 14 },
+// 	handle: { color: appColors.lightFontColor, fontWeight: "bold", fontSize: 14 },
 // 	bio: {
 // 		flexDirection: "column",
 // 		justifyContent: "space-between",
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
 // 		padding: 5,
 // 		paddingLeft: 15,
 // 	},
-// 	dob: { color: "rgb(136, 153, 166)", fontSize: 14, marginLeft: 10 },
+// 	dob: { color: appColors.lightFontColor, fontSize: 14, marginLeft: 10 },
 // 	followingAndFollowersContainer: {
 // 		flexDirection: "row",
 // 		justifyContent: "flex-start",
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
 // 	},
 // 	followingCount: { color: "white", fontWeight: "bold" },
 // 	followingText: {
-// 		color: "rgb(136, 153, 166)",
+// 		color: appColors.lightFontColor,
 // 		fontWeight: "300",
 // 		marginLeft: 5,
 // 	},
 // 	followersContainer: { flexDirection: "row" },
 // 	followersCount: { color: "white", fontWeight: "bold" },
 // 	followersText: {
-// 		color: "rgb(136, 153, 166)",
+// 		color: appColors.lightFontColor,
 // 		fontWeight: "300",
 // 		marginLeft: 0,
 // 	},

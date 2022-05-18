@@ -24,7 +24,7 @@ const HomeNavigator = () => {
 		<HomeBottomTabs.Navigator
 			screenOptions={() => ({
 				tabBarActiveTintColor: appColors.iconColor,
-				tabBarInactiveTintColor: "rgb(136, 153, 166)",
+				tabBarInactiveTintColor: appColors.lightFontColor,
 				tabBarActiveBackgroundColor: "rgb(0, 79, 114)",
 				tabBarInActiveBackgroundColor: appColors.backgroundColor,
 				tabBarStyle: {
