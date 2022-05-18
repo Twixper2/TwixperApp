@@ -70,7 +70,7 @@ const HomeScreen = () => {
 			<View style={styles.writeNewTweet}></View>
 			<View style={styles.tweetsList}>
 				<FlatList
-					//  TODO: onRefresh Function
+					//  TODO: Hackathon- onRefresh Function
 					onRefresh={loadFeedTweets}
 					refreshing={isLoading}
 					data={feedTweetsArr}

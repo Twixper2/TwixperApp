@@ -4,6 +4,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Entypo from "react-native-vector-icons/Entypo";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
+//  TODO: Hackathon- onPress: shareButton, comments and there amount?
 const TweetActionsInfoBar = (props) => {
 	const { favorited, favorite_count, retweet_count } = props.tweetData.myTweetPreview;
 

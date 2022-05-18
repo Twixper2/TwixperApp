@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableHighlight, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 
+import ProfileImage from "../UI/ProfileImage";
 import TweetActionsInfoBar from "./TweetActionsInfoBar";
 
 const Tweet = (props) => {
+	const navigation = useNavigation();
 	const [touched, setTouched] = useState(false);
 
 	const { tweetData } = props;
-
 	const { tweetId, time, retweet_details, author } = tweetData;
 
 	const tweet = tweetData.myTweetPreview.full_text;
-
-	const photo = { uri: author.profileImgUrl };
 	const name = author.userFullName;
-
 	const handle = author.userName;
 
 	const isRetweet = retweet_details.is_retweet;
@@ -25,20 +25,16 @@ const Tweet = (props) => {
 		retweetedBy = retweet_details.retweet_author_fullName;
 	}
 
-	const navigation = props.navigation;
-
 	const tweetPressed = (pressed = false) => {
 		setTouched(pressed);
 	};
 
-	// this.state = {
-	// 	// name: `${name.first.capitalizeFirstLetter()} ${name.last.capitalizeFirstLetter()}`,
-	// 	handle: "@Yair",
-	// 	retweetedBy: ["Sandra", "Hannit", "Michael", "Jason", "Queen"][Math.floor(Math.random() * ["Sandra", "Hannit", "Michael", "Jason", "Queen"].length)],
-	// };
+	const navigateTo = (screen) => {
+		navigation.navigate(screen);
+	};
 
 	return (
-		<TouchableHighlight onPress={() => navigation.navigate("Thread")} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
+		<TouchableHighlight onPress={navigateTo.bind(this, "TweetScreen")} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
 			<View key={tweetId} style={styles.container}>
 				{!isRetweet ? (
 					<View style={styles.isReplyContainer}>
@@ -52,11 +48,7 @@ const Tweet = (props) => {
 				)}
 				<View style={styles.innerContainer}>
 					<View style={styles.photoContainer}>
-						<View style={styles.innerPhotoContainer}>
-							<TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-								<Image source={photo} style={styles.photo} />
-							</TouchableOpacity>
-						</View>
+						<ProfileImage onPress={navigateTo.bind(this, "Profile")} imageStyle={styles.photo} imageUri={author.profileImgUrl} />
 					</View>
 					<View style={styles.info}>
 						<View style={styles.userDetails}>
@@ -105,11 +97,11 @@ const styles = StyleSheet.create({
 	},
 	photoContainer: {
 		flex: 0.23,
+		borderWidth: 0,
+		alignItems: "center",
 		borderColor: "yellow",
 		flexDirection: "column",
-		borderWidth: 0,
 	},
-	innerPhotoContainer: { height: 100, alignItems: "center" },
 	photo: {
 		width: 50,
 		height: 50,
