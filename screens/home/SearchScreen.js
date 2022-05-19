@@ -4,11 +4,13 @@ import { View, Text, StyleSheet } from "react-native";
 import SearchInput from "../../components/UI/SearchInput";
 import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
 
+import { searchForTweets } from "../../utils/serverService";
+
 import { appColors } from "../../constants/colors";
 
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
-	const [searchResults, setSearchResults] = useState(["x"]);
+	const [searchResults, setSearchResults] = useState();
 
 	const onClear = () => {
 		setSearchText("");
@@ -16,7 +18,13 @@ const SearchScreen = () => {
 	};
 
 	const onSearchHandler = async () => {
-		console.log("Search !!\n" + searchText);
+		const response = await searchForTweets(searchText);
+		// console.log(response.data);
+		// let results = JSON.parse(JSON.stringify(response.data));
+
+		// console.log("Search !!\n" + results);
+
+		setSearchResults(response.data);
 	};
 
 	return (

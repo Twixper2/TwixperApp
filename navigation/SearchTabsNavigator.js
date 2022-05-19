@@ -7,7 +7,8 @@ import PeopleSearchResults from "../components/search/PeopleSearchResults";
 
 const SearchTabs = createMaterialTopTabNavigator();
 
-const SearchTabsNavigator = () => {
+const SearchTabsNavigator = ({ results }) => {
+	console.log(results);
 	return (
 		<View style={{ flexDirection: "row" }}>
 			<SearchTabs.Navigator

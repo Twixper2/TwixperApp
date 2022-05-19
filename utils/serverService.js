@@ -6,6 +6,7 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
+import { data as searchTweetsJSON } from "../data/SearchTweetsJSON";
 import { userEntity } from "../data/Selenium/user_entity";
 
 /* ----------------------------------------
@@ -102,6 +103,18 @@ export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
 	if (count) {
 		requestUrl += "count=" + count;
 	}
+	return await sendGetRequest(requestUrl);
+};
+
+export const searchForTweets = async (query) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: searchTweetsJSON };
+	}
+	// Else, send the request to the server
+	const convertedQuery = encodeURIComponent(query);
+	const requestQuery = "?q=" + convertedQuery;
+	const requestUrl = serverUrl + serverEndpoints.searchTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
 
