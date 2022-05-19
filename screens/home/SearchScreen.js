@@ -1,13 +1,19 @@
 import { useState } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import SearchInput from "../../components/UI/SearchInput";
+import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
 
 import { appColors } from "../../constants/colors";
 
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
+	const [searchResults, setSearchResults] = useState();
+
+	const onClear = () => {
+		setSearchText("");
+		setSearchResults([]);
+	};
 
 	const onSearchHandler = async () => {
 		console.log("Search !!\n" + searchText);
@@ -15,22 +21,15 @@ const SearchScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.inputTextContainer}>
-				<Ionicons name="search-outline" size={22} style={styles.icon} />
-				<TextInput
-					value={searchText}
-					style={styles.input}
-					autoCorrect
-					autoCapitalize="none"
-					keyboardType="default"
-					returnKeyType="search"
-					clearButtonMode="always"
-					placeholder="Search Twitter"
-					onChangeText={setSearchText}
-					onSubmitEditing={onSearchHandler}
-					selectionColor={appColors.screenBackgroundColor}
-				/>
-				<MaterialIcons name="clear" size={22} style={styles.icon} onPress={() => setSearchText("")} />
+			<View style={styles.searchContainer}>
+				<SearchInput onChangeText={setSearchText} text={searchText} onSubmitEditing={onSearchHandler} onClear={onClear} />
+			</View>
+			<View style={styles.resultsContainer}>
+				{searchResults ? (
+					<SearchTabsNavigator results={searchResults} />
+				) : (
+					<Text style={styles.noResults}>Try searching for people, topics or keywords</Text>
+				)}
 			</View>
 		</View>
 	);
@@ -43,14 +42,9 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: appColors.screenBackgroundColor,
 	},
-	inputTextContainer: {
+	searchContainer: {
 		display: "flex",
-		flexDirection: "row",
 		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: appColors.lightFontColor,
-		borderRadius: 10,
-		paddingHorizontal: 12,
 	},
 	input: {
 		width: "60%",
@@ -63,6 +57,18 @@ const styles = StyleSheet.create({
 	icon: {
 		fontWeight: "bold",
 		color: appColors.screenBackgroundColor,
+	},
+	resultsContainer: {
+		flex: 1,
+		display: "flex",
+		alignItems: "center",
+		paddingTop: 15,
+		paddingHorizontal: 5,
+		backgroundColor: appColors.screenBackgroundColor,
+	},
+	noResults: {
+		fontSize: 15,
+		color: appColors.lightFontColor,
 	},
 });
 
