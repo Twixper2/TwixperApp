@@ -25,7 +25,7 @@ const CustomHeader = ({ navigation, route, options, imageUri }) => {
 			) : (
 				<Ionicons name="arrow-back" size={24} color="white" onPress={onPressHandler} />
 			)}
-			<View style={styles.textContainer}>
+			<View style={[styles.textContainer, title != "Home" && { marginRight: 50 }]}>
 				<Text style={styles.text}>{title}</Text>
 			</View>
 			{title == "Home" && <AlgoRankingSvg style={styles.svg} />}
