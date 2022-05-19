@@ -8,11 +8,11 @@ import { appColors } from "../../constants/colors";
 
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
-	const [searchResults, setSearchResults] = useState();
+	const [searchResults, setSearchResults] = useState(["x"]);
 
 	const onClear = () => {
 		setSearchText("");
-		setSearchResults([]);
+		setSearchResults();
 	};
 
 	const onSearchHandler = async () => {
