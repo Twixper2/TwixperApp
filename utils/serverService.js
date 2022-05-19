@@ -6,7 +6,8 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
-import { data as searchTweetsJSON } from "../data/SearchTweetsJSON";
+
+// import { data as searchTweetsJSON } from "../data/SearchTweetsJSON";
 import { userEntity } from "../data/Selenium/user_entity";
 
 /* ----------------------------------------

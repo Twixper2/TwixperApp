@@ -1,4 +1,4 @@
-exports.data = [
+exports.tweets = [
 	{
 		user_name: "aviad glickman",
 		user_url_name: "@aviadglickman",

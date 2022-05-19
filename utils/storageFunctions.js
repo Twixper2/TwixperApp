@@ -1,8 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { sleep } from "./helperFunctions";
+
 import { actuallySendReqToServer } from "./config";
 import { data as users } from "../data/UserTwitterEntity";
+
+import { tweets } from "../data/Selenium/v2/tweets_data";
+// import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
 
 export const emptyStorageFromLs = async () => {
 	try {
@@ -38,6 +42,21 @@ export const emptyLs = async () => {
 };
 
 export const getUserTwitterEntity = async () => {
+	if (!actuallySendReqToServer) {
+		await sleep(500);
+		let user = users[Math.floor(Math.random() * 2)];
+		return user;
+	}
+
+	try {
+		let userData = await AsyncStorage.getItem("user_twitter_entity");
+		return JSON.parse(userData);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const getTweets = async () => {
 	if (!actuallySendReqToServer) {
 		await sleep(500);
 		let user = users[Math.floor(Math.random() * 2)];

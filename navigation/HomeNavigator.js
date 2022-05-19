@@ -19,7 +19,7 @@ const HomeBottomTabs = createBottomTabNavigator();
 
 const HomeNavigator = () => {
 	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
-	const { profileImageUrlHttps } = userEntityData;
+	const profileImageUrlHttps = userEntityData?.profileImageUrlHttps;
 	return (
 		<HomeBottomTabs.Navigator
 			screenOptions={() => ({

@@ -25,7 +25,7 @@ const DrawerContainer = (props) => {
 				</View>
 
 				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.photoContainer, styles.photo]}>
-					<Image source={{ uri: userData.profileImageUrlHttps }} style={styles.photo} />
+					<Image source={{ uri: userData?.profileImageUrlHttps }} style={styles.photo} />
 				</TouchableOpacity>
 
 				<View style={styles.usernameContainer}>
