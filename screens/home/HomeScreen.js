@@ -24,14 +24,6 @@ const HomeScreen = () => {
 		setIsRefreshing(false);
 	}, [dispatch, setIsLoading, setError]);
 
-	// useEffect(() => {
-	// 	const willFocusSub = props.navigation.addListener("willFocus", loadFeedTweets);
-
-	// 	return () => {
-	// 		willFocusSub.remove();
-	// 	};
-	// }, [loadFeedTweets]);
-
 	useEffect(() => {
 		setIsLoading(true);
 		loadFeedTweets().then(() => {

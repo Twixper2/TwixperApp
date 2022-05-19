@@ -2,8 +2,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { getHeaderTitle } from "@react-navigation/elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import SvgIcon from "./SvgIcon";
 import ProfileImage from "./ProfileImage";
-import AlgoRankingSvg from "../../assets/images/AlgoRankingSvg";
 
 import { appColors } from "../../constants/colors";
 
@@ -28,7 +28,7 @@ const CustomHeader = ({ navigation, route, options, imageUri }) => {
 			<View style={[styles.textContainer, title != "Home" && { marginRight: 50 }]}>
 				<Text style={styles.text}>{title}</Text>
 			</View>
-			{title == "Home" && <AlgoRankingSvg style={styles.svg} />}
+			{title == "Home" && <SvgIcon name="RankSvg" style={styles.svg} />}
 		</View>
 	);
 };
