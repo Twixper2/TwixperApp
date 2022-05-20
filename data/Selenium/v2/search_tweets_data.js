@@ -1,4 +1,5 @@
-exports.search = [
+/* spell-checker: disable */
+exports.searchTweets = [
 	{
 		user_name: "Olivier Djangi",
 		user_url_name: "@DjangiOlivier",

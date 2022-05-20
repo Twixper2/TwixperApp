@@ -3,9 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { sleep } from "./helperFunctions";
 import { serverEndpoints } from "../constants/endpoints";
-import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
+import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
+import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
 
 // import { data as searchTweetsJSON } from "../data/SearchTweetsJSON";
 import { userEntity } from "../data/Selenium/user_entity";
@@ -91,7 +92,11 @@ export const checkCredentials = async (token, tokenSecret) => {
 export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: feedJSON };
+		if (seleniumData) {
+			return { status: 200, data: tweetsData };
+		} else {
+			return { status: 200, data: feedJSON };
+		}
 	}
 	// Else, send the request to the server
 	let requestUrl = serverUrl + serverEndpoints.feedEndpoint;

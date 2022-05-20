@@ -1,3 +1,4 @@
+/* spell-checker: disable */
 exports.tweets = [
 	{
 		user_name: "aviad glickman",
