@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 
 import ProfileImage from "../UI/ProfileImage";
-import TweetActionsInfoBar from "./TweetActionsInfoBar";
+import TweetActionsInfoBar from "./TweetActionsInfoBar_new";
 
 import { appColors } from "../../constants/colors";
 
@@ -14,17 +14,13 @@ const Tweet = (props) => {
 	const [touched, setTouched] = useState(false);
 
 	const { tweetData } = props;
-	const { tweetId, time, retweet_details, author } = tweetData;
+	const { tweetId, time, fullText, tweetAuthor, sharedTweet, isRetweet, isPromoted } = tweetData;
 
-	const tweetText = tweetData.full_text;
-	const nameName = author.userFullName;
-	const userHandle = author.userName;
+	const { nameName, userHandle, profileImgURL } = tweetAuthor;
 
-	const isRetweet = retweet_details.is_retweet;
 	let retweetedBy;
-
 	if (isRetweet) {
-		retweetedBy = retweet_details.retweet_author_fullName;
+		retweetedBy = isRetweet.retweet_author_fullName;
 	}
 
 	const tweetPressed = (pressed = false) => {
@@ -50,7 +46,7 @@ const Tweet = (props) => {
 				)}
 				<View style={styles.innerContainer}>
 					<View style={styles.photoContainer}>
-						<ProfileImage onPress={navigateTo.bind(this, "Profile")} imageStyle={styles.photo} imageUri={author.profileImgUrl} />
+						<ProfileImage onPress={navigateTo.bind(this, "Profile")} imageStyle={styles.photo} imageUri={profileImgURL} />
 					</View>
 					<View style={styles.info}>
 						<View style={styles.userDetails}>
@@ -62,10 +58,10 @@ const Tweet = (props) => {
 							</Text>
 						</View>
 						<View style={styles.tweetTextContainer}>
-							<Text style={styles.tweetText}>{tweetText}</Text>
+							<Text style={styles.tweetText}>{fullText}</Text>
 						</View>
 						<View style={styles.tweetActionsContainer}>
-							<TweetActionsInfoBar tweetData={tweetData} />
+							<TweetActionsInfoBar tweetData={tweetData.actionsBarData} />
 						</View>
 					</View>
 				</View>

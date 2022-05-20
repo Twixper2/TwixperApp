@@ -2,9 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import { View, Text, FlatList, Button, StyleSheet, ActivityIndicator } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import Tweet from "../../components/tweets/Tweet";
+// import Tweet from "../../components/tweets/Tweet";
+import Tweet from "../../components/tweets/Tweet_new";
 
-import * as tweetsActions from "../../store/actions/tweets";
+// import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../store/actions/tweets_new";
 
 const HomeScreen = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +68,8 @@ const HomeScreen = () => {
 					onRefresh={loadFeedTweets}
 					refreshing={isLoading}
 					data={feedTweetsArr}
-					keyExtractor={(item) => item.myTweetPreview.id_str}
+					// keyExtractor={(item) => item.myTweetPreview.id_str}
+					keyExtractor={(item) => item.tweetId}
 					renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
 				/>
 			</View>

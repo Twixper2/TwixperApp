@@ -10,7 +10,7 @@ export const actuallySendReqToServer = false; // Real mode: true
 //  Username & Password
 
 export const loginWithUsername = true;
-export const seleniumData = false;
+export const seleniumData = true;
 
 /* For feed */
 export const moreFeedTweetsCount = 40; // Real mode: 40
