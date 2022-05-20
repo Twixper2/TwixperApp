@@ -8,13 +8,13 @@ import { appColors } from "../../constants/colors";
 
 //  TODO: Hackathon- onPress: shareButton, comments and there amount?
 const TweetActionsInfoBar = (props) => {
-	const { favorited, favorite_count, retweet_count } = props.tweetData.myTweetPreview;
+	const { tweetData } = props;
 
 	// TODO: Prev version didn't had comments number
-	const [retweeted, setRetweeted] = useState(props.tweetData.myTweetPreview.retweeted);
-	const [retweets, setRetweets] = useState(retweet_count);
-	const [liked, setLiked] = useState(favorited);
-	const [likes, setLikes] = useState(favorite_count);
+	const [retweeted, setRetweeted] = useState(tweetData.retweeted);
+	const [retweets, setRetweets] = useState(tweetData.retweetsCount);
+	const [liked, setLiked] = useState(tweetData.liked);
+	const [likes, setLikes] = useState(tweetData.likesCount);
 
 	const retweet = () => {
 		if (retweeted) {
@@ -39,7 +39,7 @@ const TweetActionsInfoBar = (props) => {
 		<View style={styles.container}>
 			<TouchableOpacity style={styles.commentButton}>
 				<EvilIcons name={"comment"} style={styles.commentButtonIcon} size={25} color={appColors.lightFontColor} />
-				<Text style={styles.commentsCount}>20</Text>
+				<Text style={styles.commentsCount}>{tweetData.commentsCount}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => retweet()} style={styles.retweetButton}>
 				<EvilIcons name={"retweet"} size={25} color={retweeted ? "rgb(23, 191, 99)" : appColors.lightFontColor} />

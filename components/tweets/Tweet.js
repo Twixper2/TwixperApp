@@ -14,17 +14,13 @@ const Tweet = (props) => {
 	const [touched, setTouched] = useState(false);
 
 	const { tweetData } = props;
-	const { tweetId, time, retweet_details, author } = tweetData;
+	const { tweetId, time, fullText, tweetAuthor, sharedTweet, isRetweet, isPromoted } = tweetData;
 
-	const tweet = tweetData.myTweetPreview.full_text;
-	const name = author.userFullName;
-	const handle = author.userName;
+	const { nameName, userHandle, profileImgURL } = tweetAuthor;
 
-	const isRetweet = retweet_details.is_retweet;
 	let retweetedBy;
-
 	if (isRetweet) {
-		retweetedBy = retweet_details.retweet_author_fullName;
+		retweetedBy = isRetweet.retweet_author_fullName;
 	}
 
 	const tweetPressed = (pressed = false) => {
@@ -50,22 +46,22 @@ const Tweet = (props) => {
 				)}
 				<View style={styles.innerContainer}>
 					<View style={styles.photoContainer}>
-						<ProfileImage onPress={navigateTo.bind(this, "Profile")} imageStyle={styles.photo} imageUri={author.profileImgUrl} />
+						<ProfileImage onPress={navigateTo.bind(this, "Profile")} imageStyle={styles.photo} imageUri={profileImgURL} />
 					</View>
 					<View style={styles.info}>
 						<View style={styles.userDetails}>
 							<Text style={styles.userName}>
-								{name}
+								{nameName}
 								<Text style={styles.userHandleAndTime}>
-									{handle} · {time}
+									{userHandle} · {time}
 								</Text>
 							</Text>
 						</View>
 						<View style={styles.tweetTextContainer}>
-							<Text style={styles.tweetText}>{tweet}</Text>
+							<Text style={styles.tweetText}>{fullText}</Text>
 						</View>
 						<View style={styles.tweetActionsContainer}>
-							<TweetActionsInfoBar tweetData={tweetData} />
+							<TweetActionsInfoBar tweetData={tweetData.actionsBarData} />
 						</View>
 					</View>
 				</View>
