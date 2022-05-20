@@ -99,6 +99,11 @@ const TwixperNavigator = () => {
 	// const [userEntityData, setUserEntityData] = useState("");
 	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
 
+	if (!userEntityData) {
+		//  TODO: Fix it to better Solution !
+		return null;
+	}
+
 	// useEffect(async () => {
 	// 	let userData = await getUserTwitterEntity();
 

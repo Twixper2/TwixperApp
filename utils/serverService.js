@@ -6,9 +6,10 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
-import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
 
-// import { data as searchTweetsJSON } from "../data/SearchTweetsJSON";
+import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
+import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
+
 import { userEntity } from "../data/Selenium/user_entity";
 
 /* ----------------------------------------
@@ -115,7 +116,7 @@ export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
 export const searchForTweets = async (query) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: searchTweetsJSON };
+		return { status: 200, data: searchTweets };
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
