@@ -58,8 +58,6 @@ const HomeScreen = () => {
 
 	return (
 		<View>
-			<View style={styles.menuBar}></View>
-			<View style={styles.writeNewTweet}></View>
 			<View style={styles.tweetsList}>
 				<FlatList
 					//  TODO: Hackathon- onRefresh Function

@@ -1,30 +1,32 @@
 import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 
 import SearchInput from "../../components/UI/SearchInput";
 import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
 
-import { searchForTweets } from "../../utils/serverService";
+import * as tweetsActions from "../../store/actions/tweets";
 
 import { appColors } from "../../constants/colors";
 
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
-	const [searchResults, setSearchResults] = useState();
+	const [searchResults, setSearchResults] = useState(false);
+
+	const dispatch = useDispatch();
 
 	const onClear = () => {
 		setSearchText("");
-		setSearchResults();
+		setSearchResults(false);
 	};
 
 	const onSearchHandler = async () => {
-		const response = await searchForTweets(searchText);
-		// console.log(response.data);
-		// let results = JSON.parse(JSON.stringify(response.data));
-
-		// console.log("Search !!\n" + results);
-
-		setSearchResults(response.data);
+		try {
+			await dispatch(tweetsActions.get_search_tweets(searchText));
+			setSearchResults(true);
+		} catch (err) {
+			console.log("Err - Need to handle this\n" + err);
+		}
 	};
 
 	return (
@@ -33,11 +35,7 @@ const SearchScreen = () => {
 				<SearchInput onChangeText={setSearchText} text={searchText} onSubmitEditing={onSearchHandler} onClear={onClear} />
 			</View>
 			<View style={styles.resultsContainer}>
-				{searchResults ? (
-					<SearchTabsNavigator results={searchResults} />
-				) : (
-					<Text style={styles.noResults}>Try searching for people, topics or keywords</Text>
-				)}
+				{searchResults ? <SearchTabsNavigator /> : <Text style={styles.noResults}>Try searching for people, topics or keywords</Text>}
 			</View>
 		</View>
 	);

@@ -7,10 +7,9 @@ import PeopleSearchResults from "../components/search/PeopleSearchResults";
 
 const SearchTabs = createMaterialTopTabNavigator();
 
-const SearchTabsNavigator = ({ results }) => {
-	console.log(results);
+const SearchTabsNavigator = () => {
 	return (
-		<View style={{ flexDirection: "row" }}>
+		<View style={{ flex: 1, flexDirection: "row" }}>
 			<SearchTabs.Navigator
 				screenOptions={() => ({
 					// tabBarActiveTintColor: appColors.iconColor,

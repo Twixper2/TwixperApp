@@ -1,27 +1,25 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
+import { useSelector } from "react-redux";
 
-import { appColors } from "../../constants/colors";
+import Tweet from "../tweets/Tweet";
 
 const TweetsSearchResults = () => {
+	const searchResults = useSelector((state) => state.tweets.searchTweets);
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.tempText}>This is :{"\n"}TweetsSearchResults !!</Text>
+		<View>
+			<FlatList
+				//  TODO: Hackathon- onRefresh Function
+				// onRefresh={loadFeedTweets}
+				// refreshing={isLoading}
+				data={searchResults}
+				keyExtractor={(item) => item.tweetId}
+				renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
+			/>
 		</View>
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: appColors.screenBackgroundColor,
-	},
-	tempText: {
-		fontSize: 32,
-		color: appColors.iconColor,
-		textAlign: "center",
-	},
-});
+const styles = StyleSheet.create({});
 
 export default TweetsSearchResults;

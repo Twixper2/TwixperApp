@@ -2,9 +2,10 @@ import TweetObject from "../../models/tweet-object";
 import TweetAuthor from "../../models/tweet-author";
 import TweetBarData from "../../models/tweet-bar-data";
 
-import { getFeed } from "../../utils/serverService";
+import { getFeed, searchForTweets } from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
+export const SET_SEARCH_TWEETS = "SET_SEARCH_TWEETS";
 
 export const get_feed_tweets = (maxID = null) => {
 	return async (dispatch, getState) => {
@@ -85,6 +86,91 @@ export const get_feed_tweets = (maxID = null) => {
 			console.log("error in get_feed_tweets");
 			console.log(err);
 			let message = "Error while getting feed tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+export const get_search_tweets = (searchQuery) => {
+	return async (dispatch) => {
+		let searchTweetsArr = [];
+
+		try {
+			const response = await searchForTweets(searchQuery);
+
+			if (response.status == 200) {
+				let tweetsFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (const tweet_idx in tweetsFromServer) {
+					const tweet = tweetsFromServer[tweet_idx];
+
+					const tweetAuthor = new TweetAuthor(
+						tweet.user_name,
+						tweet.user_url_name,
+						tweet.profile_link,
+						tweet.profile_img_url,
+						tweet.is_profile_verified
+					);
+
+					const tweetBarData = new TweetBarData(
+						[true, false].random(),
+						[true, false].random(),
+						[true, false].random(),
+						tweet.likes_count,
+						tweet.retweets_count,
+						tweet.comments_count
+					);
+
+					//  TODO: Text currently is arr
+					let txt = "";
+					for (const text_i in tweet.full_text) {
+						let txt_i = tweet.full_text[text_i];
+
+						if (typeof txt_i !== "string") {
+							continue;
+						}
+
+						txt = txt + " " + txt_i;
+					}
+
+					const tweetObject = new TweetObject(
+						tweet.tweet_id,
+						tweet.created_at,
+						txt,
+						tweetAuthor,
+						tweet.shared_tweet,
+						tweet.is_retweet,
+						tweet.is_promoted,
+						tweetBarData
+					);
+
+					if (tweet?.tweet_id) {
+						searchTweetsArr.push(tweetObject);
+					}
+				}
+
+				// console.log(searchTweetsArr);
+
+				dispatch({
+					type: SET_SEARCH_TWEETS,
+					searchTweets: searchTweetsArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get feed");
+			} else if (response.status == 502) {
+				console.log("error in get_feed_tweets");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_feed_tweets");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_search_tweets");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);
 		}
 	};
