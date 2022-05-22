@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import { View, Text, FlatList, Button, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import Tweet from "../../components/tweets/Tweet";
+import TweetsList from "../../components/tweets/TweetsList";
 
 import * as tweetsActions from "../../store/actions/tweets";
+
+import { appColors } from "../../constants/colors";
 
 const HomeScreen = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -40,14 +42,6 @@ const HomeScreen = () => {
 		);
 	}
 
-	if (isLoading) {
-		return (
-			<View style={styles.centered}>
-				<ActivityIndicator size="small" color="rgb(29, 161, 242)" />
-			</View>
-		);
-	}
-
 	if (!isLoading && feedTweetsArr.length === 0) {
 		return (
 			<View style={styles.centered}>
@@ -57,28 +51,16 @@ const HomeScreen = () => {
 	}
 
 	return (
-		<View>
-			<View style={styles.tweetsList}>
-				<FlatList
-					//  TODO: Hackathon- onRefresh Function
-					onRefresh={loadFeedTweets}
-					refreshing={isLoading}
-					data={feedTweetsArr}
-					keyExtractor={(item) => item.tweetId}
-					renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
-				/>
-			</View>
+		<View style={styles.container}>
+			<TweetsList onRefresh={loadFeedTweets} isLoading={isLoading} data={feedTweetsArr} />
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	menuBar: {},
-	writeNewTweet: {},
-	tweetsList: {
-		// height: "90%",
-		display: "flex",
-		justifyContent: "center",
+	container: {
+		flex: 1,
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 	centered: {
 		flex: 1,
