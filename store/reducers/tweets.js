@@ -1,9 +1,12 @@
-import { SET_FEED_TWEETS, SET_SEARCH_TWEETS } from "../actions/tweets";
+import { SET_FEED_TWEETS, SET_SEARCH_TWEETS_RESULTS } from "../actions/tweets";
 
 const initialState = {
 	feedTweets: [],
-	searchTweets: [],
-	searchPeople: [],
+	search: {
+		query: "",
+		tweetsResults: [],
+		peopleResults: [],
+	},
 };
 
 export default (state = initialState, action) => {
@@ -13,10 +16,14 @@ export default (state = initialState, action) => {
 				...state,
 				feedTweets: action.feedTweets,
 			};
-		case SET_SEARCH_TWEETS:
+		case SET_SEARCH_TWEETS_RESULTS:
 			return {
 				...state,
-				searchTweets: action.searchTweets,
+				search: {
+					...state.search,
+					query: action.query,
+					tweetsResults: action.tweetsResults,
+				},
 			};
 		default:
 			return state;

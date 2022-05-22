@@ -5,7 +5,7 @@ import TweetBarData from "../../models/tweet-bar-data";
 import { getFeed, searchForTweets } from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
-export const SET_SEARCH_TWEETS = "SET_SEARCH_TWEETS";
+export const SET_SEARCH_TWEETS_RESULTS = "SET_SEARCH_TWEETS_RESULTS";
 
 export const get_feed_tweets = (maxID = null) => {
 	return async (dispatch, getState) => {
@@ -149,11 +149,10 @@ export const get_search_tweets = (searchQuery) => {
 					}
 				}
 
-				// console.log(searchTweetsArr);
-
 				dispatch({
-					type: SET_SEARCH_TWEETS,
-					searchTweets: searchTweetsArr,
+					type: SET_SEARCH_TWEETS_RESULTS,
+					query: searchQuery,
+					tweetsResults: searchTweetsArr,
 				});
 			} else if (response.status == 401 || response.status == 428) {
 				// Unauthorized
