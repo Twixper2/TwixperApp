@@ -4,20 +4,22 @@ import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../tweets/TweetsList";
 
+import * as tweetsActions from "../../store/actions/tweets";
+
 import { appColors } from "../../constants/colors";
 
 const TweetsSearchResults = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const searchResults = useSelector((state) => state.tweets.searchTweets);
+	const { tweetsResults: searchResults, query } = useSelector((state) => state.tweets.search);
 	const dispatch = useDispatch();
 
 	const loadSearchTweetsResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			console.log("TODO!");
+			await dispatch(tweetsActions.get_search_tweets(query));
 		} catch (err) {
 			setError(err);
 		}
