@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 
-import SearchInput from "../../components/UI/SearchInput";
+import SearchInput from "../../components/search/SearchInput";
 import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
 
 import * as tweetsActions from "../../store/actions/tweets";
