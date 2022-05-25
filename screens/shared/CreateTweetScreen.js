@@ -16,13 +16,13 @@ const CreateTweetScreen = (props) => {
 	const { navigation } = props;
 
 	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
-	const { profileImageUrlHttps } = userEntityData;
+	const { profileImgURL } = userEntityData;
 
 	return (
 		<View style={styles.screen}>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>
-					<Image onPress={() => navigation.navigate("DrawerToggle")} source={{ uri: profileImageUrlHttps }} style={styles.image} />
+					<Image onPress={() => navigation.navigate("DrawerToggle")} source={{ uri: profileImgURL }} style={styles.image} />
 				</View>
 				<View style={styles.inputContainer}>
 					<TextInput

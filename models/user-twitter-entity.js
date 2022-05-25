@@ -1,11 +1,28 @@
 class UserTwitterEntity {
-	constructor(idStr, screenName, name, friendsCount, followersCount, profileImageUrlHttps) {
-		this.idStr = idStr;
-		this.screenName = screenName;
-		this.name = name;
+	constructor(
+		username,
+		userHandle,
+		friendsCount,
+		followersCount,
+		profileImgURL,
+		coverImgURL,
+		userDescription,
+		userLocation,
+		whenJoined,
+		userURL,
+		profession
+	) {
+		this.username = username;
+		this.userHandle = userHandle;
 		this.friendsCount = friendsCount;
 		this.followersCount = followersCount;
-		this.profileImageUrlHttps = profileImageUrlHttps;
+		this.profileImgURL = profileImgURL;
+		this.coverImgURL = coverImgURL;
+		this.userDescription = userDescription;
+		this.userLocation = userLocation;
+		this.whenJoined = whenJoined;
+		this.userURL = userURL;
+		this.profession = profession;
 	}
 }
 

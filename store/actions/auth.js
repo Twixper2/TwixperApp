@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import UserTwitterEntity from "../../models/user-twitter-entity";
 
+import { parseTwitterUserEntity } from "../../utils/helperFunctions";
 import { emptyLs, emptyStorageFromLs } from "../../utils/storageFunctions";
 import { participantLogin, registerToExperiment } from "../../utils/serverService";
 
@@ -22,13 +23,20 @@ export const user_login = (username, password) => {
 				//  TODO: Check what variable name we receive from server
 				const participantTwitterInfo = participantLoginResponse.data.participant_twitter_info;
 
+				const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
+
 				const userTwitterEntity = new UserTwitterEntity(
-					participantTwitterInfo.id_str,
-					participantTwitterInfo.screen_name,
-					participantTwitterInfo.name,
-					participantTwitterInfo.friends_count,
-					participantTwitterInfo.followers_count,
-					participantTwitterInfo.profile_image_url_https
+					parsedInfo.user_name,
+					parsedInfo.user_handle,
+					parsedInfo.friends_count,
+					parsedInfo.followers_count,
+					parsedInfo.profile_image_url,
+					parsedInfo.cover_image_url,
+					parsedInfo.user_description,
+					parsedInfo.user_location,
+					parsedInfo.when_joined,
+					parsedInfo.user_url,
+					parsedInfo.user_profession
 				);
 
 				const registeredToExperiment = participantLoginResponse.data.user_registered_to_experiment;

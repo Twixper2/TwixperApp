@@ -19,7 +19,7 @@ const HomeBottomTabs = createBottomTabNavigator();
 
 const HomeNavigator = () => {
 	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
-	const profileImageUrlHttps = userEntityData?.profileImageUrlHttps;
+	const profileImgURL = userEntityData?.profileImgURL;
 	return (
 		<HomeBottomTabs.Navigator
 			screenOptions={() => ({
@@ -42,7 +42,7 @@ const HomeNavigator = () => {
 				tabBarIconStyle: { marginBottom: 5, marginTop: 5 },
 				tabBarItemStyle: { justifyContent: "center", alignItems: "center" },
 				tabBarShowLabel: false,
-				header: (props) => <CustomHeader {...props} imageUri={profileImageUrlHttps} />,
+				header: (props) => <CustomHeader {...props} imageUri={profileImgURL} />,
 			})}
 		>
 			<HomeBottomTabs.Screen

@@ -1,5 +1,21 @@
 var moment = require("moment");
 
+export const parseTwitterUserEntity = (userData) => {
+	return (userEntity = {
+		user_name: userData.username.split("\n@")[0],
+		user_handle: userData.username.split("\n@")[1],
+		friends_count: userData.following_count.split(" ")[0],
+		followers_count: userData.followers_count.split(" ")[0],
+		profile_image_url: userData.profile_img,
+		cover_image_url: userData.cover_photo,
+		user_description: userData.user_description,
+		user_location: userData.user_location,
+		when_joined: userData.when_joined,
+		user_url: userData.user_url,
+		user_profession: userData.user_profession,
+	});
+};
+
 export const parseTwitterDate = (twitterDate) => {
 	var system_date = new Date(Date.parse(twitterDate));
 	var user_date = new Date();
