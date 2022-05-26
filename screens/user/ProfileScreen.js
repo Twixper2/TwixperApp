@@ -2,7 +2,11 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 
 import { appColors } from "../../constants/colors";
 
-const ProfileScreen = (props) => {
+const ProfileScreen = ({ route, navigation }) => {
+	const { data: userData } = route.params;
+
+	console.log(userData);
+
 	return (
 		<View style={styles.container}>
 			<Pressable onPress={() => {}}>

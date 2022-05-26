@@ -8,6 +8,7 @@ import ProfileImage from "../UI/ProfileImage";
 import TweetActionsInfoBar from "./TweetActionsInfoBar";
 
 import { appColors } from "../../constants/colors";
+import { PROFILE_SCREEN, TWEET_SCREEN } from "../../constants/screenNames";
 
 const Tweet = (props) => {
 	const navigation = useNavigation();
@@ -32,7 +33,7 @@ const Tweet = (props) => {
 	};
 
 	return (
-		<TouchableHighlight onPress={navigateTo.bind(this, "TweetScreen")} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
+		<TouchableHighlight onPress={navigateTo.bind(this, TWEET_SCREEN)} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
 			<View key={tweetId} style={styles.container}>
 				{!isRetweet ? (
 					<View style={styles.isReplyContainer}>
@@ -46,7 +47,7 @@ const Tweet = (props) => {
 				)}
 				<View style={styles.innerContainer}>
 					<View style={styles.photoContainer}>
-						<ProfileImage onPress={navigateTo.bind(this, "Profile")} imageStyle={styles.photo} imageUri={profileImgURL} />
+						<ProfileImage onPress={navigateTo.bind(this, PROFILE_SCREEN)} imageStyle={styles.photo} imageUri={profileImgURL} />
 					</View>
 					<View style={styles.info}>
 						<View style={styles.userDetails}>

@@ -4,13 +4,14 @@ import Octicons from "react-native-vector-icons/Octicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { appColors } from "../../constants/colors";
+import { CREATE_TWEET_SCREEN } from "../../constants/screenNames";
 
 const TweetButtonWrapper = ({ navigation, children }) => {
 	return (
 		<View style={styles.container}>
 			{children}
 
-			<TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("CreateTweet")}>
+			<TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate(CREATE_TWEET_SCREEN)}>
 				<Octicons name={"plus-small"} size={26} style={styles.plusIcon} />
 				<MaterialCommunityIcons name={"feather"} size={26} style={styles.featherIcon} />
 			</TouchableOpacity>

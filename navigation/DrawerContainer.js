@@ -7,13 +7,14 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import PressableText from "../components/UI/PressableText";
 
 import { appColors } from "../constants/colors";
+import { PROFILE_SCREEN, FOLLOWING_SCREEN, FOLLOWERS_SCREEN } from "../constants/screenNames";
 
 //  TODO: Logout
 const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
 	const navigateTo = (screen) => {
-		navigation.navigate(screen);
+		navigation.navigate(screen, { data: userData });
 	};
 
 	return (
@@ -24,32 +25,32 @@ const DrawerContainer = (props) => {
 					<Ionicons name="close" size={23} color="white" onPress={() => navigation.closeDrawer()} />
 				</View>
 
-				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.photoContainer, styles.photo]}>
+				<TouchableOpacity onPress={navigateTo.bind(this, PROFILE_SCREEN)} style={[styles.photoContainer, styles.photo]}>
 					<Image source={{ uri: userData?.profileImgURL }} style={styles.photo} />
 				</TouchableOpacity>
 
 				<View style={styles.usernameContainer}>
-					<PressableText onPress={navigateTo.bind(this, "Profile")} textStyle={styles.userName}>
+					<PressableText onPress={navigateTo.bind(this, PROFILE_SCREEN)} textStyle={styles.userName}>
 						{userData.username}
 					</PressableText>
-					<PressableText onPress={navigateTo.bind(this, "Profile")} textStyle={styles.userHandle}>
+					<PressableText onPress={navigateTo.bind(this, PROFILE_SCREEN)} textStyle={styles.userHandle}>
 						@{userData.userHandle}
 					</PressableText>
 				</View>
 
 				<View style={styles.followContainer}>
-					<PressableText onPress={navigateTo.bind(this, "Following")} textStyle={styles.followText}>
+					<PressableText onPress={navigateTo.bind(this, FOLLOWING_SCREEN)} textStyle={styles.followText}>
 						{userData.friendsCount} <Text style={styles.followLightText}> Following</Text>
 					</PressableText>
 
-					<PressableText onPress={navigateTo.bind(this, "Followers")} textStyle={styles.followText}>
+					<PressableText onPress={navigateTo.bind(this, FOLLOWERS_SCREEN)} textStyle={styles.followText}>
 						{userData.followersCount} <Text style={styles.followLightText}> Followers</Text>
 					</PressableText>
 				</View>
 			</View>
 
 			<ScrollView>
-				<TouchableOpacity onPress={navigateTo.bind(this, "Profile")} style={[styles.list, styles.firstList]}>
+				<TouchableOpacity onPress={navigateTo.bind(this, PROFILE_SCREEN)} style={[styles.list, styles.firstList]}>
 					<View>
 						<FontAwesome style={styles.icon} name="user-o" size={20} color={appColors.lightFontColor} />
 						<Text style={styles.text}> Profile </Text>
