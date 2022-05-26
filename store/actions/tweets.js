@@ -121,22 +121,10 @@ export const get_search_tweets = (searchQuery) => {
 						tweet.comments_count
 					);
 
-					//  TODO: Text currently is arr
-					let txt = "";
-					for (const text_i in tweet.full_text) {
-						let txt_i = tweet.full_text[text_i];
-
-						if (typeof txt_i !== "string") {
-							continue;
-						}
-
-						txt = txt + " " + txt_i;
-					}
-
 					const tweetObject = new TweetObject(
 						tweet.tweet_id,
 						tweet.created_at,
-						txt,
+						tweet.full_text,
 						tweetAuthor,
 						tweet.shared_tweet,
 						tweet.is_retweet,

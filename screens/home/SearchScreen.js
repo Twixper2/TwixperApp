@@ -13,6 +13,8 @@ const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
 	const [searchResults, setSearchResults] = useState(false);
 
+	console.log("Hey Search Screen");
+
 	const dispatch = useDispatch();
 
 	const onClear = () => {
