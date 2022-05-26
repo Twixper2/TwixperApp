@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 import SearchInput from "../../components/search/SearchInput";
 import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
@@ -12,10 +13,16 @@ import { appColors } from "../../constants/colors";
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
 	const [searchResults, setSearchResults] = useState(false);
-
-	console.log("Hey Search Screen");
-
 	const dispatch = useDispatch();
+
+	useFocusEffect(
+		useCallback(() => {
+			console.log("Hey Search Screen");
+
+			return () => console.log("Out - Notify & Use Moshe's endpoint");
+			//  TODO: See above
+		}, [])
+	);
 
 	const onClear = () => {
 		setSearchText("");
