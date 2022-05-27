@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useSelector } from "react-redux";
-import { Button, Card } from "react-native-elements";
+import { Button } from "react-native-elements";
 
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -67,6 +67,7 @@ const ProfileScreen = ({ route, navigation }) => {
 					</View>
 				</View>
 			</View>
+			<View style={{ paddingTop: 330 }}></View>
 		</View>
 	);
 };
@@ -74,7 +75,7 @@ const ProfileScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: appColors.screenBackgroundColor,
+		backgroundColor: "rgb(20, 29, 38)",
 	},
 	header: {
 		minHeight: 60,
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		borderColor: "yellow",
 		borderWidth: 0,
+		backgroundColor: "rgb(27, 40, 54)",
 	},
 	bannerImageContainer: {
 		flex: 0.25,
