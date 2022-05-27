@@ -29,7 +29,15 @@ const Tweet = (props) => {
 	};
 
 	const navigateTo = (screen) => {
-		navigation.navigate(screen);
+		let data;
+
+		if (screen === PROFILE_SCREEN) {
+			data = tweetAuthor;
+		} else {
+			data = tweetData;
+		}
+
+		navigation.navigate(screen, { data });
 	};
 
 	return (

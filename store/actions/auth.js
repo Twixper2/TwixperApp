@@ -41,7 +41,12 @@ export const user_login = (username, password) => {
 
 				const registeredToExperiment = participantLoginResponse.data.user_registered_to_experiment;
 
-				dispatch({ type: USER_LOGIN, username: username, userTwitterEntity: userTwitterEntity, registeredToExperiment: registeredToExperiment });
+				dispatch({
+					type: USER_LOGIN,
+					username: parsedInfo.user_handle,
+					userTwitterEntity: userTwitterEntity,
+					registeredToExperiment: registeredToExperiment,
+				});
 
 				return registeredToExperiment;
 

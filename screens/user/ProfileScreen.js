@@ -1,11 +1,17 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { useSelector } from "react-redux";
 
 import { appColors } from "../../constants/colors";
 
 const ProfileScreen = ({ route, navigation }) => {
 	const { data: userData } = route.params;
+	const { username: participantUsername } = useSelector((state) => state.auth);
 
-	console.log(userData);
+	if (userData.userHandle !== participantUsername) {
+		console.log("Not the Participant -> Need Get User's Data");
+	} else {
+		console.log("It's the participant");
+	}
 
 	return (
 		<View style={styles.container}>
