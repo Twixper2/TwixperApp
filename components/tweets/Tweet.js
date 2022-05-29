@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ProfileImage from "../UI/ProfileImage";
 import TweetActionsInfoBar from "./TweetActionsInfoBar";
@@ -17,7 +18,7 @@ const Tweet = (props) => {
 	const { tweetData } = props;
 	const { tweetId, time, fullText, tweetAuthor, sharedTweet, isRetweet, isPromoted } = tweetData;
 
-	const { username, userHandle, profileImgURL } = tweetAuthor;
+	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
 
 	let retweetedBy;
 	if (isRetweet) {
@@ -60,7 +61,7 @@ const Tweet = (props) => {
 					<View style={styles.info}>
 						<View style={styles.userDetails}>
 							<Text style={styles.userName}>
-								{username}
+								{username} {isProfileVerified && <MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />}
 								<Text style={styles.userHandleAndTime}>
 									{userHandle} · {time}
 								</Text>

@@ -5,6 +5,9 @@ import { Button } from "react-native-elements";
 
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+// check-decagram-outline
 
 import ProfileImage from "../../components/UI/ProfileImage";
 import { appColors } from "../../constants/colors";
@@ -15,7 +18,11 @@ const ProfileScreen = ({ route, navigation }) => {
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
-			title: userData.username,
+			title: (
+				<Text>
+					{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+				</Text>
+			),
 		});
 	}, [navigation]);
 
@@ -42,8 +49,11 @@ const ProfileScreen = ({ route, navigation }) => {
 							textStyle={styles.editProfileButtonText}
 						/>
 					</View>
+
 					<View style={styles.nameAndHandle}>
-						<Text style={styles.name}>{userData.username}</Text>
+						<Text style={styles.name}>
+							{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+						</Text>
 						<Text style={styles.handle}>@{userData.userHandle}</Text>
 					</View>
 					<View style={styles.bio}>
