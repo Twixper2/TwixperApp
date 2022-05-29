@@ -1,3 +1,4 @@
+import { useLayoutEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { Button } from "react-native-elements";
@@ -12,6 +13,14 @@ import { appColors } from "../../constants/colors";
 const ProfileScreen = ({ route, navigation }) => {
 	const { data: userData } = route.params;
 	const { username: participantUsername } = useSelector((state) => state.auth);
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			title: userData.username,
+		});
+	}, [navigation]);
+
+	console.log(userData);
 
 	if (userData.userHandle !== participantUsername) {
 		console.log("Not the Participant -> Need Get User's Data");

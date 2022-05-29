@@ -32,7 +32,6 @@ const HomeProfileStack = () => {
 				component={ProfileScreen}
 				options={() => ({
 					header: (props) => <CustomHeader {...props} />,
-					headerTitle: "Username",
 				})}
 			/>
 		</HomeProfileNavigator.Navigator>
@@ -103,12 +102,6 @@ const TwixperNavigator = () => {
 		//  TODO: Fix it to better Solution !
 		return null;
 	}
-
-	// useEffect(async () => {
-	// 	let userData = await getUserTwitterEntity();
-
-	// 	setUserEntityData(userData);
-	// }, [getUserTwitterEntity, setUserEntityData]);
 
 	return (
 		<AppDrawer.Navigator

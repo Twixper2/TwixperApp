@@ -1,6 +1,6 @@
 class TweetAuthor {
-	constructor(nameName, userHandle, profileLink, profileImgURL, isProfileVerified) {
-		this.nameName = nameName;
+	constructor(username, userHandle, profileLink, profileImgURL, isProfileVerified) {
+		this.username = username;
 		this.userHandle = userHandle;
 		this.profileLink = profileLink;
 		this.profileImgURL = profileImgURL;

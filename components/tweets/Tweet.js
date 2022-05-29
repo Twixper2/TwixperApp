@@ -17,7 +17,7 @@ const Tweet = (props) => {
 	const { tweetData } = props;
 	const { tweetId, time, fullText, tweetAuthor, sharedTweet, isRetweet, isPromoted } = tweetData;
 
-	const { nameName, userHandle, profileImgURL } = tweetAuthor;
+	const { username, userHandle, profileImgURL } = tweetAuthor;
 
 	let retweetedBy;
 	if (isRetweet) {
@@ -60,7 +60,7 @@ const Tweet = (props) => {
 					<View style={styles.info}>
 						<View style={styles.userDetails}>
 							<Text style={styles.userName}>
-								{nameName}
+								{username}
 								<Text style={styles.userHandleAndTime}>
 									{userHandle} · {time}
 								</Text>
