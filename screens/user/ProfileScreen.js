@@ -5,7 +5,6 @@ import { Button } from "react-native-elements";
 
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ProfileImage from "../../components/UI/ProfileImage";
 import { appColors } from "../../constants/colors";
@@ -19,8 +18,6 @@ const ProfileScreen = ({ route, navigation }) => {
 			title: userData.username,
 		});
 	}, [navigation]);
-
-	console.log(userData);
 
 	if (userData.userHandle !== participantUsername) {
 		console.log("Not the Participant -> Need Get User's Data");
@@ -53,15 +50,15 @@ const ProfileScreen = ({ route, navigation }) => {
 						<Text style={{ color: "white" }}>{userData.userDescription}</Text>
 					</View>
 					<View style={styles.cityAndLinkContainer}>
-						<SimpleLineIcons name={"location-pin"} size={14} color={"rgb(136, 153, 166)"}>
+						<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
 							<Text style={styles.city}> {userData.userLocation}</Text>
 						</SimpleLineIcons>
-						<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={"rgb(136, 153, 166)"}>
+						<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
 							<Text style={styles.link}> {userData.userURL}</Text>
 						</Ionicons>
 					</View>
 					<View style={styles.dobContainer}>
-						<MaterialCommunityIcons name={"airballoon"} size={14} color={"rgb(136, 153, 166)"} />
+						<Ionicons name={"calendar"} size={16} color={appColors.lightFontColor} />
 						<Text style={styles.dob}>{userData.whenJoined}</Text>
 					</View>
 					<View style={styles.followingAndFollowersContainer}>
