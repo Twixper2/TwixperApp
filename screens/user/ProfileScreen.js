@@ -1,5 +1,7 @@
 import { useLayoutEffect } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+
 import { useSelector } from "react-redux";
 import { Button } from "react-native-elements";
 
@@ -7,7 +9,7 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-// check-decagram-outline
+import ProfileTabsNavigator from "../../navigation/ProfileTabsNavigator";
 
 import ProfileImage from "../../components/UI/ProfileImage";
 import { appColors } from "../../constants/colors";
@@ -34,6 +36,14 @@ const ProfileScreen = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
+			{/* <LinearGradient
+				style={{
+					flex: 1,
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+			>
+				<ScrollView style={styles.container2}> */}
 			<View style={styles.topBannerContainer}>
 				<View style={styles.bannerImageContainer}>
 					<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
@@ -83,7 +93,11 @@ const ProfileScreen = ({ route, navigation }) => {
 					</View>
 				</View>
 			</View>
-			<View style={{ paddingTop: 330 }}></View>
+			<View style={styles.TabsContainer}>
+				<ProfileTabsNavigator />
+			</View>
+			{/* </ScrollView>
+			</LinearGradient> */}
 		</View>
 	);
 };
@@ -92,6 +106,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "rgb(20, 29, 38)",
+	},
+	container2: {
+		// flex: 2,
+		// display: "flex",
+		// backgroundColor: "rgb(20, 29, 38)",
 	},
 	header: {
 		minHeight: 60,
@@ -189,8 +208,16 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		paddingLeft: 15,
 	},
-	name: { color: "white", fontWeight: "bold", fontSize: 18 },
-	handle: { color: appColors.lightFontColor, fontWeight: "bold", fontSize: 14 },
+	name: {
+		color: "white",
+		fontWeight: "bold",
+		fontSize: 18,
+	},
+	handle: {
+		color: appColors.lightFontColor,
+		fontWeight: "bold",
+		fontSize: 14,
+	},
 	bio: {
 		flexDirection: "column",
 		justifyContent: "space-between",
@@ -203,15 +230,27 @@ const styles = StyleSheet.create({
 		padding: 5,
 		paddingLeft: 15,
 	},
-	city: { color: "rgb(29, 161, 242)", fontSize: 14, marginLeft: 15 },
-	link: { color: "rgb(29, 161, 242)", fontSize: 14, marginLeft: 15 },
+	city: {
+		color: "rgb(29, 161, 242)",
+		fontSize: 14,
+		marginLeft: 15,
+	},
+	link: {
+		color: "rgb(29, 161, 242)",
+		fontSize: 14,
+		marginLeft: 15,
+	},
 	dobContainer: {
 		flexDirection: "row",
 		justifyContent: "flex-start",
 		padding: 5,
 		paddingLeft: 15,
 	},
-	dob: { color: appColors.lightFontColor, fontSize: 14, marginLeft: 10 },
+	dob: {
+		color: appColors.lightFontColor,
+		fontSize: 14,
+		marginLeft: 10,
+	},
 	followingAndFollowersContainer: {
 		flexDirection: "row",
 		justifyContent: "flex-start",
@@ -223,14 +262,22 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		marginRight: 15,
 	},
-	followingCount: { color: "white", fontWeight: "bold" },
+	followingCount: {
+		color: "white",
+		fontWeight: "bold",
+	},
 	followingText: {
 		color: appColors.lightFontColor,
 		fontWeight: "300",
 		marginLeft: 5,
 	},
-	followersContainer: { flexDirection: "row" },
-	followersCount: { color: "white", fontWeight: "bold" },
+	followersContainer: {
+		flexDirection: "row",
+	},
+	followersCount: {
+		color: "white",
+		fontWeight: "bold",
+	},
 	followersText: {
 		color: appColors.lightFontColor,
 		fontWeight: "300",
@@ -244,6 +291,14 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 		borderColor: "black",
 		resizeMode: "cover",
+	},
+	TabsContainer: {
+		flex: 1,
+		display: "flex",
+		alignItems: "center",
+		paddingTop: 15,
+		paddingHorizontal: 5,
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 });
 

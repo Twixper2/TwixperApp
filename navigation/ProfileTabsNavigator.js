@@ -2,15 +2,15 @@ import { StyleSheet, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import { appColors } from "../constants/colors";
-import TweetsSearchResults from "../components/search/TweetsSearchResults";
-import PeopleSearchResults from "../components/search/PeopleSearchResults";
+import UserLikes from "../components/profile/UserLikes";
+import UserTweets from "../components/profile/UserTweets";
 
-const SearchTabs = createMaterialTopTabNavigator();
+const ProfileTabs = createMaterialTopTabNavigator();
 
-const SearchTabsNavigator = () => {
+const ProfileTabsNavigator = () => {
 	return (
 		<View style={{ flex: 1, flexDirection: "row" }}>
-			<SearchTabs.Navigator
+			<ProfileTabs.Navigator
 				screenOptions={() => ({
 					tabBarStyle: {
 						width: "100%",
@@ -28,9 +28,9 @@ const SearchTabsNavigator = () => {
 					},
 				})}
 			>
-				<SearchTabs.Screen name="TweetsResults" component={TweetsSearchResults} options={{ title: "Tweets" }} />
-				<SearchTabs.Screen name="PeopleResults" component={PeopleSearchResults} options={{ title: "People" }} />
-			</SearchTabs.Navigator>
+				<ProfileTabs.Screen name="UserTweets" component={UserTweets} options={{ title: "Tweets" }} />
+				<ProfileTabs.Screen name="UserLikes" component={UserLikes} options={{ title: "Likes" }} />
+			</ProfileTabs.Navigator>
 		</View>
 	);
 };
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default SearchTabsNavigator;
+export default ProfileTabsNavigator;
