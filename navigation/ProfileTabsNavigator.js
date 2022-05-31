@@ -7,7 +7,7 @@ import UserTweets from "../components/profile/UserTweets";
 
 const ProfileTabs = createMaterialTopTabNavigator();
 
-const ProfileTabsNavigator = () => {
+const ProfileTabsNavigator = ({ username }) => {
 	return (
 		<View style={{ flex: 1, flexDirection: "row" }}>
 			<ProfileTabs.Navigator
@@ -28,8 +28,8 @@ const ProfileTabsNavigator = () => {
 					},
 				})}
 			>
-				<ProfileTabs.Screen name="UserTweets" component={UserTweets} options={{ title: "Tweets" }} />
-				<ProfileTabs.Screen name="UserLikes" component={UserLikes} options={{ title: "Likes" }} />
+				<ProfileTabs.Screen name="UserTweets" component={UserTweets} options={{ title: "Tweets" }} initialParams={{ username: username }} />
+				<ProfileTabs.Screen name="UserLikes" component={UserLikes} options={{ title: "Likes" }} initialParams={{ username: username }} />
 			</ProfileTabs.Navigator>
 		</View>
 	);

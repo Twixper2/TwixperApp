@@ -35,60 +35,60 @@ const ProfileScreen = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<ScrollView contentContainerStyle={{ flex: 1 }}>
-				<View style={styles.topBannerContainer}>
-					<View style={styles.bannerImageContainer}>
-						<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
+			{/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
+			<View style={styles.topBannerContainer}>
+				<View style={styles.bannerImageContainer}>
+					<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
+				</View>
+				<View style={styles.info}>
+					<View style={styles.infoTop}>
+						<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
+
+						<Button
+							buttonStyle={styles.editProfileButton}
+							onPress={() => console.log("What To Do With This Button??")}
+							title="Edit Profile"
+							textStyle={styles.editProfileButtonText}
+						/>
 					</View>
-					<View style={styles.info}>
-						<View style={styles.infoTop}>
-							<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
 
-							<Button
-								buttonStyle={styles.editProfileButton}
-								onPress={() => console.log("What To Do With This Button??")}
-								title="Edit Profile"
-								textStyle={styles.editProfileButtonText}
-							/>
+					<View style={styles.nameAndHandle}>
+						<Text style={styles.name}>
+							{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+						</Text>
+						<Text style={styles.handle}>@{userData.userHandle}</Text>
+					</View>
+					<View style={styles.bio}>
+						<Text style={{ color: "white" }}>{userData.userDescription}</Text>
+					</View>
+					<View style={styles.cityAndLinkContainer}>
+						<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
+							<Text style={styles.city}> {userData.userLocation}</Text>
+						</SimpleLineIcons>
+						<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
+							<Text style={styles.link}> {userData.userURL}</Text>
+						</Ionicons>
+					</View>
+					<View style={styles.dobContainer}>
+						<Ionicons name={"calendar"} size={16} color={appColors.lightFontColor} />
+						<Text style={styles.dob}>{userData.whenJoined}</Text>
+					</View>
+					<View style={styles.followingAndFollowersContainer}>
+						<View style={styles.followingContainer}>
+							<Text style={styles.followingCount}>{userData.friendsCount}</Text>
+							<Text style={styles.followingText}>Following</Text>
 						</View>
-
-						<View style={styles.nameAndHandle}>
-							<Text style={styles.name}>
-								{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
-							</Text>
-							<Text style={styles.handle}>@{userData.userHandle}</Text>
-						</View>
-						<View style={styles.bio}>
-							<Text style={{ color: "white" }}>{userData.userDescription}</Text>
-						</View>
-						<View style={styles.cityAndLinkContainer}>
-							<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
-								<Text style={styles.city}> {userData.userLocation}</Text>
-							</SimpleLineIcons>
-							<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
-								<Text style={styles.link}> {userData.userURL}</Text>
-							</Ionicons>
-						</View>
-						<View style={styles.dobContainer}>
-							<Ionicons name={"calendar"} size={16} color={appColors.lightFontColor} />
-							<Text style={styles.dob}>{userData.whenJoined}</Text>
-						</View>
-						<View style={styles.followingAndFollowersContainer}>
-							<View style={styles.followingContainer}>
-								<Text style={styles.followingCount}>{userData.friendsCount}</Text>
-								<Text style={styles.followingText}>Following</Text>
-							</View>
-							<View style={styles.followersContainer}>
-								<Text style={styles.followersCount}>{userData.followersCount}</Text>
-								<Text style={styles.followersText}> Followers</Text>
-							</View>
+						<View style={styles.followersContainer}>
+							<Text style={styles.followersCount}>{userData.followersCount}</Text>
+							<Text style={styles.followersText}> Followers</Text>
 						</View>
 					</View>
 				</View>
-				<View style={styles.TabsContainer}>
-					<ProfileTabsNavigator />
-				</View>
-			</ScrollView>
+			</View>
+			<View style={styles.TabsContainer}>
+				<ProfileTabsNavigator username={userData.username} />
+			</View>
+			{/* </ScrollView> */}
 		</View>
 	);
 };

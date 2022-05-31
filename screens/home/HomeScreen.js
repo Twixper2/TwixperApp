@@ -42,7 +42,7 @@ const HomeScreen = () => {
 		);
 	}
 
-	if (!isLoading && feedTweetsArr.length === 0) {
+	if (!isLoading && feedTweetsArr?.length === 0) {
 		return (
 			<View style={styles.centered}>
 				<Text>No Feed Tweets found.</Text>

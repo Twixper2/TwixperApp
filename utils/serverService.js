@@ -125,6 +125,17 @@ export const searchForTweets = async (query) => {
 	return await sendGetRequest(requestUrl);
 };
 
+export const getUserTimeline = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: tweetsData };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
+	return await sendGetRequestReturnResponse(requestUrl);
+};
+
 /* ----------------------------------------
     Helper Functions
    ---------------------------------------- */
