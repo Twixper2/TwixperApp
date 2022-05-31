@@ -1,6 +1,5 @@
 import { useLayoutEffect } from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { useSelector } from "react-redux";
 import { Button } from "react-native-elements";
@@ -28,76 +27,68 @@ const ProfileScreen = ({ route, navigation }) => {
 		});
 	}, [navigation]);
 
-	if (userData.userHandle !== participantUsername) {
-		console.log("Not the Participant -> Need Get User's Data");
-	} else {
-		console.log("It's the participant");
-	}
+	// if (userData.userHandle !== participantUsername) {
+	// 	console.log("Not the Participant -> Need Get User's Data");
+	// } else {
+	// 	console.log("It's the participant");
+	// }
 
 	return (
 		<View style={styles.container}>
-			{/* <LinearGradient
-				style={{
-					flex: 1,
-					justifyContent: "center",
-					alignItems: "center",
-				}}
-			>
-				<ScrollView style={styles.container2}> */}
-			<View style={styles.topBannerContainer}>
-				<View style={styles.bannerImageContainer}>
-					<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
-				</View>
-				<View style={styles.info}>
-					<View style={styles.infoTop}>
-						<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
+			<ScrollView contentContainerStyle={{ flex: 1 }}>
+				<View style={styles.topBannerContainer}>
+					<View style={styles.bannerImageContainer}>
+						<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
+					</View>
+					<View style={styles.info}>
+						<View style={styles.infoTop}>
+							<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
 
-						<Button
-							buttonStyle={styles.editProfileButton}
-							onPress={() => console.log("What To Do With This Button??")}
-							title="Edit Profile"
-							textStyle={styles.editProfileButtonText}
-						/>
-					</View>
-
-					<View style={styles.nameAndHandle}>
-						<Text style={styles.name}>
-							{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
-						</Text>
-						<Text style={styles.handle}>@{userData.userHandle}</Text>
-					</View>
-					<View style={styles.bio}>
-						<Text style={{ color: "white" }}>{userData.userDescription}</Text>
-					</View>
-					<View style={styles.cityAndLinkContainer}>
-						<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
-							<Text style={styles.city}> {userData.userLocation}</Text>
-						</SimpleLineIcons>
-						<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
-							<Text style={styles.link}> {userData.userURL}</Text>
-						</Ionicons>
-					</View>
-					<View style={styles.dobContainer}>
-						<Ionicons name={"calendar"} size={16} color={appColors.lightFontColor} />
-						<Text style={styles.dob}>{userData.whenJoined}</Text>
-					</View>
-					<View style={styles.followingAndFollowersContainer}>
-						<View style={styles.followingContainer}>
-							<Text style={styles.followingCount}>{userData.friendsCount}</Text>
-							<Text style={styles.followingText}>Following</Text>
+							<Button
+								buttonStyle={styles.editProfileButton}
+								onPress={() => console.log("What To Do With This Button??")}
+								title="Edit Profile"
+								textStyle={styles.editProfileButtonText}
+							/>
 						</View>
-						<View style={styles.followersContainer}>
-							<Text style={styles.followersCount}>{userData.followersCount}</Text>
-							<Text style={styles.followersText}> Followers</Text>
+
+						<View style={styles.nameAndHandle}>
+							<Text style={styles.name}>
+								{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+							</Text>
+							<Text style={styles.handle}>@{userData.userHandle}</Text>
+						</View>
+						<View style={styles.bio}>
+							<Text style={{ color: "white" }}>{userData.userDescription}</Text>
+						</View>
+						<View style={styles.cityAndLinkContainer}>
+							<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
+								<Text style={styles.city}> {userData.userLocation}</Text>
+							</SimpleLineIcons>
+							<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
+								<Text style={styles.link}> {userData.userURL}</Text>
+							</Ionicons>
+						</View>
+						<View style={styles.dobContainer}>
+							<Ionicons name={"calendar"} size={16} color={appColors.lightFontColor} />
+							<Text style={styles.dob}>{userData.whenJoined}</Text>
+						</View>
+						<View style={styles.followingAndFollowersContainer}>
+							<View style={styles.followingContainer}>
+								<Text style={styles.followingCount}>{userData.friendsCount}</Text>
+								<Text style={styles.followingText}>Following</Text>
+							</View>
+							<View style={styles.followersContainer}>
+								<Text style={styles.followersCount}>{userData.followersCount}</Text>
+								<Text style={styles.followersText}> Followers</Text>
+							</View>
 						</View>
 					</View>
 				</View>
-			</View>
-			<View style={styles.TabsContainer}>
-				<ProfileTabsNavigator />
-			</View>
-			{/* </ScrollView>
-			</LinearGradient> */}
+				<View style={styles.TabsContainer}>
+					<ProfileTabsNavigator />
+				</View>
+			</ScrollView>
 		</View>
 	);
 };
@@ -106,60 +97,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "rgb(20, 29, 38)",
-	},
-	container2: {
-		// flex: 2,
-		// display: "flex",
-		// backgroundColor: "rgb(20, 29, 38)",
-	},
-	header: {
-		minHeight: 60,
-		flex: 0.1,
-		borderColor: "red",
-		borderWidth: 0,
-		zIndex: 1000000000,
-	},
-	backButton: {
-		backgroundColor: "transparent",
-		position: "absolute",
-		top: -5,
-		left: -10,
-		padding: 20,
-		paddingLeft: 15,
-	},
-	headerName: {
-		backgroundColor: "transparent",
-		position: "absolute",
-		top: 0,
-		left: 50,
-		padding: 20,
-		paddingLeft: 15,
-		fontWeight: "bold",
-	},
-	menuIcon: {
-		color: "white",
-		position: "absolute",
-		top: 20,
-		right: 20,
-	},
-	topContainer: {
-		// top: -height + 100,
-		zIndex: 2,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "yellow",
-		width: 100,
-		alignSelf: "center",
-	},
-	banner: {
-		position: "absolute",
-		height: 380,
-		borderColor: "red",
-		borderWidth: 0,
-		// width: width,
-		top: 0,
-		justifyContent: "flex-end",
-		flexDirection: "column",
 	},
 	topBannerContainer: {
 		flex: 1,

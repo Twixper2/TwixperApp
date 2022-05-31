@@ -6,6 +6,37 @@ const UserTweets = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserTweets !!</Text>
 		</View>
 	);
 };
