@@ -26,8 +26,9 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 export default function App() {
 	return (
 		<Provider store={store}>
-			<StatusBar style="light" />
+			<StatusBar style="auto" />
 			<PushNotifications />
+			{/* <StatusBar style="light" /> */}
 			{/* <RootNavigator /> */}
 		</Provider>
 	);
