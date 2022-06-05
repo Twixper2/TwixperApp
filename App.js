@@ -12,6 +12,7 @@ import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
 import twitterAuthReducer from "./store/reducers/twitterAuth";
 import RootNavigator from "./navigation/RootNavigator";
+import PushNotifications from "./screens/PushNotifications";
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -26,7 +27,8 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<StatusBar style="light" />
-			<RootNavigator />
+			<PushNotifications />
+			{/* <RootNavigator /> */}
 		</Provider>
 	);
 }
