@@ -43,12 +43,14 @@ const ProfileScreen = ({ route, navigation }) => {
 					<View style={styles.infoTop}>
 						<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
 
-						<Button
-							buttonStyle={styles.editProfileButton}
-							onPress={() => console.log("What To Do With This Button??")}
-							title="Edit Profile"
-							textStyle={styles.editProfileButtonText}
-						/>
+						{userData.userHandle === participantUsername && (
+							<Button
+								buttonStyle={styles.editProfileButton}
+								onPress={() => console.log("What To Do With This Button??")}
+								title="Edit Profile"
+								textStyle={styles.editProfileButtonText}
+							/>
+						)}
 					</View>
 
 					<View style={styles.nameAndHandle}>
