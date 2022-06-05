@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, StyleSheet, Text, View, Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
 
@@ -13,6 +13,35 @@ Notifications.setNotificationHandler({
 });
 
 const PushNotifications = () => {
+	useEffect(() => {
+		async function configurePushNotifications() {
+			const { status } = await Notifications.getPermissionsAsync();
+			let finalStatus = status;
+
+			if (finalStatus !== "granted") {
+				const { status } = await Notifications.requestPermissionsAsync();
+				finalStatus = status;
+			}
+
+			if (finalStatus !== "granted") {
+				Alert.alert("Permission required", "Push notifications need the appropriate permissions.");
+				return;
+			}
+
+			const pushTokenData = await Notifications.getExpoPushTokenAsync();
+			console.log(pushTokenData);
+
+			if (Platform.OS === "android") {
+				Notifications.setNotificationChannelAsync("default", {
+					name: "default",
+					importance: Notifications.AndroidImportance.DEFAULT,
+				});
+			}
+		}
+
+		configurePushNotifications();
+	}, []);
+
 	useEffect(() => {
 		const subscription1 = Notifications.addNotificationReceivedListener((notification) => {
 			console.log("NOTIFICATION RECEIVED");
@@ -51,9 +80,24 @@ const PushNotifications = () => {
 		});
 	};
 
+	const sendPushNotificationHandler = () => {
+		fetch("https://exp.host/--/api/v2/push/send", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				to: "ExponentPushToken[aNQBtRFekzsFU568p91WMg]",
+				title: "Test - sent from a device!",
+				body: "This is a test!",
+			}),
+		});
+	};
+
 	return (
 		<View style={styles.container}>
 			<Button title="Schedule Notification" onPress={scheduleNotificationHandler} />
+			<Button title="Send Push Notification" onPress={sendPushNotificationHandler} />
 		</View>
 	);
 };
