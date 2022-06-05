@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 
 import { useSelector } from "react-redux";
 import { Button } from "react-native-elements";
@@ -35,7 +35,6 @@ const ProfileScreen = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			{/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
 			<View style={styles.topBannerContainer}>
 				<View style={styles.bannerImageContainer}>
 					<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
@@ -88,7 +87,6 @@ const ProfileScreen = ({ route, navigation }) => {
 			<View style={styles.TabsContainer}>
 				<ProfileTabsNavigator username={userData.username} />
 			</View>
-			{/* </ScrollView> */}
 		</View>
 	);
 };

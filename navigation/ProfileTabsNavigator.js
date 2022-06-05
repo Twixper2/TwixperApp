@@ -9,7 +9,7 @@ const ProfileTabs = createMaterialTopTabNavigator();
 
 const ProfileTabsNavigator = ({ username }) => {
 	return (
-		<View style={{ flex: 1, flexDirection: "row" }}>
+		<View style={styles.container}>
 			<ProfileTabs.Navigator
 				screenOptions={() => ({
 					tabBarStyle: {
@@ -37,9 +37,8 @@ const ProfileTabsNavigator = ({ username }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		// flex: 1,
-		// alignItems: "center",
-		// justifyContent: "center",
+		flex: 1,
+		flexDirection: "row",
 		backgroundColor: appColors.screenBackgroundColor,
 	},
 	tempText: {
