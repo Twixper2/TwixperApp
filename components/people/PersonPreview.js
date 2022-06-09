@@ -18,15 +18,43 @@ const PersonPreview = (props) => {
 
 	// const { personData } = props;
 	const personData = getPersonData()[0]
-	const { username, userHandle, profileImgURL, userDescription, FollowingStatus } = personData;
+	const { username, userHandle, profileImgURL, userDescription, FollowingStatus, isProfileVerified } = personData;
 
-	console.log(personData)
-	console.log(username, userHandle, profileImgURL, userDescription, FollowingStatus)
+	const navigateTo = (screen) => {
+		let data;
 
+		if (screen === PROFILE_SCREEN) {
+			data = tweetAuthor;
+		} else {
+			data = tweetData;
+		}
+		//  TODO: Uncomment This!
+		// navigation.navigate(screen, { data });
+	};
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.tempText}>This is :{"\n"}PersonPreview !!</Text>
+			<TouchableHighlight onPress={navigateTo.bind(this, TWEET_SCREEN)} >
+
+				<View style={styles.innerContainer}>
+					<View style={styles.photoContainer}>
+						<ProfileImage onPress={navigateTo.bind(this, PROFILE_SCREEN)} imageStyle={styles.photo} imageUri={profileImgURL} />
+					</View>
+					<View style={styles.info}>
+						<View style={styles.userDetails}>
+							<Text style={styles.userName}>
+								{username} {isProfileVerified && <MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />}
+								<Text style={styles.userHandleAndTime}>
+									{userHandle}
+								</Text>
+							</Text>
+						</View>
+						<View style={styles.bio}>
+							<Text style={{ color: "white" }}>{userDescription}</Text>
+						</View>
+					</View>
+				</View>
+			</TouchableHighlight>
 		</View>
 	);
 };
@@ -34,14 +62,58 @@ const PersonPreview = (props) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: appColors.screenBackgroundColor,
+		borderBottomColor: "black",
+		borderBottomWidth: 0.5,
+		flexDirection: "column",
+		backgroundColor: "#1b2836",
 	},
-	tempText: {
-		fontSize: 32,
-		color: appColors.iconColor,
-		textAlign: "center",
+	innerContainer: {
+		flex: 1,
+		borderColor: "green",
+		flexDirection: "row",
+		borderWidth: 0,
+		height: "auto",
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	photoContainer: {
+		flex: 0.23,
+		borderWidth: 0,
+		alignItems: "center",
+		borderColor: "yellow",
+		flexDirection: "column",
+	},
+	photo: {
+		width: 50,
+		height: 50,
+		borderRadius: 50,
+		marginTop: 15,
+	},
+	info: {
+		flex: 0.77,
+		borderColor: "yellow",
+		flexDirection: "row",
+		borderWidth: 0,
+	},
+	userDetails: {
+		flex: 1,
+		borderColor: "blue",
+		borderWidth: 0,
+		marginBottom: 5,
+	},
+	userName: {
+		color: "white",
+		fontWeight: "bold",
+	},
+	userHandleAndTime: {
+		color: appColors.lightFontColor,
+		marginLeft: 5,
+	},
+	bio: {
+		flexDirection: "column",
+		justifyContent: "space-between",
+		padding: 5,
+		paddingLeft: 15,
 	},
 });
 

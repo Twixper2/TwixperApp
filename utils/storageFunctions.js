@@ -86,7 +86,8 @@ export const getPersonData = () => {
 				searchPeople[person].user_name_url,
 				searchPeople[person].img,
 				"You Need To Send Me The Description!!!",
-				searchPeople[person].FollowingStatus
+				searchPeople[person].FollowingStatus,
+				true
 			)
 		);
 	}
