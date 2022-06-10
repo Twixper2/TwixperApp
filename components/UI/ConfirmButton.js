@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
+import { appColors } from "../../constants/colors";
+
 const ConfirmButton = (props) => {
 	return (
 		<TouchableOpacity activeOpacity={0.6} onPress={props.onPress}>
@@ -12,7 +14,7 @@ const ConfirmButton = (props) => {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: "#1aa1f5",
+		backgroundColor: appColors.iconColor,
 		paddingVertical: 12,
 		paddingHorizontal: 30,
 		borderRadius: 25,

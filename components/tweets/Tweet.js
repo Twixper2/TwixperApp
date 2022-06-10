@@ -42,7 +42,11 @@ const Tweet = (props) => {
 	};
 
 	return (
-		<TouchableHighlight onPress={navigateTo.bind(this, TWEET_SCREEN)} onPressIn={() => tweetPressed(true)} onPressOut={() => tweetPressed()}>
+		<TouchableHighlight
+			onPress={navigateTo.bind(this, TWEET_SCREEN)}
+			onPressIn={() => tweetPressed(true)}
+			onPressOut={() => tweetPressed()}
+		>
 			<View key={tweetId} style={styles.container}>
 				{!isRetweet ? (
 					<View style={styles.isReplyContainer}>
@@ -56,12 +60,19 @@ const Tweet = (props) => {
 				)}
 				<View style={styles.innerContainer}>
 					<View style={styles.photoContainer}>
-						<ProfileImage onPress={navigateTo.bind(this, PROFILE_SCREEN)} imageStyle={styles.photo} imageUri={profileImgURL} />
+						<ProfileImage
+							onPress={navigateTo.bind(this, PROFILE_SCREEN)}
+							imageStyle={styles.photo}
+							imageUri={profileImgURL}
+						/>
 					</View>
 					<View style={styles.info}>
 						<View style={styles.userDetails}>
 							<Text style={styles.userName}>
-								{username} {isProfileVerified && <MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />}
+								{username}{" "}
+								{isProfileVerified && (
+									<MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />
+								)}
 								<Text style={styles.userHandleAndTime}>
 									{userHandle} · {time}
 								</Text>
@@ -86,7 +97,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: "black",
 		borderBottomWidth: 0.5,
 		flexDirection: "column",
-		backgroundColor: "#1b2836",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 	isReplyContainer: {
 		flex: 1,

@@ -6,6 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as authActions from "../../store/actions/auth";
 import ConfirmButton from "../../components/UI/ConfirmButton";
 
+import { appColors } from "../../constants/colors";
+
 //  TODO: Important!! Need To Refactor This !!
 const LoginExperimentScreen = ({ props, navigation }) => {
 	const [error, setError] = useState();
@@ -48,7 +50,12 @@ const LoginExperimentScreen = ({ props, navigation }) => {
 			<View style={styles.insertCodeContainer}>
 				<Text style={styles.textH4}>To start, insert the experiment code you got:</Text>
 				<View style={styles.inputContainer}>
-					<TextInput style={styles.input} onChangeText={onChangeExpCode} value={expCode} placeholder="experiment code" />
+					<TextInput
+						style={styles.input}
+						onChangeText={onChangeExpCode}
+						value={expCode}
+						placeholder="experiment code"
+					/>
 				</View>
 				<View style={styles.buttonContainer}>
 					<ConfirmButton style={styles.button} onPress={onInsertExpCodeHandler}>
@@ -65,8 +72,7 @@ const styles = StyleSheet.create({
 		height: "100%",
 		paddingVertical: "20%",
 		paddingHorizontal: "10%",
-		// backgroundColor: "#f0f8fd",
-		backgroundColor: "rgba(207, 242, 253, 0.5)",
+		backgroundColor: appColors.loginScreensBackground,
 	},
 	imageContainer: {
 		textAlign: "center",
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		paddingHorizontal: 2,
 		paddingVertical: 5,
-		borderBottomColor: "#ccc",
+		borderBottomColor: appColors.silverBorderColor,
 		borderBottomWidth: 1,
 	},
 	buttonContainer: {

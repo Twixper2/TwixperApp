@@ -2,11 +2,13 @@ import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 
 import Tweet from "./Tweet";
 
+import { appColors } from "../../constants/colors";
+
 const TweetsList = ({ data, onRefresh, isLoading }) => {
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
-				<ActivityIndicator size="small" color="rgb(29, 161, 242)" />
+				<ActivityIndicator size="small" color={appColors.iconColor} />
 			</View>
 		);
 	}
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		padding: 10,
-		backgroundColor: "rgb(27, 40, 54)",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 });
 

@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 
 import * as authActions from "../../store/actions/auth";
 
+import { appColors } from "../../constants/colors";
+
 const LoginScreen = ({ navigation }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -51,7 +53,13 @@ const LoginScreen = ({ navigation }) => {
 						<Text style={styles.textH3}>Username and Password :</Text>
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput value={username} style={styles.input} onChangeText={onChangeUsername} placeholder="Username" autoCapitalize="none" />
+						<TextInput
+							value={username}
+							style={styles.input}
+							onChangeText={onChangeUsername}
+							placeholder="Username"
+							autoCapitalize="none"
+						/>
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput
@@ -68,8 +76,9 @@ const LoginScreen = ({ navigation }) => {
 					</View>
 					<View style={styles.footerCopyright}>
 						<Text style={styles.copyrightText}>
-							Twixper will record data regarding your usage and it will be available to the researchers that own the experiment. Twixper might
-							make changes in content you would normally see in twitter. We will never post on behalf of your name or change things you write.
+							Twixper will record data regarding your usage and it will be available to the researchers
+							that own the experiment. Twixper might make changes in content you would normally see in
+							twitter. We will never post on behalf of your name or change things you write.
 						</Text>
 					</View>
 				</View>
@@ -81,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	screenContainer: {
 		height: "100%",
-		backgroundColor: "rgba(207, 242, 253, 0.5)",
+		backgroundColor: appColors.loginScreensBackground,
 	},
 	screenWrapper: {
 		height: "100%",
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		paddingHorizontal: 10,
 		paddingVertical: 5,
-		borderBottomColor: "#ccc",
+		borderBottomColor: appColors.silverBorderColor,
 		borderBottomWidth: 1,
 	},
 	buttonContainer: {
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 
 		fontSize: 13,
-		color: "#aaa",
+		color: appColors.mediumGreyFontColor,
 		marginBottom: 0,
 	},
 });

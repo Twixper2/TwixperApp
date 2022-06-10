@@ -109,7 +109,7 @@ const ProfileScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "rgb(20, 29, 38)",
+		backgroundColor: appColors.screenDarkBackgroundColor,
 	},
 	topBannerContainer: {
 		flex: 1,
