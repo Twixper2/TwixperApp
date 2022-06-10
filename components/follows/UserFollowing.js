@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { appColors } from "../../constants/colors";
 
-const FollowingScreen = () => {
+const UserFollowing = () => {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.tempText}>This is :{"\n"}FollowingScreen !!</Text>
+			<Text style={styles.tempText}>This is :{"\n"}UserFollowing !!</Text>
 		</View>
 	);
 };
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default FollowingScreen;
+export default UserFollowing;

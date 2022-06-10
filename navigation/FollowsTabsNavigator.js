@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+import UserFollowers from "../components/follows/UserFollowers";
+import UserFollowing from "../components/follows/UserFollowing";
+
 import { appColors } from "../constants/colors";
-import TweetsSearchResults from "../components/search/TweetsSearchResults";
-import PeopleSearchResults from "../components/search/PeopleSearchResults";
 
-const SearchTabs = createMaterialTopTabNavigator();
+const UserFollowsTabs = createMaterialTopTabNavigator();
 
-const SearchTabsNavigator = () => {
+const FollowsTabsNavigator = () => {
 	return (
 		<View style={{ flex: 1, flexDirection: "row" }}>
-			<SearchTabs.Navigator
+			<UserFollowsTabs.Navigator
 				screenOptions={() => ({
 					tabBarStyle: {
 						width: "100%",
@@ -28,9 +29,17 @@ const SearchTabsNavigator = () => {
 					},
 				})}
 			>
-				<SearchTabs.Screen name="TweetsResults" component={TweetsSearchResults} options={{ title: "Tweets" }} />
-				<SearchTabs.Screen name="PeopleResults" component={PeopleSearchResults} options={{ title: "People" }} />
-			</SearchTabs.Navigator>
+				<UserFollowsTabs.Screen
+					name="Followers"
+					component={UserFollowers}
+					options={{ title: "Add Username" }}
+				/>
+				<UserFollowsTabs.Screen
+					name="Following"
+					component={UserFollowing}
+					options={{ title: "Add Username" }}
+				/>
+			</UserFollowsTabs.Navigator>
 		</View>
 	);
 };
@@ -46,4 +55,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default SearchTabsNavigator;
+export default FollowsTabsNavigator;
