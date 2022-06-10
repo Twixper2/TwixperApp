@@ -5,6 +5,7 @@ import PersonEntity from "../../models/person-entity";
 
 import {
 	getFeed,
+	getUserLikes,
 	searchForTweets,
 	searchForPeople,
 	getUserTimeline,
@@ -13,9 +14,10 @@ import {
 } from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
+export const SET_USERS_LIKES = "SET_USERS_LIKES";
+export const SET_USERS_TWEETS = "SET_USERS_TWEETS";
 export const SET_USER_FOLLOWING = "SET_USER_FOLLOWING";
 export const SET_USER_FOLLOWERS = "SET_USER_FOLLOWERS";
-export const SET_USERS_TWEETS_RESULTS = "SET_USERS_TWEETS_RESULTS";
 export const SET_SEARCH_TWEETS_RESULTS = "SET_SEARCH_TWEETS_RESULTS";
 export const SET_SEARCH_PEOPLE_RESULTS = "SET_SEARCH_PEOPLE_RESULTS";
 
@@ -287,7 +289,7 @@ export const get_user_tweets = (username) => {
 				}
 
 				dispatch({
-					type: SET_USERS_TWEETS_RESULTS,
+					type: SET_USERS_TWEETS,
 					username: username,
 					usersTweets: usersTweetsArr,
 				});
@@ -305,6 +307,78 @@ export const get_user_tweets = (username) => {
 			}
 		} catch (err) {
 			console.log("error in get_user_tweets");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+export const get_user_likes = (username) => {
+	return async (dispatch) => {
+		let usersLikesArr = [];
+
+		try {
+			const response = await getUserLikes(username);
+
+			if (response.status == 200) {
+				let likesFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (const tweet_idx in likesFromServer) {
+					const tweet = likesFromServer[tweet_idx];
+
+					const tweetAuthor = new TweetAuthor(
+						tweet.user_name,
+						tweet.user_url_name,
+						tweet.profile_link,
+						tweet.profile_img_url,
+						tweet.is_profile_verified
+					);
+
+					const tweetBarData = new TweetBarData(
+						true,
+						[true, false].random(),
+						[true, false].random(),
+						tweet.likes_count,
+						tweet.retweets_count,
+						tweet.comments_count
+					);
+
+					const tweetObject = new TweetObject(
+						tweet.tweet_id,
+						tweet.created_at,
+						tweet.full_text,
+						tweetAuthor,
+						tweet.shared_tweet,
+						tweet.is_retweet,
+						tweet.is_promoted,
+						tweetBarData
+					);
+
+					if (tweet?.tweet_id) {
+						usersLikesArr.push(tweetObject);
+					}
+				}
+
+				dispatch({
+					type: SET_USERS_LIKES,
+					username: username,
+					usersLikes: usersLikesArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_user_likes");
+			} else if (response.status == 502) {
+				console.log("error in get_user_likes");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_user_likes");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_user_likes");
 			console.log(err);
 			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);

@@ -6,6 +6,7 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
+import { userLikes } from "../data/Selenium/user_likes";
 import { userEntity } from "../data/Selenium/user_entity";
 import { userFollowers } from "../data/Selenium/user_followers";
 import { userFollowing } from "../data/Selenium/user_following";
@@ -174,6 +175,17 @@ export const getUserTimeline = async (username) => {
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getUserLikes = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userLikes.sort(() => Math.random() - 0.5).slice(0, 5) };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userLikes + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
 
