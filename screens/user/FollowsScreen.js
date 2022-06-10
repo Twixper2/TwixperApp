@@ -1,6 +1,5 @@
 import { useLayoutEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-
 import { useSelector } from "react-redux";
 
 import FollowsTabsNavigator from "../../navigation/FollowsTabsNavigator";
@@ -8,18 +7,14 @@ import FollowsTabsNavigator from "../../navigation/FollowsTabsNavigator";
 import { appColors } from "../../constants/colors";
 
 const FollowsScreen = ({ route, navigation }) => {
-	const { data: userData } = route.params;
+	const { data: userData } = route.params.params;
 	const { username: participantUsername } = useSelector((state) => state.auth);
 
-	// useLayoutEffect(() => {
-	// 	navigation.setOptions({
-	// 		title: (
-	// 			<Text>
-	// 				{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
-	// 			</Text>
-	// 		),
-	// 	});
-	// }, [navigation]);
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			title: userData.username,
+		});
+	}, [navigation]);
 
 	// if (userData.userHandle !== participantUsername) {
 	// 	console.log("Not the Participant -> Need Get User's Data");

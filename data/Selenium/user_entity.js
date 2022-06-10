@@ -6,7 +6,7 @@ exports.userEntity = {
 	following_count: "1,218 Following",
 	followers_count: "308.3K Followers",
 	user_description:
-		"Author of the best seller The Netanyahu Years, senior columnist, \nWalla, Maariv, Al-Monitor, Radio 103 fm, TV anchorman, Retweets do not imply endorsement.",
+		"Author of the best seller The Netanyahu Years, senior columnist, Walla, Maariv, Al-Monitor, Radio 103 fm, TV anchorman, Retweets do not imply endorsement.",
 	user_location: "ישראל",
 	when_joined: "Joined September 2012",
 	user_url: "103fm.maariv.co.il/programs/progr…",

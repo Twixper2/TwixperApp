@@ -14,7 +14,11 @@ const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
 	const navigateTo = (screen) => {
-		navigation.navigate(screen, { data: userData });
+		if (Array.isArray(screen)) {
+			navigation.navigate(screen[0], { ...screen[1], params: { data: userData } });
+		} else {
+			navigation.navigate(screen, { data: userData });
+		}
 	};
 
 	return (

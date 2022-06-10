@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 	},
 	info: {
-		flex: 0.75,
+		flex: 1,
 		borderColor: "blue",
 		flexDirection: "column",
 		borderWidth: 0,
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		display: "flex",
 		alignItems: "center",
-		paddingTop: 15,
+		// paddingTop: 5,
 		paddingHorizontal: 5,
 		backgroundColor: appColors.screenBackgroundColor,
 	},

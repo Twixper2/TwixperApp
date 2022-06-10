@@ -29,16 +29,8 @@ const FollowsTabsNavigator = () => {
 					},
 				})}
 			>
-				<UserFollowsTabs.Screen
-					name="Followers"
-					component={UserFollowers}
-					options={{ title: "Add Username" }}
-				/>
-				<UserFollowsTabs.Screen
-					name="Following"
-					component={UserFollowing}
-					options={{ title: "Add Username" }}
-				/>
+				<UserFollowsTabs.Screen name="Followers" component={UserFollowers} />
+				<UserFollowsTabs.Screen name="Following" component={UserFollowing} />
 			</UserFollowsTabs.Navigator>
 		</View>
 	);
