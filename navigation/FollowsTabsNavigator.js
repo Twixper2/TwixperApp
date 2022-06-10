@@ -8,7 +8,7 @@ import { appColors } from "../constants/colors";
 
 const UserFollowsTabs = createMaterialTopTabNavigator();
 
-const FollowsTabsNavigator = () => {
+const FollowsTabsNavigator = ({ username }) => {
 	return (
 		<View style={{ flex: 1, flexDirection: "row" }}>
 			<UserFollowsTabs.Navigator
@@ -29,8 +29,16 @@ const FollowsTabsNavigator = () => {
 					},
 				})}
 			>
-				<UserFollowsTabs.Screen name="Followers" component={UserFollowers} />
-				<UserFollowsTabs.Screen name="Following" component={UserFollowing} />
+				<UserFollowsTabs.Screen
+					name="Followers"
+					component={UserFollowers}
+					initialParams={{ username: username }}
+				/>
+				<UserFollowsTabs.Screen
+					name="Following"
+					component={UserFollowing}
+					initialParams={{ username: username }}
+				/>
 			</UserFollowsTabs.Navigator>
 		</View>
 	);

@@ -3,12 +3,25 @@ import TweetAuthor from "../../models/tweet-author";
 import TweetBarData from "../../models/tweet-bar-data";
 import PersonEntity from "../../models/person-entity";
 
-import { getFeed, searchForTweets, searchForPeople, getUserTimeline } from "../../utils/serverService";
+import {
+	getFeed,
+	searchForTweets,
+	searchForPeople,
+	getUserTimeline,
+	getUserFollowing,
+	getUserFollowers,
+} from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
+export const SET_USER_FOLLOWING = "SET_USER_FOLLOWING";
+export const SET_USER_FOLLOWERS = "SET_USER_FOLLOWERS";
+export const SET_USERS_TWEETS_RESULTS = "SET_USERS_TWEETS_RESULTS";
 export const SET_SEARCH_TWEETS_RESULTS = "SET_SEARCH_TWEETS_RESULTS";
 export const SET_SEARCH_PEOPLE_RESULTS = "SET_SEARCH_PEOPLE_RESULTS";
-export const SET_USERS_TWEETS_RESULTS = "SET_USERS_TWEETS_RESULTS";
+
+/* ----------------------------------------
+	Participant's  Data
+   ---------------------------------------- */
 
 export const get_feed_tweets = (maxID = null) => {
 	return async (dispatch, getState) => {
@@ -93,6 +106,10 @@ export const get_feed_tweets = (maxID = null) => {
 		}
 	};
 };
+
+/* ----------------------------------------
+	Search  Data
+   ---------------------------------------- */
 
 export const get_search_tweets = (searchQuery) => {
 	return async (dispatch) => {
@@ -219,6 +236,10 @@ export const get_search_people = (searchQuery) => {
 	};
 };
 
+/* ----------------------------------------
+	Profile Data
+   ---------------------------------------- */
+
 export const get_user_tweets = (username) => {
 	return async (dispatch) => {
 		let usersTweetsArr = [];
@@ -284,6 +305,112 @@ export const get_user_tweets = (username) => {
 			}
 		} catch (err) {
 			console.log("error in get_user_tweets");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+export const get_user_following = (username) => {
+	return async (dispatch) => {
+		let userFollowingArr = [];
+
+		try {
+			const response = await getUserFollowing(username);
+
+			if (response.status == 200) {
+				let followingFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (const person_idx in followingFromServer) {
+					const person = followingFromServer[person_idx];
+
+					const personEntity = new PersonEntity(
+						person.user_name,
+						person.user_name_url,
+						person.img,
+						"You Need To Send Me The Description!!!",
+						person.FollowingStatus,
+						true
+					);
+
+					if (person?.user_name) {
+						userFollowingArr.push(personEntity);
+					}
+				}
+
+				dispatch({
+					type: SET_USER_FOLLOWING,
+					query: username,
+					userFollowing: userFollowingArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_user_following");
+			} else if (response.status == 502) {
+				console.log("error in get_user_following");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_user_following");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_user_following");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+export const get_user_followers = (username) => {
+	return async (dispatch) => {
+		let userFollowersArr = [];
+
+		try {
+			const response = await getUserFollowers(username);
+
+			if (response.status == 200) {
+				let followersFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (const person_idx in followersFromServer) {
+					const person = followersFromServer[person_idx];
+
+					const personEntity = new PersonEntity(
+						person.user_name,
+						person.user_name_url,
+						person.img,
+						"You Need To Send Me The Description!!!",
+						person.FollowingStatus,
+						true
+					);
+
+					if (person?.user_name) {
+						userFollowersArr.push(personEntity);
+					}
+				}
+
+				dispatch({
+					type: SET_USER_FOLLOWERS,
+					query: username,
+					userFollowers: userFollowersArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_user_followers");
+			} else if (response.status == 502) {
+				console.log("error in get_user_followers");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_user_followers");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_user_followers");
 			console.log(err);
 			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);

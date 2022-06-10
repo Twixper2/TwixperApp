@@ -6,12 +6,12 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
-
+import { userEntity } from "../data/Selenium/user_entity";
+import { userFollowers } from "../data/Selenium/user_followers";
+import { userFollowing } from "../data/Selenium/user_following";
 import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
 import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
 import { searchPeople } from "../data/Selenium/v2/search_people_data";
-
-import { userEntity } from "../data/Selenium/user_entity";
 
 /* ----------------------------------------
 	User Login Functions
@@ -144,6 +144,28 @@ export const searchForPeople = async (query) => {
 	return await sendGetRequest(requestUrl);
 };
 
+export const getUserFollowing = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userFollowing };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userFollowing + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getUserFollowers = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userFollowers };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userFollowers + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
 export const getUserTimeline = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
@@ -152,7 +174,7 @@ export const getUserTimeline = async (username) => {
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
-	return await sendGetRequestReturnResponse(requestUrl);
+	return await sendGetRequest(requestUrl);
 };
 
 /* ----------------------------------------
