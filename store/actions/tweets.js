@@ -1,11 +1,13 @@
 import TweetObject from "../../models/tweet-object";
 import TweetAuthor from "../../models/tweet-author";
 import TweetBarData from "../../models/tweet-bar-data";
+import PersonEntity from "../../models/person-entity";
 
-import { getFeed, searchForTweets, getUserTimeline } from "../../utils/serverService";
+import { getFeed, searchForTweets, searchForPeople, getUserTimeline } from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 export const SET_SEARCH_TWEETS_RESULTS = "SET_SEARCH_TWEETS_RESULTS";
+export const SET_SEARCH_PEOPLE_RESULTS = "SET_SEARCH_PEOPLE_RESULTS";
 export const SET_USERS_TWEETS_RESULTS = "SET_USERS_TWEETS_RESULTS";
 
 export const get_feed_tweets = (maxID = null) => {
@@ -157,6 +159,59 @@ export const get_search_tweets = (searchQuery) => {
 			}
 		} catch (err) {
 			console.log("error in get_search_tweets");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+export const get_search_people = (searchQuery) => {
+	return async (dispatch) => {
+		let searchPeopleArr = [];
+
+		try {
+			const response = await searchForPeople(searchQuery);
+
+			if (response.status == 200) {
+				let peopleFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (const person_idx in peopleFromServer) {
+					const person = peopleFromServer[person_idx];
+
+					const personEntity = new PersonEntity(
+						person.user_name,
+						person.user_name_url,
+						person.img,
+						"You Need To Send Me The Description!!!",
+						person.FollowingStatus,
+						true
+					);
+
+					if (person?.user_name) {
+						searchPeopleArr.push(personEntity);
+					}
+				}
+
+				dispatch({
+					type: SET_SEARCH_PEOPLE_RESULTS,
+					query: searchQuery,
+					peopleResults: searchPeopleArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_search_people");
+			} else if (response.status == 502) {
+				console.log("error in get_search_people");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_search_people");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_search_people");
 			console.log(err);
 			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);

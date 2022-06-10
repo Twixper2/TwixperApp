@@ -37,11 +37,18 @@ const ProfileScreen = ({ route, navigation }) => {
 		<View style={styles.container}>
 			<View style={styles.topBannerContainer}>
 				<View style={styles.bannerImageContainer}>
-					<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
+					<Image
+						style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]}
+						source={{ uri: userData.coverImgURL }}
+					/>
 				</View>
 				<View style={styles.info}>
 					<View style={styles.infoTop}>
-						<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
+						<ProfileImage
+							onPress={() => console.log("Expand Image")}
+							imageUri={userData.profileImgURL}
+							imageStyle={styles.userPhoto}
+						/>
 
 						{userData.userHandle === participantUsername && (
 							<Button
@@ -55,7 +62,8 @@ const ProfileScreen = ({ route, navigation }) => {
 
 					<View style={styles.nameAndHandle}>
 						<Text style={styles.name}>
-							{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+							{userData.username}{" "}
+							<MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
 						</Text>
 						<Text style={styles.handle}>@{userData.userHandle}</Text>
 					</View>
@@ -66,7 +74,12 @@ const ProfileScreen = ({ route, navigation }) => {
 						<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
 							<Text style={styles.city}> {userData.userLocation}</Text>
 						</SimpleLineIcons>
-						<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
+						<Ionicons
+							name={"ios-link-outline"}
+							size={18}
+							style={{ marginLeft: 15 }}
+							color={appColors.lightFontColor}
+						>
 							<Text style={styles.link}> {userData.userURL}</Text>
 						</Ionicons>
 					</View>
@@ -102,7 +115,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		borderColor: "yellow",
 		borderWidth: 0,
-		backgroundColor: "rgb(27, 40, 54)",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 	bannerImageContainer: {
 		flex: 0.25,
@@ -126,7 +139,7 @@ const styles = StyleSheet.create({
 	},
 	editProfileButton: {
 		backgroundColor: "transparent",
-		borderColor: "rgb(29, 161, 242)",
+		borderColor: appColors.iconColor,
 		borderWidth: 1,
 		borderRadius: 25,
 		padding: 6,
@@ -168,12 +181,12 @@ const styles = StyleSheet.create({
 		paddingLeft: 15,
 	},
 	city: {
-		color: "rgb(29, 161, 242)",
+		color: appColors.iconColor,
 		fontSize: 14,
 		marginLeft: 15,
 	},
 	link: {
-		color: "rgb(29, 161, 242)",
+		color: appColors.iconColor,
 		fontSize: 14,
 		marginLeft: 15,
 	},

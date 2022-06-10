@@ -12,14 +12,14 @@ const PeopleSearchResults = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { tweetsResults: searchResults, query } = useSelector((state) => state.tweets.search);
+	const { peopleResults: searchResults, query } = useSelector((state) => state.tweets.search);
 	const dispatch = useDispatch();
 
-	const loadSearchTweetsResults = useCallback(async () => {
+	const loadSearchPeopleResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_search_tweets(query));
+			await dispatch(tweetsActions.get_search_people(query));
 		} catch (err) {
 			setError(err);
 		}
@@ -28,16 +28,16 @@ const PeopleSearchResults = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		loadSearchTweetsResults().then(() => {
+		loadSearchPeopleResults().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadSearchTweetsResults]);
+	}, [dispatch, loadSearchPeopleResults]);
 
 	if (error) {
 		return (
 			<View style={styles.centered}>
 				<Text>An error occurred!</Text>
-				<Button title="Try again" onPress={loadSearchTweetsResults} />
+				<Button title="Try again" onPress={loadSearchPeopleResults} />
 			</View>
 		);
 	}
@@ -45,14 +45,14 @@ const PeopleSearchResults = () => {
 	if (!isLoading && searchResults.length === 0) {
 		return (
 			<View style={styles.centered}>
-				<Text>No Search Tweets Result Found.</Text>
+				<Text>No Search People Result Found.</Text>
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles.container}>
-			<PeopleList onRefresh={loadSearchTweetsResults} isLoading={isLoading} data={searchResults} />
+			<PeopleList onRefresh={loadSearchPeopleResults} isLoading={isLoading} data={searchResults} />
 		</View>
 	);
 };
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		padding: 10,
-		backgroundColor: "rgb(27, 40, 54)",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 });
 
