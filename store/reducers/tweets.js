@@ -1,5 +1,7 @@
 import {
 	SET_FEED_TWEETS,
+	SET_USER_FOLLOWING,
+	SET_USER_FOLLOWERS,
 	SET_SEARCH_TWEETS_RESULTS,
 	SET_USERS_TWEETS_RESULTS,
 	SET_SEARCH_PEOPLE_RESULTS,
@@ -17,6 +19,10 @@ const initialState = {
 		usersTweets: [],
 		usersLikes: [],
 	},
+	userFollows: {
+		userFollowing: [],
+		userFollowers: [],
+	},
 };
 
 export default (state = initialState, action) => {
@@ -25,6 +31,15 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				feedTweets: action.feedTweets,
+			};
+		case SET_USERS_TWEETS_RESULTS:
+			return {
+				...state,
+				profile: {
+					...state.profile,
+					username: action.username,
+					usersTweets: action.usersTweets,
+				},
 			};
 		case SET_SEARCH_TWEETS_RESULTS:
 			return {
@@ -44,13 +59,20 @@ export default (state = initialState, action) => {
 					peopleResults: action.peopleResults,
 				},
 			};
-		case SET_USERS_TWEETS_RESULTS:
+		case SET_USER_FOLLOWING:
 			return {
 				...state,
-				profile: {
-					...state.profile,
-					username: action.username,
-					usersTweets: action.usersTweets,
+				userFollows: {
+					...state.userFollows,
+					userFollowing: action.userFollowing,
+				},
+			};
+		case SET_USER_FOLLOWERS:
+			return {
+				...state,
+				userFollows: {
+					...state.userFollows,
+					userFollowers: action.userFollowers,
 				},
 			};
 		default:

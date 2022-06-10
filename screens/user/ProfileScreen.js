@@ -11,7 +11,10 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import ProfileTabsNavigator from "../../navigation/ProfileTabsNavigator";
 
 import ProfileImage from "../../components/UI/ProfileImage";
+import PressableText from "../../components/UI/PressableText";
+
 import { appColors } from "../../constants/colors";
+import { PROFILE_SCREEN, FOLLOWING_SCREEN, FOLLOWERS_SCREEN } from "../../constants/screenNames";
 
 const ProfileScreen = ({ route, navigation }) => {
 	const { data: userData } = route.params;
@@ -32,6 +35,14 @@ const ProfileScreen = ({ route, navigation }) => {
 	// } else {
 	// 	console.log("It's the participant");
 	// }
+
+	const navigateTo = (screen) => {
+		if (Array.isArray(screen)) {
+			navigation.navigate(screen[0], { ...screen[1], params: { data: userData } });
+		} else {
+			navigation.navigate(screen, { data: userData });
+		}
+	};
 
 	return (
 		<View style={styles.container}>
@@ -89,12 +100,20 @@ const ProfileScreen = ({ route, navigation }) => {
 					</View>
 					<View style={styles.followingAndFollowersContainer}>
 						<View style={styles.followingContainer}>
-							<Text style={styles.followingCount}>{userData.friendsCount}</Text>
-							<Text style={styles.followingText}>Following</Text>
+							<PressableText
+								onPress={navigateTo.bind(this, FOLLOWING_SCREEN)}
+								textStyle={styles.followingCount}
+							>
+								{userData.friendsCount} <Text style={styles.followingText}> Following</Text>
+							</PressableText>
 						</View>
 						<View style={styles.followersContainer}>
-							<Text style={styles.followersCount}>{userData.followersCount}</Text>
-							<Text style={styles.followersText}> Followers</Text>
+							<PressableText
+								onPress={navigateTo.bind(this, FOLLOWERS_SCREEN)}
+								textStyle={styles.followersCount}
+							>
+								{userData.followersCount} <Text style={styles.followersText}> Followers</Text>
+							</PressableText>
 						</View>
 					</View>
 				</View>
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 	},
 	info: {
-		flex: 0.75,
+		flex: 1,
 		borderColor: "blue",
 		flexDirection: "column",
 		borderWidth: 0,
@@ -246,7 +265,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		display: "flex",
 		alignItems: "center",
-		paddingTop: 15,
+		// paddingTop: 5,
 		paddingHorizontal: 5,
 		backgroundColor: appColors.screenBackgroundColor,
 	},

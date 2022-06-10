@@ -12,9 +12,11 @@ export const serverEndpoints = {
 
 	/* Data to Display */
 	feedEndpoint: "/participants/getFeed",
-	searchTweets: "/participants/searchTweets",
 	searchPeople: "/participants/searchUsers",
+	searchTweets: "/participants/searchTweets",
 	usersTweets: "/participants/getUserTimeline",
+	userFollowing: "/participants/getUserFriends",
+	userFollowers: "/participants/getUserFollowers",
 };
 
 /* Twitter Endpoint */
