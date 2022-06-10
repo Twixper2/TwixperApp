@@ -158,7 +158,7 @@ export const getUserFollowing = async (username) => {
 export const getUserFollowers = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: userFollowers };
+		return { status: 200, data: userFollowers.sort(() => Math.random() - 0.5) };
 	}
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
