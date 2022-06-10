@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { StatusBar, View, StyleSheet } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 
+import { appColors } from "../../constants/colors";
+
 const LoadingScreen = (props) => {
 	useEffect(() => {
 		setTimeout(() => {
@@ -11,7 +13,7 @@ const LoadingScreen = (props) => {
 
 	return (
 		<View style={styles.container}>
-			<StatusBar barStyle="default" color="rgb(27, 40, 54)" />
+			<StatusBar barStyle="default" color={appColors.screenBackgroundColor} />
 			<Entypo name={"twitter"} size={70} style={styles.logo} />
 		</View>
 	);
@@ -22,11 +24,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "rgb(27, 40, 54)",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 	logo: {
 		alignSelf: "center",
-		color: "rgb(29, 161, 242)",
+		color: appColors.iconColor,
 	},
 });
 

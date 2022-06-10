@@ -38,15 +38,27 @@ const TweetActionsInfoBar = (props) => {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity style={styles.commentButton}>
-				<EvilIcons name={"comment"} style={styles.commentButtonIcon} size={25} color={appColors.lightFontColor} />
+				<EvilIcons
+					name={"comment"}
+					style={styles.commentButtonIcon}
+					size={25}
+					color={appColors.lightFontColor}
+				/>
 				<Text style={styles.commentsCount}>{tweetData.commentsCount}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => retweet()} style={styles.retweetButton}>
-				<EvilIcons name={"retweet"} size={25} color={retweeted ? "rgb(23, 191, 99)" : appColors.lightFontColor} />
+				<EvilIcons
+					name={"retweet"}
+					size={25}
+					color={retweeted ? appColors.retweetedGreen : appColors.lightFontColor}
+				/>
 				<Text
 					style={[
 						styles.retweetButtonIcon,
-						{ color: retweeted ? "rgb(23, 191, 99)" : appColors.lightFontColor, fontWeight: retweeted ? "bold" : "300" },
+						{
+							color: retweeted ? appColors.retweetedGreen : appColors.lightFontColor,
+							fontWeight: retweeted ? "bold" : "300",
+						},
 					]}
 				>
 					{retweets}
@@ -54,11 +66,28 @@ const TweetActionsInfoBar = (props) => {
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => like()} style={styles.likeButton}>
 				{liked ? (
-					<Entypo name={"heart"} size={18} style={{ marginLeft: 4 }} color={liked ? "rgb(224, 36, 94)" : appColors.lightFontColor} />
+					<Entypo
+						name={"heart"}
+						size={18}
+						style={{ marginLeft: 4 }}
+						color={liked ? appColors.likedPink : appColors.lightFontColor}
+					/>
 				) : (
-					<EvilIcons name={"heart"} size={25} color={liked ? "rgb(224, 36, 94)" : appColors.lightFontColor} />
+					<EvilIcons
+						name={"heart"}
+						size={25}
+						color={liked ? appColors.likedPink : appColors.lightFontColor}
+					/>
 				)}
-				<Text style={[styles.likeButtonIcon, { color: liked ? "rgb(224, 36, 94)" : appColors.lightFontColor, fontWeight: liked ? "bold" : "300" }]}>
+				<Text
+					style={[
+						styles.likeButtonIcon,
+						{
+							color: liked ? appColors.likedPink : appColors.lightFontColor,
+							fontWeight: liked ? "bold" : "300",
+						},
+					]}
+				>
 					{likes}
 				</Text>
 			</TouchableOpacity>

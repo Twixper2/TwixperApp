@@ -9,17 +9,24 @@ import { data as feedJSON } from "../data/FeedJSON";
 
 import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
 import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
+import { searchPeople } from "../data/Selenium/v2/search_people_data";
 
 import { userEntity } from "../data/Selenium/user_entity";
 
 /* ----------------------------------------
-    User Login Functions
+	User Login Functions
    ---------------------------------------- */
 
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: { participant_twitter_info: userEntity, user_registered_to_experiment: true } };
+		return {
+			status: 200,
+			data: {
+				participant_twitter_info: userEntity,
+				user_registered_to_experiment: true,
+			},
+		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
 	const payload = {
@@ -30,7 +37,7 @@ export const participantLogin = async (user, pass) => {
 };
 
 /* ----------------------------------------
-    Register Experiment Functions
+	Register Experiment Functions
    ---------------------------------------- */
 
 export const registerToExperiment = async (expCode) => {
@@ -46,7 +53,7 @@ export const registerToExperiment = async (expCode) => {
 };
 
 /* ----------------------------------------
-    Twitter Authenticate Functions
+	Twitter Authenticate Functions
    ---------------------------------------- */
 
 export const getTwitterAuthRequestToken = async (oauthCb) => {
@@ -87,7 +94,7 @@ export const checkCredentials = async (token, tokenSecret) => {
 };
 
 /* ----------------------------------------
-    Requests for data from Twitter to display
+	Requests for data from Twitter to display
    ---------------------------------------- */
 
 export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
@@ -125,6 +132,18 @@ export const searchForTweets = async (query) => {
 	return await sendGetRequest(requestUrl);
 };
 
+export const searchForPeople = async (query) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: searchPeople };
+	}
+	// Else, send the request to the server
+	const convertedQuery = encodeURIComponent(query);
+	const requestQuery = "?q=" + convertedQuery;
+	const requestUrl = serverUrl + serverEndpoints.searchPeople + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
 export const getUserTimeline = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
@@ -137,7 +156,7 @@ export const getUserTimeline = async (username) => {
 };
 
 /* ----------------------------------------
-    Helper Functions
+	Helper Functions
    ---------------------------------------- */
 
 /* Generic Post & Get Structure */
@@ -165,7 +184,10 @@ const sendPostRequest = async (requestUrl, payload, options = {}) => {
 		} else {
 			// This is network error
 			console.log(error);
-			return { status: 0, data: "Network error, server probably down" };
+			return {
+				status: 0,
+				data: "Network error, server probably down",
+			};
 		}
 	});
 };

@@ -1,10 +1,10 @@
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 
-import Tweet from "./Tweet";
+import PersonPreview from "./PersonPreview";
 
 import { appColors } from "../../constants/colors";
 
-const TweetsList = ({ data, onRefresh, isLoading }) => {
+const PeopleList = ({ data, onRefresh, isLoading }) => {
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
@@ -14,20 +14,20 @@ const TweetsList = ({ data, onRefresh, isLoading }) => {
 	}
 
 	return (
-		<View style={styles.tweetsList}>
+		<View style={styles.peopleList}>
 			<FlatList
 				onRefresh={onRefresh}
 				refreshing={isLoading}
 				data={data}
-				keyExtractor={(item) => item.tweetId}
-				renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
+				keyExtractor={(item) => item.userHandle}
+				renderItem={(itemData) => <PersonPreview personData={itemData.item} />}
 			/>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	tweetsList: {
+	peopleList: {
 		// height: "90%",
 		display: "flex",
 		justifyContent: "center",
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TweetsList;
+export default PeopleList;
