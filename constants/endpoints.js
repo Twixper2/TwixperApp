@@ -15,6 +15,7 @@ export const serverEndpoints = {
 	userLikes: "/participants/getUserLikes",
 	searchPeople: "/participants/searchUsers",
 	searchTweets: "/participants/searchTweets",
+	whoToFollow: "/participants/getWhoToFollow",
 	usersTweets: "/participants/getUserTimeline",
 	userFollowing: "/participants/getUserFriends",
 	userFollowers: "/participants/getUserFollowers",

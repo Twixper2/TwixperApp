@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
+import uuid from "react-native-uuid";
 
 import Tweet from "./Tweet";
+import WhoToFollow from "../people/WhoToFollow";
 
 import { appColors } from "../../constants/colors";
 
-const TweetsList = ({ data, onRefresh, isLoading }) => {
+const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
+	const [whoToAdded, setWhoToAdded] = useState(false);
+
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
@@ -13,14 +18,22 @@ const TweetsList = ({ data, onRefresh, isLoading }) => {
 		);
 	}
 
+	if (!whoToAdded && withWhoToFollow) {
+		data.splice(5, 0, { tweetId: false, whoToFollowId: uuid.v4() });
+		setWhoToAdded(true);
+	} else if (whoToAdded && withWhoToFollow) {
+		data.splice(5, 1, { tweetId: false, whoToFollowId: uuid.v4() });
+	}
 	return (
 		<View style={styles.tweetsList}>
 			<FlatList
 				onRefresh={onRefresh}
 				refreshing={isLoading}
 				data={data}
-				keyExtractor={(item) => item.tweetId}
-				renderItem={(itemData) => <Tweet tweetData={itemData.item} />}
+				keyExtractor={(item) => (item.tweetId ? item.tweetId : item.whoToFollowId)}
+				renderItem={(itemData) => (
+					<View>{itemData.item?.tweetId ? <Tweet tweetData={itemData.item} /> : <WhoToFollow />}</View>
+				)}
 			/>
 		</View>
 	);

@@ -13,6 +13,7 @@ const TweetsSearchResults = () => {
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
 	const { tweetsResults: searchResults, query } = useSelector((state) => state.tweets.search);
+	const { username } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
 	const loadSearchTweetsResults = useCallback(async () => {
@@ -20,6 +21,7 @@ const TweetsSearchResults = () => {
 		setIsRefreshing(true);
 		try {
 			await dispatch(tweetsActions.get_search_tweets(query));
+			await dispatch(tweetsActions.get_who_to_follow(username));
 		} catch (err) {
 			setError(err);
 		}
@@ -52,7 +54,12 @@ const TweetsSearchResults = () => {
 
 	return (
 		<View style={styles.container}>
-			<TweetsList onRefresh={loadSearchTweetsResults} isLoading={isLoading} data={searchResults} />
+			<TweetsList
+				onRefresh={loadSearchTweetsResults}
+				isLoading={isLoading}
+				data={searchResults}
+				withWhoToFollow={true}
+			/>
 		</View>
 	);
 };

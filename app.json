@@ -15,16 +15,19 @@
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"backgroundColor": "#1b2a33"
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
-			}
+			},
+			"backgroundColor": "#1b2a33"
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
-		}
+		},
+		"backgroundColor": "#1b2a33"
 	}
 }
