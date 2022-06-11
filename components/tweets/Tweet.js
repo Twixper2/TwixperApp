@@ -16,13 +16,13 @@ const Tweet = (props) => {
 	const [touched, setTouched] = useState(false);
 
 	const { tweetData } = props;
-	const { tweetId, time, fullText, tweetAuthor, sharedTweet, isRetweet, isPromoted } = tweetData;
+	const { tweetId, time, fullText, media, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
 
 	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
 
-	let retweetedBy;
-	if (isRetweet) {
-		retweetedBy = isRetweet.retweet_author_fullName;
+	let quotedBy;
+	if (isQuotedStatus) {
+		quotedBy = quotedStatus.tweetAuthor.username;
 	}
 
 	const tweetPressed = (pressed = false) => {
@@ -48,12 +48,12 @@ const Tweet = (props) => {
 			onPressOut={() => tweetPressed()}
 		>
 			<View key={tweetId} style={styles.container}>
-				{!isRetweet ? (
+				{!isQuotedStatus ? (
 					<View style={styles.isReplyContainer}>
 						<View style={{ flex: 0.23, borderColor: "red", borderWidth: 0, alignItems: "flex-end" }}>
 							<EvilIcons name={"retweet"} size={25} color={appColors.lightFontColor} />
 						</View>
-						<Text style={{ flex: 0.5, color: appColors.lightFontColor }}>{retweetedBy} Retweeted</Text>
+						<Text style={{ flex: 0.5, color: appColors.lightFontColor }}>{quotedBy} Retweeted</Text>
 					</View>
 				) : (
 					true

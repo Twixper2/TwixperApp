@@ -1,12 +1,12 @@
 class TweetObject {
-	constructor(tweetId, time, fullText, tweetAuthor, sharedTweet, isRetweet, isPromoted, actionsBarData) {
+	constructor(tweetId, time, fullText, media, tweetAuthor, isQuotedStatus, quotedStatus, actionsBarData) {
 		this.time = time;
+		this.media = media;
 		this.tweetId = tweetId;
 		this.fullText = fullText;
 		this.tweetAuthor = tweetAuthor;
-		this.sharedTweet = sharedTweet;
-		this.isRetweet = isRetweet;
-		this.isPromoted = isPromoted;
+		this.quotedStatus = quotedStatus;
+		this.isQuotedStatus = isQuotedStatus;
 		this.actionsBarData = actionsBarData;
 	}
 }
