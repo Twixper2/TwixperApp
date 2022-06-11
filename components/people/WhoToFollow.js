@@ -28,30 +28,6 @@ const WhoToFollow = ({ route, navigation }) => {
 		setIsRefreshing(false);
 	}, [dispatch, setIsLoading, setError]);
 
-	useEffect(() => {
-		setIsLoading(true);
-		loadWhoToFollow().then(() => {
-			setIsLoading(false);
-		});
-	}, [dispatch, loadWhoToFollow]);
-
-	if (error) {
-		return (
-			<View style={styles.centered}>
-				<Text>An error occurred!</Text>
-				<Button title="Try again" onPress={loadWhoToFollow} />
-			</View>
-		);
-	}
-
-	if (!isLoading && whoToFollow.length === 0) {
-		return (
-			<View style={styles.centered}>
-				<Text>No UWho To Follow Found.</Text>
-			</View>
-		);
-	}
-
 	return (
 		<View style={styles.screen}>
 			<View style={styles.container}>

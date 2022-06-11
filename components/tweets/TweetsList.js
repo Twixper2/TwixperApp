@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -6,7 +7,9 @@ import WhoToFollow from "../people/WhoToFollow";
 
 import { appColors } from "../../constants/colors";
 
-const TweetsList = ({ data, onRefresh, isLoading }) => {
+const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
+	const [whoToAdded, setWhoToAdded] = useState(false);
+
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
@@ -14,7 +17,13 @@ const TweetsList = ({ data, onRefresh, isLoading }) => {
 			</View>
 		);
 	}
-	data.splice(5, 0, { tweetId: false, whoToFollowId: uuid.v4() });
+
+	if (!whoToAdded && withWhoToFollow) {
+		data.splice(5, 0, { tweetId: false, whoToFollowId: uuid.v4() });
+		setWhoToAdded(true);
+	} else if (whoToAdded && withWhoToFollow) {
+		data.splice(5, 1, { tweetId: false, whoToFollowId: uuid.v4() });
+	}
 	return (
 		<View style={styles.tweetsList}>
 			<FlatList
