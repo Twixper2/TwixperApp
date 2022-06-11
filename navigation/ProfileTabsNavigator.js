@@ -28,8 +28,18 @@ const ProfileTabsNavigator = ({ username }) => {
 					},
 				})}
 			>
-				<ProfileTabs.Screen name="UserTweets" component={UserTweets} options={{ title: "Tweets" }} initialParams={{ username: username }} />
-				<ProfileTabs.Screen name="UserLikes" component={UserLikes} options={{ title: "Likes" }} initialParams={{ username: username }} />
+				<ProfileTabs.Screen
+					name="UserTweets"
+					component={UserTweets}
+					options={{ title: "Tweets" }}
+					initialParams={{ username: username }}
+				/>
+				<ProfileTabs.Screen
+					name="UserLikes"
+					component={UserLikes}
+					options={{ title: "Likes" }}
+					initialParams={{ username: username }}
+				/>
 			</ProfileTabs.Navigator>
 		</View>
 	);
