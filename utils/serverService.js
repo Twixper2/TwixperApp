@@ -193,7 +193,7 @@ export const getUserLikes = async (username) => {
 export const getWhoToFollow = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: whoToFollow.sort(() => Math.random() - 0.5).slice(0, 5) };
+		return { status: 200, data: whoToFollow.sort(() => Math.random() - 0.5).slice(0, 3) };
 	}
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
