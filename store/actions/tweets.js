@@ -1,7 +1,7 @@
 import TweetObject from "../../models/tweet-object";
 import TweetAuthor from "../../models/tweet-author";
-import TweetBarData from "../../models/tweet-bar-data";
 import PersonEntity from "../../models/person-entity";
+import TweetBarData from "../../models/tweet-bar-data";
 
 import {
 	getFeed,
@@ -85,6 +85,7 @@ export const get_feed_tweets = (maxID = null) => {
 							tweet.quoted_status.created_at,
 							tweet.quoted_status.full_text,
 							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
 							quotedStatusAuthor,
 							false,
 							null,
@@ -99,6 +100,7 @@ export const get_feed_tweets = (maxID = null) => {
 						tweet.created_at,
 						tweet.full_text,
 						tweet.entities.media,
+						tweet.pixel_media,
 						tweetAuthor,
 						tweet.is_quote_status,
 						quotedStatus,

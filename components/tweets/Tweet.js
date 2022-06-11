@@ -5,8 +5,9 @@ import { useNavigation } from "@react-navigation/native";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import ProfileImage from "../UI/ProfileImage";
 import TweetActionsInfoBar from "./TweetActionsInfoBar";
+import ProfileImage from "../UI/ProfileImage";
+import ExpandableImg from "../UI/ExpandableImg";
 
 import { appColors } from "../../constants/colors";
 import { PROFILE_SCREEN, TWEET_SCREEN } from "../../constants/screenNames";
@@ -16,7 +17,7 @@ const Tweet = (props) => {
 	const [touched, setTouched] = useState(false);
 
 	const { tweetData } = props;
-	const { tweetId, time, fullText, media, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
+	const { tweetId, time, fullText, media, pixelMedia, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
 
 	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
 
@@ -81,6 +82,13 @@ const Tweet = (props) => {
 						<View style={styles.tweetTextContainer}>
 							<Text style={styles.tweetText}>{fullText}</Text>
 						</View>
+						{media.length !== 0 && (
+							<View style={styles.mediaContainer}>
+								{media[0].type === "photo" && (
+									<ExpandableImg mediaData={media[0]} pixelMedia={pixelMedia} />
+								)}
+							</View>
+						)}
 						<View style={styles.tweetActionsContainer}>
 							<TweetActionsInfoBar tweetData={tweetData.actionsBarData} />
 						</View>
@@ -164,61 +172,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		paddingBottom: 5,
 	},
-	commentButton: {
-		paddingLeft: 0,
-		flex: 0.25,
+	mediaContainer: {
+		flex: 1,
+		justifyContent: "center",
 		alignItems: "center",
-		flexDirection: "row",
-		borderColor: "red",
-		borderWidth: 0,
-	},
-	commentButtonIcon: {
-		margin: 0,
-		marginLeft: -4,
-		borderColor: "red",
-		borderWidth: 0,
-	},
-	commentsCount: {
-		position: "absolute",
-		left: 27,
-		color: appColors.lightFontColor,
-		marginLeft: -4,
-	},
-	retweetButton: {
-		padding: 5,
-		flex: 0.25,
-		alignItems: "center",
-		flexDirection: "row",
-		borderColor: "red",
-		borderWidth: 0,
-	},
-	retweetButtonIcon: {
-		position: "absolute",
-		left: 27,
-
-		marginLeft: 3,
-	},
-	likeButton: {
-		padding: 5,
-		flex: 0.25,
-		alignItems: "center",
-		flexDirection: "row",
-		borderColor: "red",
-		borderWidth: 0,
-	},
-	likeButtonIcon: {
-		position: "absolute",
-		left: 27,
-
-		marginLeft: 3,
-	},
-	shareButton: {
-		padding: 5,
-		flex: 0.25,
-		alignItems: "center",
-		flexDirection: "row",
-		borderColor: "red",
-		borderWidth: 0,
 	},
 });
 
