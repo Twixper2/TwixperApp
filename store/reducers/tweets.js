@@ -2,6 +2,7 @@ import {
 	SET_FEED_TWEETS,
 	SET_USERS_LIKES,
 	SET_USERS_TWEETS,
+	SET_WHO_TO_FOLLOW,
 	SET_USER_FOLLOWING,
 	SET_USER_FOLLOWERS,
 	SET_SEARCH_TWEETS_RESULTS,
@@ -10,6 +11,7 @@ import {
 
 const initialState = {
 	feedTweets: [],
+	whoToFollow: [],
 	search: {
 		query: "",
 		tweetsResults: [],
@@ -50,6 +52,11 @@ export default (state = initialState, action) => {
 					username: action.username,
 					usersTweets: action.usersTweets,
 				},
+			};
+		case SET_WHO_TO_FOLLOW:
+			return {
+				...state,
+				whoToFollow: action.whoToFollow,
 			};
 		case SET_USER_FOLLOWING:
 			return {

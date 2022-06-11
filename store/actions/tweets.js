@@ -6,6 +6,7 @@ import PersonEntity from "../../models/person-entity";
 import {
 	getFeed,
 	getUserLikes,
+	getWhoToFollow,
 	searchForTweets,
 	searchForPeople,
 	getUserTimeline,
@@ -16,6 +17,7 @@ import {
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 export const SET_USERS_LIKES = "SET_USERS_LIKES";
 export const SET_USERS_TWEETS = "SET_USERS_TWEETS";
+export const SET_WHO_TO_FOLLOW = "SET_WHO_TO_FOLLOW";
 export const SET_USER_FOLLOWING = "SET_USER_FOLLOWING";
 export const SET_USER_FOLLOWERS = "SET_USER_FOLLOWERS";
 export const SET_SEARCH_TWEETS_RESULTS = "SET_SEARCH_TWEETS_RESULTS";
@@ -104,6 +106,58 @@ export const get_feed_tweets = (maxID = null) => {
 			console.log("error in get_feed_tweets");
 			console.log(err);
 			let message = "Error while getting feed tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+export const get_who_to_follow = (username) => {
+	return async (dispatch) => {
+		let userWhoToFollowArr = [];
+
+		try {
+			const response = await getWhoToFollow(username);
+
+			if (response.status == 200) {
+				let whoToFollowFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (const person_idx in whoToFollowFromServer) {
+					const person = whoToFollowFromServer[person_idx];
+
+					const personEntity = new PersonEntity(
+						person.user_name,
+						person.user_name_url,
+						person.img,
+						"You Need To Send Me The Description!!!",
+						person.FollowingStatus,
+						true
+					);
+
+					if (person?.user_name) {
+						userWhoToFollowArr.push(personEntity);
+					}
+				}
+
+				dispatch({
+					type: SET_WHO_TO_FOLLOW,
+					whoToFollow: userWhoToFollowArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_who_to_follow");
+			} else if (response.status == 502) {
+				console.log("error in get_who_to_follow");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_who_to_follow");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_who_to_follow");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);
 		}
 	};

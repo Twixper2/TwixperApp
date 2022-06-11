@@ -1,26 +1,92 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState, useEffect, useCallback } from "react";
+import { StyleSheet, View, Text, Button } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+
+import PeopleList from "../people/PeopleList";
+
+import * as tweetsActions from "../../store/actions/tweets";
 
 import { appColors } from "../../constants/colors";
 
-const WhoToFollow = () => {
+const WhoToFollow = ({ route, navigation }) => {
+	const [isLoading, setIsLoading] = useState(false);
+	const [isRefreshing, setIsRefreshing] = useState(false);
+	const [error, setError] = useState();
+	const { whoToFollow } = useSelector((state) => state.tweets);
+	const { username } = useSelector((state) => state.auth);
+
+	const dispatch = useDispatch();
+
+	const loadWhoToFollow = useCallback(async () => {
+		setError(null);
+		setIsRefreshing(true);
+		try {
+			await dispatch(tweetsActions.get_who_to_follow(username));
+		} catch (err) {
+			setError(err);
+		}
+		setIsRefreshing(false);
+	}, [dispatch, setIsLoading, setError]);
+
+	useEffect(() => {
+		setIsLoading(true);
+		loadWhoToFollow().then(() => {
+			setIsLoading(false);
+		});
+	}, [dispatch, loadWhoToFollow]);
+
+	if (error) {
+		return (
+			<View style={styles.centered}>
+				<Text>An error occurred!</Text>
+				<Button title="Try again" onPress={loadWhoToFollow} />
+			</View>
+		);
+	}
+
+	if (!isLoading && whoToFollow.length === 0) {
+		return (
+			<View style={styles.centered}>
+				<Text>No UWho To Follow Found.</Text>
+			</View>
+		);
+	}
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.tempText}>This is :{"\n"}WhoToFollow !!</Text>
+		<View style={styles.screen}>
+			<View style={styles.container}>
+				<Text style={styles.text}>Who to follow</Text>
+				<PeopleList onRefresh={loadWhoToFollow} isLoading={isLoading} data={whoToFollow} />
+			</View>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
+	screen: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
 		backgroundColor: appColors.screenBackgroundColor,
 	},
-	tempText: {
-		fontSize: 32,
-		color: appColors.iconColor,
-		textAlign: "center",
+	container: {
+		backgroundColor: appColors.screenBackgroundColor,
+		borderColor: appColors.silverBorderColor,
+		borderWidth: 0.5,
+	},
+	centered: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
+		backgroundColor: appColors.screenBackgroundColor,
+	},
+	text: {
+		fontSize: 20,
+		color: "white",
+		fontWeight: "bold",
+		paddingHorizontal: 20,
+		paddingVertical: 10,
 	},
 });
 
