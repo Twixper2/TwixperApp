@@ -174,8 +174,9 @@ const styles = StyleSheet.create({
 	},
 	mediaContainer: {
 		flex: 1,
-		justifyContent: "center",
+		paddingVertical: 10,
 		alignItems: "center",
+		justifyContent: "center",
 	},
 });
 
