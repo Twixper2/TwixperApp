@@ -51,6 +51,7 @@ exports.tweetsV3 = [
 		tweet_id: "1534946634433540097",
 		is_quote_status: false,
 		quoted_status: null,
+		pixel_media: true,
 	},
 	{
 		user: {

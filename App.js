@@ -13,6 +13,12 @@ import tweetsReducer from "./store/reducers/tweets";
 import twitterAuthReducer from "./store/reducers/twitterAuth";
 import RootNavigator from "./navigation/RootNavigator";
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+	"Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`",
+	"Animated.event now requires a second argument for options",
+]); // Ignore log notification by message
+
 const rootReducer = combineReducers({
 	auth: authReducer,
 	tweets: tweetsReducer,
