@@ -147,19 +147,19 @@ export const get_who_to_follow = (username) => {
 			if (response.status == 200) {
 				let whoToFollowFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in whoToFollowFromServer) {
+				for (let person_idx = 0; person_idx < whoToFollowFromServer.length; person_idx++) {
 					const person = whoToFollowFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						userWhoToFollowArr.push(personEntity);
 					}
 				}
@@ -203,34 +203,60 @@ export const get_search_tweets = (searchQuery) => {
 			if (response.status == 200) {
 				let tweetsFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const tweet_idx in tweetsFromServer) {
+				for (let tweet_idx = 0; tweet_idx < tweetsFromServer.length; tweet_idx++) {
 					const tweet = tweetsFromServer[tweet_idx];
 
 					const tweetAuthor = new TweetAuthor(
-						tweet.user_name,
-						tweet.user_url_name,
+						tweet.user.name,
+						"@" + tweet.user.screen_name,
 						tweet.profile_link,
 						tweet.profile_img_url,
 						tweet.is_profile_verified
 					);
 
 					const tweetBarData = new TweetBarData(
-						[true, false].random(),
-						[true, false].random(),
-						[true, false].random(),
+						false,
+						false,
+						false,
 						tweet.likes_count,
 						tweet.retweets_count,
 						tweet.comments_count
 					);
 
+					let quotedStatus = null;
+					if (tweet.quoted_status !== null) {
+						const quotedStatusAuthor = new TweetAuthor(
+							tweet.quoted_status.user.name,
+							"@" + tweet.quoted_status.user.screen_name,
+							tweet.quoted_status.profile_link,
+							tweet.quoted_status.profile_img_url,
+							tweet.quoted_status.is_profile_verified
+						);
+
+						const quotedStatusTweet = new TweetObject(
+							tweet.quoted_status.tweet_id,
+							tweet.quoted_status.created_at,
+							tweet.quoted_status.full_text,
+							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
+							quotedStatusAuthor,
+							false,
+							null,
+							null
+						);
+
+						quotedStatus = quotedStatusTweet;
+					}
+
 					const tweetObject = new TweetObject(
 						tweet.tweet_id,
 						tweet.created_at,
 						tweet.full_text,
+						tweet.entities.media,
+						tweet.pixel_media,
 						tweetAuthor,
-						tweet.shared_tweet,
-						tweet.is_retweet,
-						tweet.is_promoted,
+						tweet.is_quote_status,
+						quotedStatus,
 						tweetBarData
 					);
 
@@ -275,19 +301,19 @@ export const get_search_people = (searchQuery) => {
 			if (response.status == 200) {
 				let peopleFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in peopleFromServer) {
+				for (let person_idx = 0; person_idx < peopleFromServer.length; person_idx++) {
 					const person = peopleFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						searchPeopleArr.push(personEntity);
 					}
 				}
@@ -332,12 +358,12 @@ export const get_user_tweets = (username) => {
 			if (response.status == 200) {
 				let tweetsFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const tweet_idx in tweetsFromServer) {
+				for (let tweet_idx = 0; tweet_idx < tweetsFromServer.length; tweet_idx++) {
 					const tweet = tweetsFromServer[tweet_idx];
 
 					const tweetAuthor = new TweetAuthor(
-						tweet.user_name,
-						tweet.user_url_name,
+						tweet.user.name,
+						"@" + tweet.user.screen_name,
 						tweet.profile_link,
 						tweet.profile_img_url,
 						tweet.is_profile_verified
@@ -352,14 +378,40 @@ export const get_user_tweets = (username) => {
 						tweet.comments_count
 					);
 
+					let quotedStatus = null;
+					if (tweet.quoted_status !== null) {
+						const quotedStatusAuthor = new TweetAuthor(
+							tweet.quoted_status.user.name,
+							"@" + tweet.quoted_status.user.screen_name,
+							tweet.quoted_status.profile_link,
+							tweet.quoted_status.profile_img_url,
+							tweet.quoted_status.is_profile_verified
+						);
+
+						const quotedStatusTweet = new TweetObject(
+							tweet.quoted_status.tweet_id,
+							tweet.quoted_status.created_at,
+							tweet.quoted_status.full_text,
+							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
+							quotedStatusAuthor,
+							false,
+							null,
+							null
+						);
+
+						quotedStatus = quotedStatusTweet;
+					}
+
 					const tweetObject = new TweetObject(
 						tweet.tweet_id,
 						tweet.created_at,
 						tweet.full_text,
+						tweet.entities.media,
+						tweet.pixel_media,
 						tweetAuthor,
-						tweet.shared_tweet,
-						tweet.is_retweet,
-						tweet.is_promoted,
+						tweet.is_quote_status,
+						quotedStatus,
 						tweetBarData
 					);
 
@@ -404,12 +456,12 @@ export const get_user_likes = (username) => {
 			if (response.status == 200) {
 				let likesFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const tweet_idx in likesFromServer) {
+				for (let tweet_idx = 0; tweet_idx < likesFromServer.length; tweet_idx++) {
 					const tweet = likesFromServer[tweet_idx];
 
 					const tweetAuthor = new TweetAuthor(
-						tweet.user_name,
-						tweet.user_url_name,
+						tweet.user.name,
+						"@" + tweet.user.screen_name,
 						tweet.profile_link,
 						tweet.profile_img_url,
 						tweet.is_profile_verified
@@ -424,14 +476,40 @@ export const get_user_likes = (username) => {
 						tweet.comments_count
 					);
 
+					let quotedStatus = null;
+					if (tweet.quoted_status !== null) {
+						const quotedStatusAuthor = new TweetAuthor(
+							tweet.quoted_status.user.name,
+							"@" + tweet.quoted_status.user.screen_name,
+							tweet.quoted_status.profile_link,
+							tweet.quoted_status.profile_img_url,
+							tweet.quoted_status.is_profile_verified
+						);
+
+						const quotedStatusTweet = new TweetObject(
+							tweet.quoted_status.tweet_id,
+							tweet.quoted_status.created_at,
+							tweet.quoted_status.full_text,
+							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
+							quotedStatusAuthor,
+							false,
+							null,
+							null
+						);
+
+						quotedStatus = quotedStatusTweet;
+					}
+
 					const tweetObject = new TweetObject(
 						tweet.tweet_id,
 						tweet.created_at,
 						tweet.full_text,
+						tweet.entities.media,
+						tweet.pixel_media,
 						tweetAuthor,
-						tweet.shared_tweet,
-						tweet.is_retweet,
-						tweet.is_promoted,
+						tweet.is_quote_status,
+						quotedStatus,
 						tweetBarData
 					);
 
@@ -476,19 +554,19 @@ export const get_user_following = (username) => {
 			if (response.status == 200) {
 				let followingFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in followingFromServer) {
+				for (let person_idx = 0; person_idx < followingFromServer.length; person_idx++) {
 					const person = followingFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						userFollowingArr.push(personEntity);
 					}
 				}
@@ -529,19 +607,19 @@ export const get_user_followers = (username) => {
 			if (response.status == 200) {
 				let followersFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in followersFromServer) {
+				for (let person_idx = 0; person_idx < followersFromServer.length; person_idx++) {
 					const person = followersFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						userFollowersArr.push(personEntity);
 					}
 				}
