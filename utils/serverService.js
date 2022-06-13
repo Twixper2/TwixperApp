@@ -13,7 +13,8 @@ import { userFollowers } from "../data/Selenium/user_followers";
 import { userFollowing } from "../data/Selenium/user_following";
 // import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
 import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
-import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
+// import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
+import { searchTweets } from "../data/Selenium/v3/search_tweets_data";
 import { searchPeople } from "../data/Selenium/v2/search_people_data";
 
 /* ----------------------------------------
