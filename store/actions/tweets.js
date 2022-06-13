@@ -358,12 +358,12 @@ export const get_user_tweets = (username) => {
 			if (response.status == 200) {
 				let tweetsFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const tweet_idx in tweetsFromServer) {
+				for (let tweet_idx = 0; tweet_idx < tweetsFromServer.length; tweet_idx++) {
 					const tweet = tweetsFromServer[tweet_idx];
 
 					const tweetAuthor = new TweetAuthor(
-						tweet.user_name,
-						tweet.user_url_name,
+						tweet.user.name,
+						"@" + tweet.user.screen_name,
 						tweet.profile_link,
 						tweet.profile_img_url,
 						tweet.is_profile_verified
@@ -378,14 +378,40 @@ export const get_user_tweets = (username) => {
 						tweet.comments_count
 					);
 
+					let quotedStatus = null;
+					if (tweet.quoted_status !== null) {
+						const quotedStatusAuthor = new TweetAuthor(
+							tweet.quoted_status.user.name,
+							"@" + tweet.quoted_status.user.screen_name,
+							tweet.quoted_status.profile_link,
+							tweet.quoted_status.profile_img_url,
+							tweet.quoted_status.is_profile_verified
+						);
+
+						const quotedStatusTweet = new TweetObject(
+							tweet.quoted_status.tweet_id,
+							tweet.quoted_status.created_at,
+							tweet.quoted_status.full_text,
+							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
+							quotedStatusAuthor,
+							false,
+							null,
+							null
+						);
+
+						quotedStatus = quotedStatusTweet;
+					}
+
 					const tweetObject = new TweetObject(
 						tweet.tweet_id,
 						tweet.created_at,
 						tweet.full_text,
+						tweet.entities.media,
+						tweet.pixel_media,
 						tweetAuthor,
-						tweet.shared_tweet,
-						tweet.is_retweet,
-						tweet.is_promoted,
+						tweet.is_quote_status,
+						quotedStatus,
 						tweetBarData
 					);
 
@@ -430,12 +456,12 @@ export const get_user_likes = (username) => {
 			if (response.status == 200) {
 				let likesFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const tweet_idx in likesFromServer) {
+				for (let tweet_idx = 0; tweet_idx < likesFromServer.length; tweet_idx++) {
 					const tweet = likesFromServer[tweet_idx];
 
 					const tweetAuthor = new TweetAuthor(
-						tweet.user_name,
-						tweet.user_url_name,
+						tweet.user.name,
+						"@" + tweet.user.screen_name,
 						tweet.profile_link,
 						tweet.profile_img_url,
 						tweet.is_profile_verified
@@ -450,14 +476,40 @@ export const get_user_likes = (username) => {
 						tweet.comments_count
 					);
 
+					let quotedStatus = null;
+					if (tweet.quoted_status !== null) {
+						const quotedStatusAuthor = new TweetAuthor(
+							tweet.quoted_status.user.name,
+							"@" + tweet.quoted_status.user.screen_name,
+							tweet.quoted_status.profile_link,
+							tweet.quoted_status.profile_img_url,
+							tweet.quoted_status.is_profile_verified
+						);
+
+						const quotedStatusTweet = new TweetObject(
+							tweet.quoted_status.tweet_id,
+							tweet.quoted_status.created_at,
+							tweet.quoted_status.full_text,
+							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
+							quotedStatusAuthor,
+							false,
+							null,
+							null
+						);
+
+						quotedStatus = quotedStatusTweet;
+					}
+
 					const tweetObject = new TweetObject(
 						tweet.tweet_id,
 						tweet.created_at,
 						tweet.full_text,
+						tweet.entities.media,
+						tweet.pixel_media,
 						tweetAuthor,
-						tweet.shared_tweet,
-						tweet.is_retweet,
-						tweet.is_promoted,
+						tweet.is_quote_status,
+						quotedStatus,
 						tweetBarData
 					);
 

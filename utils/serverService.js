@@ -6,7 +6,8 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
-import { userLikes } from "../data/Selenium/v2/user_likes";
+// import { userLikes } from "../data/Selenium/v2/user_likes";
+import { userLikes } from "../data/Selenium/v3/user_likes";
 import { userEntity } from "../data/Selenium/user_entity";
 import { whoToFollow } from "../data/Selenium/who_to_follow";
 // import { userFollowers } from "../data/Selenium/v2/user_followers";
