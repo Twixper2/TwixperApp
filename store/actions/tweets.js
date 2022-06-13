@@ -502,19 +502,19 @@ export const get_user_following = (username) => {
 			if (response.status == 200) {
 				let followingFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in followingFromServer) {
+				for (let person_idx = 0; person_idx < followingFromServer.length; person_idx++) {
 					const person = followingFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						userFollowingArr.push(personEntity);
 					}
 				}
@@ -555,19 +555,19 @@ export const get_user_followers = (username) => {
 			if (response.status == 200) {
 				let followersFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in followersFromServer) {
+				for (let person_idx = 0; person_idx < followersFromServer.length; person_idx++) {
 					const person = followersFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						userFollowersArr.push(personEntity);
 					}
 				}
