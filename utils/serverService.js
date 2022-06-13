@@ -8,8 +8,12 @@ import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData }
 import { data as feedJSON } from "../data/FeedJSON";
 // import { userLikes } from "../data/Selenium/v2/user_likes";
 import { userLikes } from "../data/Selenium/v3/user_likes";
+
+import { userTweets } from "../data/Selenium/v3/user_tweets";
 import { userEntity } from "../data/Selenium/user_entity";
-import { whoToFollow } from "../data/Selenium/who_to_follow";
+
+// import { whoToFollow } from "../data/Selenium/v2/who_to_follow";
+import { whoToFollow } from "../data/Selenium/v3/who_to_follow";
 // import { userFollowers } from "../data/Selenium/v2/user_followers";
 import { userFollowers } from "../data/Selenium/v3/user_followers";
 // import { userFollowing } from "../data/Selenium/v2/user_following";
@@ -177,7 +181,7 @@ export const getUserFollowers = async (username) => {
 export const getUserTimeline = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: tweetsData };
+		return { status: 200, data: userTweets };
 	}
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;

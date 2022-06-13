@@ -147,19 +147,19 @@ export const get_who_to_follow = (username) => {
 			if (response.status == 200) {
 				let whoToFollowFromServer = JSON.parse(JSON.stringify(response.data));
 
-				for (const person_idx in whoToFollowFromServer) {
+				for (let person_idx = 0; person_idx < whoToFollowFromServer.length; person_idx++) {
 					const person = whoToFollowFromServer[person_idx];
 
 					const personEntity = new PersonEntity(
-						person.user_name,
-						person.user_name_url,
+						person.name,
+						person.screen_name,
 						person.img,
-						"You Need To Send Me The Description!!!",
+						person.description,
 						person.FollowingStatus,
-						true
+						person.is_profile_verified
 					);
 
-					if (person?.user_name) {
+					if (person?.screen_name) {
 						userWhoToFollowArr.push(personEntity);
 					}
 				}
