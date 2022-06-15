@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, Alert, StyleSheet } from "react-native";
+import { View, Text, Image, TextInput, Alert, StyleSheet, Button, ActivityIndicator } from "react-native";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as authActions from "../../store/actions/auth";
-import ConfirmButton from "../../components/UI/ConfirmButton";
+
+import LoadingScreen from "../shared/LoadingScreen";
 
 import { appColors } from "../../constants/colors";
 
-//  TODO: Important!! Need To Refactor This !!
-const LoginExperimentScreen = ({ props, navigation }) => {
+const LoginExperimentScreen = ({ navigation }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
 	const [expCode, setExpCode] = useState("");
 
@@ -28,19 +29,24 @@ const LoginExperimentScreen = ({ props, navigation }) => {
 
 	const onInsertExpCodeHandler = async () => {
 		try {
+			setIsLoading(true);
 			await dispatch(authActions.register_to_experiment(expCode));
 			const registeredToExperiment = await AsyncStorage.getItem("registeredToExperiment");
 			if (registeredToExperiment) {
-				props.navigation.navigate("UserFeed");
+				navigation.replace("App");
 			} else {
 				// TODO: Navigate To ** I Don't Know ** Screen
-				props.navigation.navigate("LoginExperiment");
+				navigation.replace("LoginExperiment");
 			}
 		} catch (err) {
 			setError(err.message);
-			props.navigation.navigate("LoginTwitter");
+			navigation.replace("LoginTwitter");
 		}
 	};
+
+	if (isLoading) {
+		return <LoadingScreen />;
+	}
 
 	return (
 		<View style={styles.screenContainer}>
@@ -51,16 +57,15 @@ const LoginExperimentScreen = ({ props, navigation }) => {
 				<Text style={styles.textH4}>To start, insert the experiment code you got:</Text>
 				<View style={styles.inputContainer}>
 					<TextInput
+						value={expCode}
 						style={styles.input}
 						onChangeText={onChangeExpCode}
-						value={expCode}
 						placeholder="experiment code"
+						autoCapitalize="none"
 					/>
 				</View>
 				<View style={styles.buttonContainer}>
-					<ConfirmButton style={styles.button} onPress={onInsertExpCodeHandler}>
-						Confirm
-					</ConfirmButton>
+					<Button title="Confirm" onPress={onInsertExpCodeHandler} disabled={expCode === ""} />
 				</View>
 			</View>
 		</View>
@@ -103,18 +108,17 @@ const styles = StyleSheet.create({
 		marginBottom: "2%",
 	},
 	input: {
-		fontSize: 16,
 		width: "100%",
 		backgroundColor: "white",
-		paddingHorizontal: 2,
+		paddingHorizontal: 10,
 		paddingVertical: 5,
 		borderBottomColor: appColors.silverBorderColor,
 		borderBottomWidth: 1,
 	},
 	buttonContainer: {
 		width: "40%",
+		marginTop: "10%",
 		marginHorizontal: "30%",
-		marginTop: "3%",
 		justifyContent: "center",
 	},
 });

@@ -4,9 +4,12 @@ import { useDispatch } from "react-redux";
 
 import * as authActions from "../../store/actions/auth";
 
+import LoadingScreen from "../shared/LoadingScreen";
+
 import { appColors } from "../../constants/colors";
 
 const LoginScreen = ({ navigation }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState();
@@ -15,6 +18,7 @@ const LoginScreen = ({ navigation }) => {
 
 	const onSignInHandler = async () => {
 		try {
+			setIsLoading(true);
 			const registeredToExperiment = await dispatch(authActions.user_login(username, password));
 			if (!registeredToExperiment) {
 				navigation.replace("LoginExperiment");
@@ -40,6 +44,10 @@ const LoginScreen = ({ navigation }) => {
 	const onChangePassword = (text) => {
 		setPassword(text);
 	};
+
+	if (isLoading) {
+		return <LoadingScreen />;
+	}
 
 	return (
 		<View style={styles.screenContainer}>

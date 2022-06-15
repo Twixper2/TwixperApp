@@ -31,12 +31,12 @@ import { searchPeople } from "../data/Selenium/v3/search_people_data";
 
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
-		await sleep(600);
+		await sleep(2000);
 		return {
 			status: 200,
 			data: {
 				participant_twitter_info: userEntity,
-				user_registered_to_experiment: true,
+				user_registered_to_experiment: false,
 			},
 		};
 	}
@@ -54,8 +54,14 @@ export const participantLogin = async (user, pass) => {
 
 export const registerToExperiment = async (expCode) => {
 	if (!actuallySendReqToServer) {
-		await sleep(600);
-		return { status: 200 };
+		await sleep(1000);
+		return {
+			status: 200,
+			data: {
+				participant_twitter_info: userEntity,
+				user_registered_to_experiment: false,
+			},
+		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.registerToExperimentEndpoint;
 	const payload = {
