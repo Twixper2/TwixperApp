@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, Alert, StyleSheet } from "react-native";
+import { View, Text, Image, TextInput, Alert, StyleSheet, Button, ActivityIndicator } from "react-native";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as authActions from "../../store/actions/auth";
 import ConfirmButton from "../../components/UI/ConfirmButton";
 
+import LoadingScreen2 from "../shared/LoadingScreen2";
+
 import { appColors } from "../../constants/colors";
 
 //  TODO: Important!! Need To Refactor This !!
-const LoginExperimentScreen = ({ props, navigation }) => {
+const LoginExperimentScreen = ({ navigation }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
 	const [expCode, setExpCode] = useState("");
 
@@ -28,19 +31,29 @@ const LoginExperimentScreen = ({ props, navigation }) => {
 
 	const onInsertExpCodeHandler = async () => {
 		try {
+			setIsLoading(true);
 			await dispatch(authActions.register_to_experiment(expCode));
 			const registeredToExperiment = await AsyncStorage.getItem("registeredToExperiment");
 			if (registeredToExperiment) {
-				props.navigation.navigate("UserFeed");
+				navigation.replace("App");
 			} else {
 				// TODO: Navigate To ** I Don't Know ** Screen
-				props.navigation.navigate("LoginExperiment");
+				navigation.replace("LoginExperiment");
 			}
 		} catch (err) {
 			setError(err.message);
-			props.navigation.navigate("LoginTwitter");
+			navigation.replace("LoginTwitter");
 		}
 	};
+
+	if (isLoading) {
+		return <LoadingScreen2 />;
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="small" color={appColors.iconColor} />
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.screenContainer}>
@@ -57,10 +70,11 @@ const LoginExperimentScreen = ({ props, navigation }) => {
 						placeholder="experiment code"
 					/>
 				</View>
-				<View style={styles.buttonContainer}>
-					<ConfirmButton style={styles.button} onPress={onInsertExpCodeHandler}>
+				<View style={styles.buttonContainer2}>
+					<Button title="Confirm" onPress={onInsertExpCodeHandler} disabled={expCode === ""} />
+					{/* <ConfirmButton style={styles.button} onPress={onInsertExpCodeHandler}>
 						Confirm
-					</ConfirmButton>
+					</ConfirmButton> */}
 				</View>
 			</View>
 		</View>
@@ -116,6 +130,21 @@ const styles = StyleSheet.create({
 		marginHorizontal: "30%",
 		marginTop: "3%",
 		justifyContent: "center",
+	},
+	buttonContainer2: {
+		width: "40%",
+		marginTop: "10%",
+		marginHorizontal: "30%",
+		justifyContent: "center",
+	},
+	centered: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
+		backgroundColor: appColors.loginScreensBackground,
 	},
 });
 
