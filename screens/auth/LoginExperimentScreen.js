@@ -4,13 +4,11 @@ import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as authActions from "../../store/actions/auth";
-import ConfirmButton from "../../components/UI/ConfirmButton";
 
-import LoadingScreen2 from "../shared/LoadingScreen2";
+import LoadingScreen from "../shared/LoadingScreen";
 
 import { appColors } from "../../constants/colors";
 
-//  TODO: Important!! Need To Refactor This !!
 const LoginExperimentScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
@@ -47,12 +45,7 @@ const LoginExperimentScreen = ({ navigation }) => {
 	};
 
 	if (isLoading) {
-		return <LoadingScreen2 />;
-		return (
-			<View style={styles.centered}>
-				<ActivityIndicator size="small" color={appColors.iconColor} />
-			</View>
-		);
+		return <LoadingScreen />;
 	}
 
 	return (
@@ -64,17 +57,15 @@ const LoginExperimentScreen = ({ navigation }) => {
 				<Text style={styles.textH4}>To start, insert the experiment code you got:</Text>
 				<View style={styles.inputContainer}>
 					<TextInput
+						value={expCode}
 						style={styles.input}
 						onChangeText={onChangeExpCode}
-						value={expCode}
 						placeholder="experiment code"
+						autoCapitalize="none"
 					/>
 				</View>
-				<View style={styles.buttonContainer2}>
+				<View style={styles.buttonContainer}>
 					<Button title="Confirm" onPress={onInsertExpCodeHandler} disabled={expCode === ""} />
-					{/* <ConfirmButton style={styles.button} onPress={onInsertExpCodeHandler}>
-						Confirm
-					</ConfirmButton> */}
 				</View>
 			</View>
 		</View>
@@ -117,34 +108,18 @@ const styles = StyleSheet.create({
 		marginBottom: "2%",
 	},
 	input: {
-		fontSize: 16,
 		width: "100%",
 		backgroundColor: "white",
-		paddingHorizontal: 2,
+		paddingHorizontal: 10,
 		paddingVertical: 5,
 		borderBottomColor: appColors.silverBorderColor,
 		borderBottomWidth: 1,
 	},
 	buttonContainer: {
 		width: "40%",
-		marginHorizontal: "30%",
-		marginTop: "3%",
-		justifyContent: "center",
-	},
-	buttonContainer2: {
-		width: "40%",
 		marginTop: "10%",
 		marginHorizontal: "30%",
 		justifyContent: "center",
-	},
-	centered: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		flexDirection: "row",
-		justifyContent: "space-around",
-		padding: 10,
-		backgroundColor: appColors.loginScreensBackground,
 	},
 });
 

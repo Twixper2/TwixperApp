@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, Button, Alert, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, Image, TextInput, Button, Alert, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 
 import * as authActions from "../../store/actions/auth";
 
-import { appColors } from "../../constants/colors";
+import LoadingScreen from "../shared/LoadingScreen";
 
-import Entypo from "react-native-vector-icons/Entypo";
-import LoadingScreen2 from "../shared/LoadingScreen2";
+import { appColors } from "../../constants/colors";
 
 const LoginScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -47,24 +46,7 @@ const LoginScreen = ({ navigation }) => {
 	};
 
 	if (isLoading) {
-		return <LoadingScreen2 />;
-		return (
-			<View style={styles.centered}>
-				<View style={{ margin: 10 }}>
-					<Entypo
-						name={"twitter"}
-						size={70}
-						style={{
-							alignSelf: "center",
-							color: appColors.iconColor,
-						}}
-					/>
-				</View>
-				<View style={{ margin: 10 }}>
-					<ActivityIndicator size="small" color={appColors.iconColor} />
-				</View>
-			</View>
-		);
+		return <LoadingScreen />;
 	}
 
 	return (
@@ -191,14 +173,6 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		color: appColors.mediumGreyFontColor,
 		marginBottom: 0,
-	},
-	centered: {
-		flex: 1,
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		padding: 10,
-		backgroundColor: appColors.loginScreensBackground,
 	},
 });
 

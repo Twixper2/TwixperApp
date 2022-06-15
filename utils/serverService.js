@@ -54,7 +54,7 @@ export const participantLogin = async (user, pass) => {
 
 export const registerToExperiment = async (expCode) => {
 	if (!actuallySendReqToServer) {
-		await sleep(2000);
+		await sleep(1000);
 		return {
 			status: 200,
 			data: {
