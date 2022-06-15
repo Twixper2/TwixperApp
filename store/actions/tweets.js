@@ -17,7 +17,9 @@ import {
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 export const SET_USERS_LIKES = "SET_USERS_LIKES";
 export const SET_USERS_TWEETS = "SET_USERS_TWEETS";
+export const SET_SEARCH_QUERY = "SET_SEARCH_QUERY";
 export const SET_WHO_TO_FOLLOW = "SET_WHO_TO_FOLLOW";
+export const CLEAR_SEARCH_QUERY = "CLEAR_SEARCH_QUERY";
 export const SET_USER_FOLLOWING = "SET_USER_FOLLOWING";
 export const SET_USER_FOLLOWERS = "SET_USER_FOLLOWERS";
 export const SET_SEARCH_TWEETS_RESULTS = "SET_SEARCH_TWEETS_RESULTS";
@@ -192,6 +194,10 @@ export const get_who_to_follow = (username) => {
 /* ----------------------------------------
 	Search  Data
    ---------------------------------------- */
+
+export const set_search_query = (searchQuery) => {
+	return { type: searchQuery === "" ? CLEAR_SEARCH_QUERY : SET_SEARCH_QUERY, query: searchQuery };
+};
 
 export const get_search_tweets = (searchQuery) => {
 	return async (dispatch) => {

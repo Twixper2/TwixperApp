@@ -2,7 +2,9 @@ import {
 	SET_FEED_TWEETS,
 	SET_USERS_LIKES,
 	SET_USERS_TWEETS,
+	SET_SEARCH_QUERY,
 	SET_WHO_TO_FOLLOW,
+	CLEAR_SEARCH_QUERY,
 	SET_USER_FOLLOWING,
 	SET_USER_FOLLOWERS,
 	SET_SEARCH_TWEETS_RESULTS,
@@ -44,6 +46,14 @@ export default (state = initialState, action) => {
 					usersLikes: action.usersLikes,
 				},
 			};
+		case SET_SEARCH_QUERY:
+			return {
+				...state,
+				search: {
+					...state.search,
+					query: action.query,
+				},
+			};
 		case SET_USERS_TWEETS:
 			return {
 				...state,
@@ -57,6 +67,15 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				whoToFollow: action.whoToFollow,
+			};
+		case CLEAR_SEARCH_QUERY:
+			return {
+				...state,
+				search: {
+					query: "",
+					tweetsResults: [],
+					peopleResults: [],
+				},
 			};
 		case SET_USER_FOLLOWING:
 			return {
