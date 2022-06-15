@@ -77,7 +77,9 @@ const HomeTweetStack = () => {
 								paddingHorizontal: 20,
 								marginBottom: 12,
 							}}
-							onPress={() => {}}
+							onPress={() => {
+								navigation.goBack();
+							}}
 						>
 							Tweet
 						</ConfirmButton>
