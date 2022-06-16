@@ -2,26 +2,26 @@ import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import TweetsList from "../tweets/TweetsList";
+import PeopleList from "../people/PeopleList";
 
 import * as tweetsActions from "../../store/actions/tweets";
 
 import { appColors } from "../../constants/colors";
 
-const TweetsSearchResults = () => {
+const UserFollowing = ({ route, navigation }) => {
+	const { username } = route.params;
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { tweetsResults: searchResults, query } = useSelector((state) => state.tweets.search);
-	const { username } = useSelector((state) => state.auth);
+	const { userFollowing } = useSelector((state) => state.tweets.userFollows);
 	const dispatch = useDispatch();
 
-	const loadSearchTweetsResults = useCallback(async () => {
+	const loadUserFollowing = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_search_tweets(query));
-			await dispatch(tweetsActions.get_who_to_follow(username));
+			await dispatch(tweetsActions.get_user_following(username));
 		} catch (err) {
 			setError(err);
 		}
@@ -30,36 +30,31 @@ const TweetsSearchResults = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		loadSearchTweetsResults().then(() => {
+		loadUserFollowing().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadSearchTweetsResults]);
+	}, [dispatch, loadUserFollowing]);
 
 	if (error) {
 		return (
 			<View style={styles.centered}>
 				<Text>An error occurred!</Text>
-				<Button title="Try again" onPress={loadSearchTweetsResults} />
+				<Button title="Try again" onPress={loadUserFollowing} />
 			</View>
 		);
 	}
 
-	if (!isLoading && searchResults.length === 0) {
+	if (!isLoading && userFollowing.length === 0) {
 		return (
 			<View style={styles.centered}>
-				<Text>No Search Tweets Result Found.</Text>
+				<Text>No User Following Found.</Text>
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles.container}>
-			<TweetsList
-				onRefresh={loadSearchTweetsResults}
-				isLoading={isLoading}
-				data={searchResults}
-				withWhoToFollow={true}
-			/>
+			<PeopleList onRefresh={loadUserFollowing} isLoading={isLoading} data={userFollowing} />
 		</View>
 	);
 };
@@ -80,4 +75,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TweetsSearchResults;
+export default UserFollowing;

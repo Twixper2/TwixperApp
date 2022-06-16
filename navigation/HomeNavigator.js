@@ -25,7 +25,7 @@ const HomeNavigator = () => {
 			screenOptions={() => ({
 				tabBarActiveTintColor: appColors.iconColor,
 				tabBarInactiveTintColor: appColors.lightFontColor,
-				tabBarActiveBackgroundColor: "rgb(0, 79, 114)",
+				tabBarActiveBackgroundColor: appColors.tabBarActiveBG,
 				tabBarInActiveBackgroundColor: appColors.backgroundColor,
 				tabBarStyle: {
 					borderWidth: 0,
@@ -38,9 +38,20 @@ const HomeNavigator = () => {
 					shadowColor: "red",
 					elevation: 2,
 				},
-				tabBarLabelStyle: { fontSize: 14, color: "#fff", position: "relative", alignSelf: "center" },
-				tabBarIconStyle: { marginBottom: 5, marginTop: 5 },
-				tabBarItemStyle: { justifyContent: "center", alignItems: "center" },
+				tabBarLabelStyle: {
+					fontSize: 14,
+					color: "white",
+					position: "relative",
+					alignSelf: "center",
+				},
+				tabBarIconStyle: {
+					marginBottom: 5,
+					marginTop: 5,
+				},
+				tabBarItemStyle: {
+					justifyContent: "center",
+					alignItems: "center",
+				},
 				tabBarShowLabel: false,
 				header: (props) => <CustomHeader {...props} imageUri={profileImgURL} />,
 			})}

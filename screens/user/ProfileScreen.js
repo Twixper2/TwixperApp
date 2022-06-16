@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 
 import { useSelector } from "react-redux";
 import { Button } from "react-native-elements";
@@ -11,7 +11,10 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import ProfileTabsNavigator from "../../navigation/ProfileTabsNavigator";
 
 import ProfileImage from "../../components/UI/ProfileImage";
+import PressableText from "../../components/UI/PressableText";
+
 import { appColors } from "../../constants/colors";
+import { PROFILE_SCREEN, FOLLOWING_SCREEN, FOLLOWERS_SCREEN } from "../../constants/screenNames";
 
 const ProfileScreen = ({ route, navigation }) => {
 	const { data: userData } = route.params;
@@ -33,28 +36,45 @@ const ProfileScreen = ({ route, navigation }) => {
 	// 	console.log("It's the participant");
 	// }
 
+	const navigateTo = (screen) => {
+		if (Array.isArray(screen)) {
+			navigation.navigate(screen[0], { ...screen[1], params: { data: userData } });
+		} else {
+			navigation.navigate(screen, { data: userData });
+		}
+	};
+
 	return (
 		<View style={styles.container}>
-			{/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
 			<View style={styles.topBannerContainer}>
 				<View style={styles.bannerImageContainer}>
-					<Image style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]} source={{ uri: userData.coverImgURL }} />
+					<Image
+						style={[StyleSheet.absoluteFill, { resizeMode: "cover" }]}
+						source={{ uri: userData.coverImgURL }}
+					/>
 				</View>
 				<View style={styles.info}>
 					<View style={styles.infoTop}>
-						<ProfileImage onPress={() => console.log("Expand Image")} imageUri={userData.profileImgURL} imageStyle={styles.userPhoto} />
-
-						<Button
-							buttonStyle={styles.editProfileButton}
-							onPress={() => console.log("What To Do With This Button??")}
-							title="Edit Profile"
-							textStyle={styles.editProfileButtonText}
+						<ProfileImage
+							onPress={() => console.log("Expand Image")}
+							imageUri={userData.profileImgURL}
+							imageStyle={styles.userPhoto}
 						/>
+
+						{userData.userHandle === participantUsername && (
+							<Button
+								buttonStyle={styles.editProfileButton}
+								onPress={() => console.log("What To Do With This Button??")}
+								title="Edit Profile"
+								textStyle={styles.editProfileButtonText}
+							/>
+						)}
 					</View>
 
 					<View style={styles.nameAndHandle}>
 						<Text style={styles.name}>
-							{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+							{userData.username}{" "}
+							<MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
 						</Text>
 						<Text style={styles.handle}>@{userData.userHandle}</Text>
 					</View>
@@ -65,7 +85,12 @@ const ProfileScreen = ({ route, navigation }) => {
 						<SimpleLineIcons name={"location-pin"} size={14} color={appColors.lightFontColor}>
 							<Text style={styles.city}> {userData.userLocation}</Text>
 						</SimpleLineIcons>
-						<Ionicons name={"ios-link-outline"} size={18} style={{ marginLeft: 15 }} color={appColors.lightFontColor}>
+						<Ionicons
+							name={"ios-link-outline"}
+							size={18}
+							style={{ marginLeft: 15 }}
+							color={appColors.lightFontColor}
+						>
 							<Text style={styles.link}> {userData.userURL}</Text>
 						</Ionicons>
 					</View>
@@ -75,12 +100,20 @@ const ProfileScreen = ({ route, navigation }) => {
 					</View>
 					<View style={styles.followingAndFollowersContainer}>
 						<View style={styles.followingContainer}>
-							<Text style={styles.followingCount}>{userData.friendsCount}</Text>
-							<Text style={styles.followingText}>Following</Text>
+							<PressableText
+								onPress={navigateTo.bind(this, FOLLOWING_SCREEN)}
+								textStyle={styles.followingCount}
+							>
+								{userData.friendsCount} <Text style={styles.followingText}> Following</Text>
+							</PressableText>
 						</View>
 						<View style={styles.followersContainer}>
-							<Text style={styles.followersCount}>{userData.followersCount}</Text>
-							<Text style={styles.followersText}> Followers</Text>
+							<PressableText
+								onPress={navigateTo.bind(this, FOLLOWERS_SCREEN)}
+								textStyle={styles.followersCount}
+							>
+								{userData.followersCount} <Text style={styles.followersText}> Followers</Text>
+							</PressableText>
 						</View>
 					</View>
 				</View>
@@ -88,7 +121,6 @@ const ProfileScreen = ({ route, navigation }) => {
 			<View style={styles.TabsContainer}>
 				<ProfileTabsNavigator username={userData.username} />
 			</View>
-			{/* </ScrollView> */}
 		</View>
 	);
 };
@@ -96,13 +128,13 @@ const ProfileScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "rgb(20, 29, 38)",
+		backgroundColor: appColors.screenDarkBackgroundColor,
 	},
 	topBannerContainer: {
 		flex: 1,
 		borderColor: "yellow",
 		borderWidth: 0,
-		backgroundColor: "rgb(27, 40, 54)",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 	bannerImageContainer: {
 		flex: 0.25,
@@ -110,7 +142,7 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 	},
 	info: {
-		flex: 0.75,
+		flex: 1,
 		borderColor: "blue",
 		flexDirection: "column",
 		borderWidth: 0,
@@ -126,7 +158,7 @@ const styles = StyleSheet.create({
 	},
 	editProfileButton: {
 		backgroundColor: "transparent",
-		borderColor: "rgb(29, 161, 242)",
+		borderColor: appColors.iconColor,
 		borderWidth: 1,
 		borderRadius: 25,
 		padding: 6,
@@ -168,12 +200,12 @@ const styles = StyleSheet.create({
 		paddingLeft: 15,
 	},
 	city: {
-		color: "rgb(29, 161, 242)",
+		color: appColors.iconColor,
 		fontSize: 14,
 		marginLeft: 15,
 	},
 	link: {
-		color: "rgb(29, 161, 242)",
+		color: appColors.iconColor,
 		fontSize: 14,
 		marginLeft: 15,
 	},
@@ -233,7 +265,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		display: "flex",
 		alignItems: "center",
-		paddingTop: 15,
+		// paddingTop: 5,
 		paddingHorizontal: 5,
 		backgroundColor: appColors.screenBackgroundColor,
 	},

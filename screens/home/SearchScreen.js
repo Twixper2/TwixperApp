@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
 import SearchInput from "../../components/search/SearchInput";
@@ -12,7 +12,7 @@ import { appColors } from "../../constants/colors";
 
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
-	const [searchResults, setSearchResults] = useState(false);
+	const [hasQuery, setHasQuery] = useState(false);
 	const dispatch = useDispatch();
 
 	useFocusEffect(
@@ -25,26 +25,32 @@ const SearchScreen = () => {
 	);
 
 	const onClear = () => {
+		dispatch(tweetsActions.set_search_query(""));
+		setHasQuery(false);
 		setSearchText("");
-		setSearchResults(false);
 	};
 
-	const onSearchHandler = async () => {
-		try {
-			await dispatch(tweetsActions.get_search_tweets(searchText));
-			setSearchResults(true);
-		} catch (err) {
-			console.log("Err - Need to handle this\n" + err);
-		}
+	const onSearchHandler = () => {
+		dispatch(tweetsActions.set_search_query(searchText));
+		setHasQuery(true);
 	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.searchContainer}>
-				<SearchInput onChangeText={setSearchText} text={searchText} onSubmitEditing={onSearchHandler} onClear={onClear} />
+				<SearchInput
+					onChangeText={setSearchText}
+					text={searchText}
+					onSubmitEditing={onSearchHandler}
+					onClear={onClear}
+				/>
 			</View>
 			<View style={styles.resultsContainer}>
-				{searchResults ? <SearchTabsNavigator /> : <Text style={styles.noResults}>Try searching for people, topics or keywords</Text>}
+				{hasQuery ? (
+					<SearchTabsNavigator />
+				) : (
+					<Text style={styles.noResults}>Try searching for people, topics or keywords</Text>
+				)}
 			</View>
 		</View>
 	);

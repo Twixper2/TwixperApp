@@ -14,7 +14,11 @@ const DrawerContainer = (props) => {
 	const { navigation, userData } = props;
 
 	const navigateTo = (screen) => {
-		navigation.navigate(screen, { data: userData });
+		if (Array.isArray(screen)) {
+			navigation.navigate(screen[0], { ...screen[1], params: { data: userData } });
+		} else {
+			navigation.navigate(screen, { data: userData });
+		}
 	};
 
 	return (
@@ -25,7 +29,10 @@ const DrawerContainer = (props) => {
 					<Ionicons name="close" size={23} color="white" onPress={() => navigation.closeDrawer()} />
 				</View>
 
-				<TouchableOpacity onPress={navigateTo.bind(this, PROFILE_SCREEN)} style={[styles.photoContainer, styles.photo]}>
+				<TouchableOpacity
+					onPress={navigateTo.bind(this, PROFILE_SCREEN)}
+					style={[styles.photoContainer, styles.photo]}
+				>
 					<Image source={{ uri: userData?.profileImgURL }} style={styles.photo} />
 				</TouchableOpacity>
 
@@ -50,7 +57,10 @@ const DrawerContainer = (props) => {
 			</View>
 
 			<ScrollView>
-				<TouchableOpacity onPress={navigateTo.bind(this, PROFILE_SCREEN)} style={[styles.list, styles.firstList]}>
+				<TouchableOpacity
+					onPress={navigateTo.bind(this, PROFILE_SCREEN)}
+					style={[styles.list, styles.firstList]}
+				>
 					<View>
 						<FontAwesome style={styles.icon} name="user-o" size={20} color={appColors.lightFontColor} />
 						<Text style={styles.text}> Profile </Text>
@@ -58,13 +68,23 @@ const DrawerContainer = (props) => {
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.list} disabled={true}>
 					<View style={{ opacity: 0.5 }}>
-						<Ionicons style={styles.icon} name="settings-outline" size={24} color={appColors.lightFontColor} />
+						<Ionicons
+							style={styles.icon}
+							name="settings-outline"
+							size={24}
+							color={appColors.lightFontColor}
+						/>
 						<Text style={styles.text}> Settings and privacy</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.list} disabled={true}>
 					<View style={{ opacity: 0.5 }}>
-						<MaterialCommunityIcons style={styles.icon} name="help-circle-outline" size={24} color={appColors.lightFontColor} />
+						<MaterialCommunityIcons
+							style={styles.icon}
+							name="help-circle-outline"
+							size={24}
+							color={appColors.lightFontColor}
+						/>
 						<Text style={styles.text}> Help Center</Text>
 					</View>
 				</TouchableOpacity>
@@ -86,7 +106,7 @@ const DrawerContainer = (props) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "rgb(27, 42, 51)",
+		backgroundColor: appColors.backgroundColor,
 		paddingTop: 10,
 	},
 	list: {

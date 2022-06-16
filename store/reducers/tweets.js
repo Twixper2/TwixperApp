@@ -1,7 +1,19 @@
-import { SET_FEED_TWEETS, SET_SEARCH_TWEETS_RESULTS, SET_USERS_TWEETS_RESULTS } from "../actions/tweets";
+import {
+	SET_FEED_TWEETS,
+	SET_USERS_LIKES,
+	SET_USERS_TWEETS,
+	SET_SEARCH_QUERY,
+	SET_WHO_TO_FOLLOW,
+	CLEAR_SEARCH_QUERY,
+	SET_USER_FOLLOWING,
+	SET_USER_FOLLOWERS,
+	SET_SEARCH_TWEETS_RESULTS,
+	SET_SEARCH_PEOPLE_RESULTS,
+} from "../actions/tweets";
 
 const initialState = {
 	feedTweets: [],
+	whoToFollow: [],
 	search: {
 		query: "",
 		tweetsResults: [],
@@ -12,6 +24,10 @@ const initialState = {
 		usersTweets: [],
 		usersLikes: [],
 	},
+	userFollows: {
+		userFollowing: [],
+		userFollowers: [],
+	},
 };
 
 export default (state = initialState, action) => {
@@ -20,6 +36,62 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				feedTweets: action.feedTweets,
+			};
+		case SET_USERS_LIKES:
+			return {
+				...state,
+				profile: {
+					...state.profile,
+					username: action.username,
+					usersLikes: action.usersLikes,
+				},
+			};
+		case SET_SEARCH_QUERY:
+			return {
+				...state,
+				search: {
+					...state.search,
+					query: action.query,
+				},
+			};
+		case SET_USERS_TWEETS:
+			return {
+				...state,
+				profile: {
+					...state.profile,
+					username: action.username,
+					usersTweets: action.usersTweets,
+				},
+			};
+		case SET_WHO_TO_FOLLOW:
+			return {
+				...state,
+				whoToFollow: action.whoToFollow,
+			};
+		case CLEAR_SEARCH_QUERY:
+			return {
+				...state,
+				search: {
+					query: "",
+					tweetsResults: [],
+					peopleResults: [],
+				},
+			};
+		case SET_USER_FOLLOWING:
+			return {
+				...state,
+				userFollows: {
+					...state.userFollows,
+					userFollowing: action.userFollowing,
+				},
+			};
+		case SET_USER_FOLLOWERS:
+			return {
+				...state,
+				userFollows: {
+					...state.userFollows,
+					userFollowers: action.userFollowers,
+				},
 			};
 		case SET_SEARCH_TWEETS_RESULTS:
 			return {
@@ -30,13 +102,13 @@ export default (state = initialState, action) => {
 					tweetsResults: action.tweetsResults,
 				},
 			};
-		case SET_USERS_TWEETS_RESULTS:
+		case SET_SEARCH_PEOPLE_RESULTS:
 			return {
 				...state,
-				profile: {
-					...state.profile,
-					username: action.username,
-					usersTweets: action.usersTweets,
+				search: {
+					...state.search,
+					query: action.query,
+					peopleResults: action.peopleResults,
 				},
 			};
 		default:

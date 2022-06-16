@@ -6,6 +6,8 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import * as titterAuthActions from "../../store/actions/twitterAuth";
 
+import { appColors } from "../../constants/colors";
+
 const LoginTwitterScreen = (props) => {
 	const authUrl = useSelector((state) => state.twitterAuth.authUrl);
 
@@ -71,7 +73,7 @@ const LoginTwitterScreen = (props) => {
 					<Text
 						style={{
 							...styles.textH1,
-							color: "#1aa1f5",
+							color: appColors.iconColor,
 						}}
 					>
 						amazing{" "}
@@ -82,12 +84,12 @@ const LoginTwitterScreen = (props) => {
 			<View style={styles.twitterButtonContainer}>
 				<FontAwesome.Button
 					name="twitter"
-					backgroundColor="#1da1f2"
+					backgroundColor={appColors.twitterButtonColor}
 					onPress={onSignInHandler}
 					size={29}
 					iconStyle={{
 						backgroundColor: "white",
-						color: "#1da1f2",
+						color: appColors.twitterButtonColor,
 					}}
 					style={styles.twitterButton}
 				>
@@ -96,8 +98,9 @@ const LoginTwitterScreen = (props) => {
 			</View>
 			<View style={styles.footerCopyright}>
 				<Text style={styles.copyrightText}>
-					Twixper will record data regarding your usage and it will be available to the researchers that own the experiment. Twixper might make
-					changes in content you would normally see in twitter. We will never post on behalf of your name or change things you write.
+					Twixper will record data regarding your usage and it will be available to the researchers that own
+					the experiment. Twixper might make changes in content you would normally see in twitter. We will
+					never post on behalf of your name or change things you write.
 				</Text>
 			</View>
 		</View>
@@ -108,7 +111,13 @@ const LoginTwitterScreen = (props) => {
 				<Text style={styles.textH3}>Please insert the code from Twitter :</Text>
 			</View>
 			<View style={styles.inputContainer}>
-				<TextInput style={styles.input} onChangeText={onChangeCode} value={code} placeholder="twitter pin code" keyboardType="numeric" />
+				<TextInput
+					style={styles.input}
+					onChangeText={onChangeCode}
+					value={code}
+					placeholder="twitter pin code"
+					keyboardType="numeric"
+				/>
 			</View>
 			<View style={styles.buttonContainer}>
 				<Button title="Ok" onPress={onInsertCodeHandler} />
@@ -166,7 +175,7 @@ LoginTwitterScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
 	screenContainer: {
 		height: "100%",
-		backgroundColor: "rgba(207, 242, 253, 0.5)",
+		backgroundColor: appColors.loginScreensBackground,
 	},
 	screenWrapper: {
 		height: "100%",
@@ -232,7 +241,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 
 		fontSize: 13,
-		color: "#aaa",
+		color: appColors.mediumGreyFontColor,
 		marginBottom: 0,
 	},
 	inputContainer: {
@@ -246,7 +255,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		paddingHorizontal: 2,
 		paddingVertical: 5,
-		borderBottomColor: "#ccc",
+		borderBottomColor: appColors.silverBorderColor,
 		borderBottomWidth: 1,
 	},
 	buttonContainer: {

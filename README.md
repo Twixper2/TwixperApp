@@ -1,2 +1,3 @@
 # TwixperApp
-Twixper appliction for the participants - Using React-Native framework
+Twixper application for the participants - Using React-Native framework
+

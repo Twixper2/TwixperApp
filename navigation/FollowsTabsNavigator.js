@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+import UserFollowers from "../components/follows/UserFollowers";
+import UserFollowing from "../components/follows/UserFollowing";
+
 import { appColors } from "../constants/colors";
-import UserLikes from "../components/profile/UserLikes";
-import UserTweets from "../components/profile/UserTweets";
 
-const ProfileTabs = createMaterialTopTabNavigator();
+const UserFollowsTabs = createMaterialTopTabNavigator();
 
-const ProfileTabsNavigator = ({ username }) => {
+const FollowsTabsNavigator = ({ username }) => {
 	return (
-		<View style={styles.container}>
-			<ProfileTabs.Navigator
+		<View style={{ flex: 1, flexDirection: "row" }}>
+			<UserFollowsTabs.Navigator
 				screenOptions={() => ({
 					tabBarStyle: {
 						width: "100%",
@@ -28,27 +29,23 @@ const ProfileTabsNavigator = ({ username }) => {
 					},
 				})}
 			>
-				<ProfileTabs.Screen
-					name="UserTweets"
-					component={UserTweets}
-					options={{ title: "Tweets" }}
+				<UserFollowsTabs.Screen
+					name="Followers"
+					component={UserFollowers}
 					initialParams={{ username: username }}
 				/>
-				<ProfileTabs.Screen
-					name="UserLikes"
-					component={UserLikes}
-					options={{ title: "Likes" }}
+				<UserFollowsTabs.Screen
+					name="Following"
+					component={UserFollowing}
 					initialParams={{ username: username }}
 				/>
-			</ProfileTabs.Navigator>
+			</UserFollowsTabs.Navigator>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		flexDirection: "row",
 		backgroundColor: appColors.screenBackgroundColor,
 	},
 	tempText: {
@@ -58,4 +55,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ProfileTabsNavigator;
+export default FollowsTabsNavigator;

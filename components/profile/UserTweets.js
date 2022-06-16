@@ -22,6 +22,7 @@ const UserTweets = ({ route, navigation }) => {
 		setIsRefreshing(true);
 		try {
 			await dispatch(tweetsActions.get_user_tweets(username));
+			await dispatch(tweetsActions.get_who_to_follow(username));
 		} catch (err) {
 			setError(err);
 		}
@@ -54,7 +55,12 @@ const UserTweets = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<TweetsList onRefresh={loadUsersTweetsResults} isLoading={isLoading} data={usersTweets} />
+			<TweetsList
+				onRefresh={loadUsersTweetsResults}
+				isLoading={isLoading}
+				data={usersTweets}
+				withWhoToFollow={true}
+			/>
 		</View>
 	);
 };
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		padding: 10,
-		backgroundColor: "rgb(27, 40, 54)",
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 });
 

@@ -13,8 +13,7 @@ import CreateTweetScreen from "../screens/shared/CreateTweetScreen";
 import TweetButtonWrapper from "../screens/shared/TweetButtonWrapper";
 
 import ProfileScreen from "../screens/user/ProfileScreen";
-import FollowersScreen from "../screens/user/FollowersScreen";
-import FollowingScreen from "../screens/user/FollowingScreen";
+import FollowsScreen from "../screens/user/FollowsScreen";
 import CustomHeader from "../components/UI/CustomHeader";
 import ConfirmButton from "../components/UI/ConfirmButton";
 
@@ -71,8 +70,16 @@ const HomeTweetStack = () => {
 					headerRight: () => (
 						<ConfirmButton
 							text={{ color: "white", fontSize: 16, fontWeight: "bold" }}
-							button={{ backgroundColor: appColors.iconColor, borderRadius: 30, paddingVertical: 7, paddingHorizontal: 20, marginBottom: 12 }}
-							onPress={() => {}}
+							button={{
+								backgroundColor: appColors.iconColor,
+								borderRadius: 30,
+								paddingVertical: 7,
+								paddingHorizontal: 20,
+								marginBottom: 12,
+							}}
+							onPress={() => {
+								navigation.goBack();
+							}}
 						>
 							Tweet
 						</ConfirmButton>
@@ -109,8 +116,7 @@ const TwixperNavigator = () => {
 			drawerContent={(props) => <DrawerContainer {...props} userData={userEntityData} />}
 		>
 			<AppDrawer.Screen name="Home" component={HomeTweetStack} options={{ header: () => null }} />
-			<AppDrawer.Screen name="Following" component={FollowingScreen} />
-			<AppDrawer.Screen name="Followers" component={FollowersScreen} />
+			<AppDrawer.Screen name="Follows" component={FollowsScreen} />
 		</AppDrawer.Navigator>
 	);
 };

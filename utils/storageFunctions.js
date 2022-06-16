@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import PersonEntity from "../models/person-entity";
 
 import { sleep } from "./helperFunctions";
 
@@ -7,6 +8,7 @@ import { data as users } from "../data/UserTwitterEntity";
 
 import { tweets } from "../data/Selenium/v2/tweets_data";
 // import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
+import { searchPeople } from "../data/Selenium/v2/search_people_data";
 
 export const emptyStorageFromLs = async () => {
 	try {
@@ -41,6 +43,10 @@ export const emptyLs = async () => {
 	}
 };
 
+/* ----------------------------------------
+	Dummy Data
+   ---------------------------------------- */
+
 export const getUserTwitterEntity = async () => {
 	if (!actuallySendReqToServer) {
 		await sleep(500);
@@ -69,4 +75,21 @@ export const getTweets = async () => {
 	} catch (error) {
 		console.error(error);
 	}
+};
+
+export const getPersonData = () => {
+	let lstPersons = [];
+	for (const person in searchPeople) {
+		lstPersons.push(
+			new PersonEntity(
+				searchPeople[person].user_name,
+				searchPeople[person].user_name_url,
+				searchPeople[person].img,
+				"You Need To Send Me The Description!!!",
+				searchPeople[person].FollowingStatus,
+				true
+			)
+		);
+	}
+	return lstPersons;
 };

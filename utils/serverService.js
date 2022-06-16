@@ -6,20 +6,39 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
+// import { userLikes } from "../data/Selenium/v2/user_likes";
+import { userLikes } from "../data/Selenium/v3/user_likes";
 
-import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
-import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
-
+import { userTweets } from "../data/Selenium/v3/user_tweets";
 import { userEntity } from "../data/Selenium/user_entity";
 
+// import { whoToFollow } from "../data/Selenium/v2/who_to_follow";
+import { whoToFollow } from "../data/Selenium/v3/who_to_follow";
+// import { userFollowers } from "../data/Selenium/v2/user_followers";
+import { userFollowers } from "../data/Selenium/v3/user_followers";
+// import { userFollowing } from "../data/Selenium/v2/user_following";
+import { userFollowing } from "../data/Selenium/v3/user_following";
+// import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
+import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
+// import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
+import { searchTweets } from "../data/Selenium/v3/search_tweets_data";
+// import { searchPeople } from "../data/Selenium/v2/search_people_data";
+import { searchPeople } from "../data/Selenium/v3/search_people_data";
+
 /* ----------------------------------------
-    User Login Functions
+	User Login Functions
    ---------------------------------------- */
 
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
-		await sleep(600);
-		return { status: 200, data: { participant_twitter_info: userEntity, user_registered_to_experiment: true } };
+		await sleep(2000);
+		return {
+			status: 200,
+			data: {
+				participant_twitter_info: userEntity,
+				user_registered_to_experiment: false,
+			},
+		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
 	const payload = {
@@ -30,13 +49,19 @@ export const participantLogin = async (user, pass) => {
 };
 
 /* ----------------------------------------
-    Register Experiment Functions
+	Register Experiment Functions
    ---------------------------------------- */
 
 export const registerToExperiment = async (expCode) => {
 	if (!actuallySendReqToServer) {
-		await sleep(600);
-		return { status: 200 };
+		await sleep(1000);
+		return {
+			status: 200,
+			data: {
+				participant_twitter_info: userEntity,
+				user_registered_to_experiment: false,
+			},
+		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.registerToExperimentEndpoint;
 	const payload = {
@@ -46,7 +71,7 @@ export const registerToExperiment = async (expCode) => {
 };
 
 /* ----------------------------------------
-    Twitter Authenticate Functions
+	Twitter Authenticate Functions
    ---------------------------------------- */
 
 export const getTwitterAuthRequestToken = async (oauthCb) => {
@@ -87,7 +112,7 @@ export const checkCredentials = async (token, tokenSecret) => {
 };
 
 /* ----------------------------------------
-    Requests for data from Twitter to display
+	Requests for data from Twitter to display
    ---------------------------------------- */
 
 export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
@@ -125,19 +150,75 @@ export const searchForTweets = async (query) => {
 	return await sendGetRequest(requestUrl);
 };
 
+export const searchForPeople = async (query) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: searchPeople };
+	}
+	// Else, send the request to the server
+	const convertedQuery = encodeURIComponent(query);
+	const requestQuery = "?q=" + convertedQuery;
+	const requestUrl = serverUrl + serverEndpoints.searchPeople + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getUserFollowing = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userFollowing };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userFollowing + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getUserFollowers = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userFollowers.sort(() => Math.random() - 0.5) };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userFollowers + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
 export const getUserTimeline = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		return { status: 200, data: tweetsData };
+		return { status: 200, data: userTweets };
 	}
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
-	return await sendGetRequestReturnResponse(requestUrl);
+	return await sendGetRequest(requestUrl);
+};
+
+export const getUserLikes = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userLikes.sort(() => Math.random() - 0.5).slice(0, 5) };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userLikes + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getWhoToFollow = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: whoToFollow.sort(() => Math.random() - 0.5).slice(0, 3) };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.whoToFollow + requestQuery;
+	return await sendGetRequest(requestUrl);
 };
 
 /* ----------------------------------------
-    Helper Functions
+	Helper Functions
    ---------------------------------------- */
 
 /* Generic Post & Get Structure */
@@ -165,7 +246,10 @@ const sendPostRequest = async (requestUrl, payload, options = {}) => {
 		} else {
 			// This is network error
 			console.log(error);
-			return { status: 0, data: "Network error, server probably down" };
+			return {
+				status: 0,
+				data: "Network error, server probably down",
+			};
 		}
 	});
 };

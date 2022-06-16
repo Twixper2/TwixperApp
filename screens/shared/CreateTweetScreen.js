@@ -36,17 +36,56 @@ const CreateTweetScreen = (props) => {
 				</View>
 			</View>
 			<View style={styles.bottomContainer}>
-				<FontAwesome name={"photo"} color={appColors.iconColor} size={26} />
-
-				<MaterialIcons name="gif" color={appColors.iconColor} size={20} style={styles.gifIcon} />
-
-				<FontAwesome5 name={"poll-h"} color={appColors.iconColor} size={26} />
-
-				<SimpleLineIcons name={"location-pin"} color={appColors.iconColor} size={26} />
-
-				<Feather name={"circle"} color="gray" size={26} />
-
-				<MaterialCommunityIcons name="plus-circle" color={appColors.iconColor} style={styles.plusIcon} size={26} />
+				<FontAwesome
+					name={"photo"}
+					color={appColors.iconColor}
+					size={26}
+					onPress={() => {
+						console.log("ToDo!");
+					}}
+				/>
+				<MaterialIcons
+					name="gif"
+					color={appColors.iconColor}
+					size={20}
+					style={styles.gifIcon}
+					onPress={() => {
+						console.log("ToDo!");
+					}}
+				/>
+				<FontAwesome5
+					name={"poll-h"}
+					color={appColors.iconColor}
+					size={26}
+					onPress={() => {
+						console.log("ToDo!");
+					}}
+				/>
+				<SimpleLineIcons
+					name={"location-pin"}
+					color={appColors.iconColor}
+					size={26}
+					onPress={() => {
+						console.log("ToDo!");
+					}}
+				/>
+				<Feather
+					name={"circle"}
+					color="gray"
+					size={26}
+					onPress={() => {
+						console.log("ToDo!");
+					}}
+				/>
+				<MaterialCommunityIcons
+					name="plus-circle"
+					color={appColors.iconColor}
+					style={styles.plusIcon}
+					size={26}
+					onPress={() => {
+						console.log("ToDo!");
+					}}
+				/>
 			</View>
 		</View>
 	);
