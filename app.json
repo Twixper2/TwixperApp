@@ -34,15 +34,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-		"backgroundColor": "#1b2a33",
-		"plugins": [
-			[
-				"expo-notifications",
-				{
-					"icon": "./local/assets/icon.png",
-					"color": "#ffffff"
-				}
-			]
-		]
-	}
+    "backgroundColor": "#1b2a33",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ]
+  }
 }
