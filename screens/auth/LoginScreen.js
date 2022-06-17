@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { View, Text, Image, TextInput, Button, Alert, StyleSheet, Platform } from "react-native";
 import { useDispatch } from "react-redux";
 
 import * as authActions from "../../store/actions/auth";
@@ -79,7 +79,7 @@ const LoginScreen = ({ navigation }) => {
 							secureTextEntry={true}
 						/>
 					</View>
-					<View style={styles.buttonContainer}>
+					<View style={[styles.buttonContainer, Platform.OS === "ios" && styles.iosButtonAdj]}>
 						<Button title="Login" onPress={onSignInHandler} disabled={password === "" || username === ""} />
 					</View>
 					<View style={styles.footerCopyright}>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		fontSize: 14.8,
 		paddingHorizontal: "7%",
-		fontFamily: "sans-serif",
+		fontFamily: "open-sans",
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -158,6 +158,11 @@ const styles = StyleSheet.create({
 		marginTop: "10%",
 		marginHorizontal: "30%",
 		justifyContent: "center",
+	},
+	iosButtonAdj: {
+		// borderColor: "#ccc",
+		// borderWidth: 0.5,
+		// borderRadius: 30,
 	},
 	footerCopyright: {
 		bottom: "0%",
