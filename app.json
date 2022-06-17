@@ -19,7 +19,8 @@
     "ios": {
       "buildNumber": "1.0.0",
       "supportsTablet": true,
-      "backgroundColor": "#1b2a33"
+      "backgroundColor": "#1b2a33",
+      "bundleIdentifier": "com.dinshdani.TwixperApp"
     },
     "android": {
       "versionCode": 1,
