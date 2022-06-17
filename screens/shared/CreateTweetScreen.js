@@ -22,7 +22,11 @@ const CreateTweetScreen = (props) => {
 		<View style={styles.screen}>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>
-					<Image onPress={() => navigation.navigate("DrawerToggle")} source={{ uri: profileImgURL }} style={styles.image} />
+					<Image
+						onPress={() => navigation.navigate("DrawerToggle")}
+						source={{ uri: profileImgURL }}
+						style={styles.image}
+					/>
 				</View>
 				<View style={styles.inputContainer}>
 					<TextInput
@@ -94,6 +98,7 @@ const CreateTweetScreen = (props) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
+		backgroundColor: appColors.backgroundColor,
 	},
 	container: {
 		flex: 1,
@@ -144,6 +149,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-evenly",
 		alignContent: "center",
 		alignItems: "center",
+		marginBottom: 8,
 	},
 	gifIcon: {
 		borderWidth: 1.5,

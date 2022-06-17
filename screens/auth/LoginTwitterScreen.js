@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		fontSize: 14.8,
 		paddingHorizontal: "7%",
-		fontFamily: "sans-serif",
+		fontFamily: "open-sans",
 		justifyContent: "center",
 		alignItems: "center",
 	},

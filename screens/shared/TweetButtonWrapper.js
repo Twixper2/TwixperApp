@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 
 import Octicons from "react-native-vector-icons/Octicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 		padding: 25,
 		margin: 15,
 		position: "absolute",
-		bottom: 50,
+		bottom: Platform.OS === "android" ? 50 : 80,
 		right: 0,
 	},
 	plusIcon: {
