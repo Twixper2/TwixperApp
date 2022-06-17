@@ -27,6 +27,7 @@ const LoginScreen = ({ navigation }) => {
 			}
 		} catch (err) {
 			setError(err.message);
+			navigation.replace("Login");
 		}
 	};
 

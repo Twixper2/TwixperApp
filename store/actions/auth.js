@@ -63,18 +63,25 @@ export const user_login = (username, password) => {
 				// this.$root.sessionValidated()
 				// this.$router.replace('feed')
 				// window.location.reload();
-			} else if (registerToExpResponse.status == 401) {
+			} else if (participantLoginResponse.status == 401) {
 				let message = "No params supplied.\nPlease Login again.";
 				throw new Error(message);
-			} else if (registerToExpResponse.status == 400) {
+			} else if (participantLoginResponse.status == 400) {
 				let message = "This user has already been authenticated.\nPlease Login again.";
 				throw new Error(message);
-			} else if (registerToExpResponse.status == 502) {
+			} else if (participantLoginResponse.status == 502) {
 				let message = "Something went wrong in the server.\nPlease Login again.";
 				dispatch({ type: LOGOUT });
 				throw new Error(message);
-			} else if (registerToExpResponse.status == 500) {
+			} else if (participantLoginResponse.status == 500) {
 				let message = "Something went wrong, Server unreachable.\nPlease try again later.";
+				throw new Error(message);
+			} else if (participantLoginResponse.status == 0) {
+				let message = "Something went wrong, Server unreachable.\nPlease try again later.";
+				throw new Error(participantLoginResponse.data);
+			} else {
+				console.log("error in user_login - got to final else...");
+				let message = "Something went wrong.\nPlease Try again Login again.";
 				throw new Error(message);
 			}
 		} catch (err) {
@@ -95,7 +102,10 @@ export const register_to_experiment = (expCode) => {
 			if (registerToExpResponse.status == 200) {
 				// Setting the registration in local storage
 				await AsyncStorage.setItem("registeredToExperiment", JSON.stringify(true));
-				await AsyncStorage.setItem("user_twitter_entity", JSON.stringify(registerToExpResponse.data.participant_twitter_info));
+				await AsyncStorage.setItem(
+					"user_twitter_entity",
+					JSON.stringify(registerToExpResponse.data.participant_twitter_info)
+				);
 
 				// Reset local storage twitter data
 				await emptyStorageFromLs();
