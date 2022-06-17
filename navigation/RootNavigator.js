@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Platform } from "react-native";
 
 import TwixperNavigator from "./TwixperNavigator";
 import LoginScreen from "../screens/auth/LoginScreen";
@@ -13,7 +14,9 @@ const RootStack = createNativeStackNavigator();
 const RootNavigator = () => {
 	return (
 		<NavigationContainer>
-			<RootStack.Navigator screenOptions={{ headerShown: false }}>
+			<RootStack.Navigator
+				screenOptions={{ headerShown: false, contentStyle: { marginTop: Platform.OS === "ios" ? 15 : 0 } }}
+			>
 				{loginWithUsername ? (
 					<RootStack.Screen name="Login" component={LoginScreen} />
 				) : (
