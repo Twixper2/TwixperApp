@@ -12,11 +12,11 @@ import ExpandableImg from "../UI/ExpandableImg";
 import { appColors } from "../../constants/colors";
 import { PROFILE_SCREEN, TWEET_SCREEN } from "../../constants/screenNames";
 
-const Tweet = (props) => {
+const Tweet = ({ tweetData }) => {
 	const navigation = useNavigation();
 	const [touched, setTouched] = useState(false);
 
-	const { tweetData } = props;
+	// const { tweetData } = props;
 	const { tweetId, time, fullText, media, pixelMedia, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
 
 	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
@@ -36,7 +36,7 @@ const Tweet = (props) => {
 		if (screen === PROFILE_SCREEN) {
 			data = tweetAuthor;
 		} else {
-			data = tweetData;
+			data = { tweetData: tweetData, isMainTweet: true };
 		}
 
 		navigation.navigate(screen, { data });
@@ -45,8 +45,8 @@ const Tweet = (props) => {
 	return (
 		<TouchableHighlight
 			onPress={navigateTo.bind(this, TWEET_SCREEN)}
-			onPressIn={() => tweetPressed(true)}
-			onPressOut={() => tweetPressed()}
+			onPressIn={tweetPressed.bind(this, true)}
+			onPressOut={tweetPressed.bind(this, false)}
 		>
 			<View key={tweetId} style={styles.container}>
 				{!isQuotedStatus ? (
@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
 	tweetText: {
 		color: "white",
 		paddingRight: 10,
+		// fontSize: 14,
 	},
 	tweetActionsContainer: {
 		flex: 1,

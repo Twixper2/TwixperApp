@@ -6,24 +6,16 @@ import { serverEndpoints } from "../constants/endpoints";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
-// import { userLikes } from "../data/Selenium/v2/user_likes";
-import { userLikes } from "../data/Selenium/v3/user_likes";
-
-import { userTweets } from "../data/Selenium/v3/user_tweets";
 import { userEntity } from "../data/Selenium/user_entity";
-
-// import { whoToFollow } from "../data/Selenium/v2/who_to_follow";
+import { userLikes } from "../data/Selenium/v3/user_likes";
+import { userTweets } from "../data/Selenium/v3/user_tweets";
 import { whoToFollow } from "../data/Selenium/v3/who_to_follow";
-// import { userFollowers } from "../data/Selenium/v2/user_followers";
 import { userFollowers } from "../data/Selenium/v3/user_followers";
-// import { userFollowing } from "../data/Selenium/v2/user_following";
 import { userFollowing } from "../data/Selenium/v3/user_following";
-// import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
-import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
-// import { searchTweets } from "../data/Selenium/v2/search_tweets_data";
 import { searchTweets } from "../data/Selenium/v3/search_tweets_data";
-// import { searchPeople } from "../data/Selenium/v2/search_people_data";
 import { searchPeople } from "../data/Selenium/v3/search_people_data";
+import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
+import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
 
 /* ----------------------------------------
 	User Login Functions
@@ -159,6 +151,17 @@ export const searchForPeople = async (query) => {
 	const convertedQuery = encodeURIComponent(query);
 	const requestQuery = "?q=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchPeople + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getTweetPage = async (tweetId, tweetUser) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: tweetsReplies };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?tweetIdStr=" + tweetId + "&tweetUser=" + tweetUser;
+	const requestUrl = serverUrl + serverEndpoints.getTweet + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
 

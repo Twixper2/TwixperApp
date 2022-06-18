@@ -11,6 +11,7 @@ export const serverEndpoints = {
 	registerToExperimentEndpoint: "/registerToExperiment",
 
 	/* Data to Display */
+	getTweet: "/participants/getTweet",
 	feedEndpoint: "/participants/getFeed",
 	userLikes: "/participants/getUserLikes",
 	searchPeople: "/participants/searchUsers",
