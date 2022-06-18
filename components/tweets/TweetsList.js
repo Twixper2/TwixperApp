@@ -26,6 +26,14 @@ const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 		data.splice(5, 1, { tweetId: false, whoToFollowId: uuid.v4() });
 	}
 
+	const extractKey = (item) => {
+		if ("whoToFollowId" in item) {
+			return item.whoToFollowId;
+		} else {
+			return item.tweetId;
+		}
+	};
+
 	const renderItem = ({ item }) => {
 		if ("whoToFollowId" in item) {
 			return <WhoToFollow />;
@@ -42,7 +50,7 @@ const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 				onRefresh={onRefresh}
 				refreshing={isLoading}
 				data={data}
-				keyExtractor={(item) => (item.tweetId ? item.tweetId : item.whoToFollowId)}
+				keyExtractor={extractKey}
 				renderItem={renderItem}
 			/>
 		</View>
