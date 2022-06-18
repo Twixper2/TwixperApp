@@ -74,9 +74,9 @@ const Tweet = ({ tweetData }) => {
 								{isProfileVerified && (
 									<MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />
 								)}
-								<Text style={styles.userHandleAndTime}>
-									{userHandle} · {time}
-								</Text>
+							</Text>
+							<Text style={styles.userHandleAndTime}>
+								{userHandle} · {time}
 							</Text>
 						</View>
 						<View style={styles.tweetTextContainer}>
@@ -143,9 +143,11 @@ const styles = StyleSheet.create({
 	},
 	userDetails: {
 		flex: 1,
+		flexDirection: "row",
 		borderColor: "blue",
 		borderWidth: 0,
 		marginBottom: 5,
+		alignItems: "flex-start",
 	},
 	userName: {
 		color: "white",

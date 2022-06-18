@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import EvilIcons from "react-native-vector-icons/EvilIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import TweetActionsInfoBar from "./TweetActionsInfoBar";
@@ -14,9 +12,7 @@ import { PROFILE_SCREEN, TWEET_SCREEN } from "../../constants/screenNames";
 
 const MainTweet = ({ tweetData }) => {
 	const navigation = useNavigation();
-	const [touched, setTouched] = useState(false);
 
-	console.log("This is Main Tweet!");
 	const { tweetId, time, fullText, media, pixelMedia, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
 
 	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
@@ -25,10 +21,6 @@ const MainTweet = ({ tweetData }) => {
 	if (isQuotedStatus) {
 		quotedBy = quotedStatus.tweetAuthor.username;
 	}
-
-	const tweetPressed = (pressed = false) => {
-		setTouched(pressed);
-	};
 
 	const navigateTo = (screen) => {
 		let data;
@@ -43,59 +35,53 @@ const MainTweet = ({ tweetData }) => {
 	};
 
 	return (
-		<TouchableHighlight
-			onPress={navigateTo.bind(this, TWEET_SCREEN)}
-			onPressIn={tweetPressed.bind(this, true)}
-			onPressOut={tweetPressed.bind(this, false)}
-		>
-			<View key={tweetId} style={styles.container}>
-				{!isQuotedStatus ? (
-					<View style={styles.isReplyContainer}>
-						<View style={{ flex: 0.23, borderColor: "red", borderWidth: 0, alignItems: "flex-end" }}>
-							<EvilIcons name={"retweet"} size={25} color={appColors.lightFontColor} />
-						</View>
-						<Text style={{ flex: 0.5, color: appColors.lightFontColor }}>{quotedBy} Retweeted</Text>
-					</View>
-				) : (
-					true
-				)}
-				<View style={styles.innerContainer}>
-					<View style={styles.photoContainer}>
-						<ProfileImage
-							onPress={navigateTo.bind(this, PROFILE_SCREEN)}
-							imageStyle={styles.photo}
-							imageUri={profileImgURL}
-						/>
-					</View>
-					<View style={styles.info}>
-						<View style={styles.userDetails}>
-							<Text style={styles.userName}>
-								{username}{" "}
-								{isProfileVerified && (
-									<MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />
-								)}
-								<Text style={styles.userHandleAndTime}>
-									{userHandle} · {time}
-								</Text>
-							</Text>
-						</View>
-						<View style={styles.tweetTextContainer}>
-							<Text style={styles.tweetText}>{fullText}</Text>
-						</View>
-						{media.length !== 0 && (
-							<View style={styles.mediaContainer}>
-								{media[0].type === "photo" && (
-									<ExpandableImg mediaData={media[0]} pixelMedia={pixelMedia} />
-								)}
-							</View>
+		<View key={tweetId} style={styles.container}>
+			<View style={styles.authorDetails}>
+				<View style={styles.photoContainer}>
+					<ProfileImage
+						onPress={navigateTo.bind(this, PROFILE_SCREEN)}
+						imageStyle={styles.photo}
+						imageUri={profileImgURL}
+					/>
+				</View>
+				<View style={styles.userDetails}>
+					<Text style={styles.userName}>
+						{username}{" "}
+						{isProfileVerified && (
+							<MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />
 						)}
-						<View style={styles.tweetActionsContainer}>
-							<TweetActionsInfoBar tweetData={tweetData.actionsBarData} />
-						</View>
-					</View>
+					</Text>
+					<Text style={styles.userHandleAndTime}>{userHandle}</Text>
 				</View>
 			</View>
-		</TouchableHighlight>
+			<View style={styles.info}>
+				<View style={styles.tweetTextContainer}>
+					<Text style={styles.tweetText}>{fullText}</Text>
+				</View>
+				{media.length !== 0 && (
+					<View style={styles.mediaContainer}>
+						{media[0].type === "photo" && <ExpandableImg mediaData={media[0]} pixelMedia={pixelMedia} />}
+					</View>
+				)}
+				<View style={styles.timeContainer}>
+					<Text style={styles.userHandleAndTime}>{time}</Text>
+				</View>
+			</View>
+			<View style={styles.statsContainer}>
+				<Text style={styles.statCount}>
+					{tweetData.actionsBarData.retweetsCount} <Text style={styles.statType}>Retweets</Text>
+				</Text>
+				<Text style={styles.statCount}>
+					10 <Text style={styles.statType}>Quote Tweet</Text>
+				</Text>
+				<Text style={styles.statCount}>
+					{tweetData.actionsBarData.likesCount} <Text style={styles.statType}>Likes</Text>
+				</Text>
+			</View>
+			<View style={styles.tweetActionsContainer}>
+				<TweetActionsInfoBar hideCount={true} tweetData={tweetData.actionsBarData} />
+			</View>
+		</View>
 	);
 };
 
@@ -107,23 +93,16 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		backgroundColor: appColors.screenBackgroundColor,
 	},
-	isReplyContainer: {
+	authorDetails: {
 		flex: 1,
-		borderColor: "green",
 		flexDirection: "row",
 		borderWidth: 0,
-		height: 20,
-		marginTop: 5,
-	},
-	innerContainer: {
-		flex: 1,
+		marginVertical: 5,
+		alignItems: "center",
 		borderColor: "green",
-		flexDirection: "row",
-		borderWidth: 0,
-		height: "auto",
 	},
 	photoContainer: {
-		flex: 0.23,
+		flex: 0.3,
 		borderWidth: 0,
 		alignItems: "center",
 		borderColor: "yellow",
@@ -133,19 +112,12 @@ const styles = StyleSheet.create({
 		width: 50,
 		height: 50,
 		borderRadius: 50,
-		marginTop: 15,
-	},
-	info: {
-		flex: 0.77,
-		borderColor: "yellow",
-		flexDirection: "column",
-		borderWidth: 0,
 	},
 	userDetails: {
 		flex: 1,
 		borderColor: "blue",
 		borderWidth: 0,
-		marginBottom: 5,
+		alignItems: "flex-start",
 	},
 	userName: {
 		color: "white",
@@ -153,25 +125,55 @@ const styles = StyleSheet.create({
 	},
 	userHandleAndTime: {
 		color: appColors.lightFontColor,
-		marginLeft: 5,
+	},
+	info: {
+		flex: 1,
+		borderColor: "yellow",
+		flexDirection: "column",
+		borderWidth: 0,
+		marginHorizontal: 4,
 	},
 	tweetTextContainer: {
 		flex: 1,
 		borderColor: "blue",
 		borderWidth: 0,
+		paddingHorizontal: 7,
 	},
 	tweetText: {
 		color: "white",
 		paddingRight: 10,
-		// fontSize: 14,
+		fontSize: 18,
+	},
+	timeContainer: {
+		paddingHorizontal: 7,
+		paddingVertical: 10,
+		borderBottomWidth: 0.2,
+		borderBottomColor: appColors.silverBorderColor,
+	},
+	statsContainer: {
+		flex: 1,
+		flexDirection: "row",
+		paddingHorizontal: 10,
+		paddingVertical: 15,
+		borderBottomWidth: 0.2,
+		borderBottomColor: appColors.silverBorderColor,
+	},
+	statCount: {
+		color: "white",
+		fontSize: 13,
+		marginRight: 20,
+	},
+	statType: {
+		color: appColors.lightFontColor,
+		fontSize: 13,
 	},
 	tweetActionsContainer: {
 		flex: 1,
 		borderColor: "blue",
 		borderWidth: 0,
 		marginTop: 5,
-		flexDirection: "row",
-		paddingBottom: 5,
+		paddingVertical: 6,
+		paddingLeft: 60,
 	},
 	mediaContainer: {
 		flex: 1,

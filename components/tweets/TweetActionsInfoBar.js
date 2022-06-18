@@ -6,9 +6,8 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
 import { appColors } from "../../constants/colors";
 
-//  TODO: Hackathon- onPress: shareButton, comments and there amount?
 const TweetActionsInfoBar = (props) => {
-	const { tweetData } = props;
+	const { tweetData, hideCount } = props;
 
 	// TODO: Prev version didn't had comments number
 	const [retweeted, setRetweeted] = useState(tweetData.retweeted);
@@ -44,7 +43,7 @@ const TweetActionsInfoBar = (props) => {
 					size={25}
 					color={appColors.lightFontColor}
 				/>
-				<Text style={styles.commentsCount}>{tweetData.commentsCount}</Text>
+				{!hideCount && <Text style={styles.commentsCount}>{tweetData.commentsCount}</Text>}
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => retweet()} style={styles.retweetButton}>
 				<EvilIcons
@@ -52,17 +51,19 @@ const TweetActionsInfoBar = (props) => {
 					size={25}
 					color={retweeted ? appColors.retweetedGreen : appColors.lightFontColor}
 				/>
-				<Text
-					style={[
-						styles.retweetButtonIcon,
-						{
-							color: retweeted ? appColors.retweetedGreen : appColors.lightFontColor,
-							fontWeight: retweeted ? "bold" : "300",
-						},
-					]}
-				>
-					{retweets}
-				</Text>
+				{!hideCount && (
+					<Text
+						style={[
+							styles.retweetButtonIcon,
+							{
+								color: retweeted ? appColors.retweetedGreen : appColors.lightFontColor,
+								fontWeight: retweeted ? "bold" : "300",
+							},
+						]}
+					>
+						{retweets}
+					</Text>
+				)}
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => like()} style={styles.likeButton}>
 				{liked ? (
@@ -79,17 +80,19 @@ const TweetActionsInfoBar = (props) => {
 						color={liked ? appColors.likedPink : appColors.lightFontColor}
 					/>
 				)}
-				<Text
-					style={[
-						styles.likeButtonIcon,
-						{
-							color: liked ? appColors.likedPink : appColors.lightFontColor,
-							fontWeight: liked ? "bold" : "300",
-						},
-					]}
-				>
-					{likes}
-				</Text>
+				{!hideCount && (
+					<Text
+						style={[
+							styles.likeButtonIcon,
+							{
+								color: liked ? appColors.likedPink : appColors.lightFontColor,
+								fontWeight: liked ? "bold" : "300",
+							},
+						]}
+					>
+						{likes}
+					</Text>
+				)}
 			</TouchableOpacity>
 			<TouchableOpacity style={styles.shareButton}>
 				<SimpleLineIcons name={"share"} size={16} color={appColors.lightFontColor} />
