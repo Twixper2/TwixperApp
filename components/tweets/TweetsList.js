@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
-import uuid from "react-native-uuid";
 
 import Tweet from "./Tweet";
 import WhoToFollow from "../people/WhoToFollow";
@@ -9,8 +7,6 @@ import { appColors } from "../../constants/colors";
 import MainTweet from "./MainTweet";
 
 const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
-	const [whoToAdded, setWhoToAdded] = useState(false);
-
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
@@ -19,11 +15,13 @@ const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 		);
 	}
 
-	if (!whoToAdded && withWhoToFollow) {
-		data.splice(5, 0, { tweetId: false, whoToFollowId: uuid.v4() });
-		setWhoToAdded(true);
-	} else if (whoToAdded && withWhoToFollow) {
-		data.splice(5, 1, { tweetId: false, whoToFollowId: uuid.v4() });
+	let tweetsArr;
+
+	if (withWhoToFollow) {
+		tweetsArr = JSON.parse(JSON.stringify(data));
+		tweetsArr.splice(Math.floor(Math.random() * data.length), 0, { whoToFollowId: true });
+	} else {
+		tweetsArr = data;
 	}
 
 	const extractKey = (item) => {
@@ -49,7 +47,7 @@ const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 			<FlatList
 				onRefresh={onRefresh}
 				refreshing={isLoading}
-				data={data}
+				data={tweetsArr}
 				keyExtractor={extractKey}
 				renderItem={renderItem}
 			/>
