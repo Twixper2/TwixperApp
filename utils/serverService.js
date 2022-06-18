@@ -28,7 +28,7 @@ export const participantLogin = async (user, pass) => {
 			status: 200,
 			data: {
 				participant_twitter_info: userEntity,
-				user_registered_to_experiment: false,
+				user_registered_to_experiment: true,
 			},
 		};
 	}

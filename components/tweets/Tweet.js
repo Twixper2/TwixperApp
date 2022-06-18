@@ -36,7 +36,7 @@ const Tweet = ({ tweetData }) => {
 		if (screen === PROFILE_SCREEN) {
 			data = tweetAuthor;
 		} else {
-			data = { tweetData: tweetData, isMainTweet: true };
+			data = tweetData;
 		}
 
 		navigation.navigate(screen, { data });

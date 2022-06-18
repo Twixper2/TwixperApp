@@ -5,6 +5,7 @@ import TweetBarData from "../../models/tweet-bar-data";
 
 import {
 	getFeed,
+	getTweetPage,
 	getUserLikes,
 	getWhoToFollow,
 	searchForTweets,
@@ -17,6 +18,7 @@ import {
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 export const SET_USERS_LIKES = "SET_USERS_LIKES";
 export const SET_USERS_TWEETS = "SET_USERS_TWEETS";
+export const SET_TWEET_SCREEN = "SET_TWEET_SCREEN";
 export const SET_SEARCH_QUERY = "SET_SEARCH_QUERY";
 export const SET_WHO_TO_FOLLOW = "SET_WHO_TO_FOLLOW";
 export const CLEAR_SEARCH_QUERY = "CLEAR_SEARCH_QUERY";
@@ -343,6 +345,111 @@ export const get_search_people = (searchQuery) => {
 			}
 		} catch (err) {
 			console.log("error in get_search_people");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+/* ----------------------------------------
+	Profile Data
+   ---------------------------------------- */
+
+export const get_tweet_screen = (tweetData) => {
+	return async (dispatch) => {
+		let tweetsCommentsArr = [];
+
+		const tweetId = tweetData.tweetId;
+		const username = tweetData.tweetAuthor.userHandle.split("@")[1];
+
+		try {
+			const response = await getTweetPage(tweetId, username);
+
+			if (response.status == 200) {
+				let commentsFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (let tweet_idx = 0; tweet_idx < commentsFromServer.length; tweet_idx++) {
+					const tweet = commentsFromServer[tweet_idx];
+
+					const tweetAuthor = new TweetAuthor(
+						tweet.user.name,
+						"@" + tweet.user.screen_name,
+						tweet.profile_link,
+						tweet.profile_img_url,
+						tweet.is_profile_verified
+					);
+
+					const tweetBarData = new TweetBarData(
+						tweet.favorited,
+						tweet.retweeted,
+						[true, false].random(),
+						tweet.likes_count,
+						tweet.retweets_count,
+						tweet.comments_count
+					);
+
+					let quotedStatus = null;
+					if (tweet.quoted_status !== null) {
+						const quotedStatusAuthor = new TweetAuthor(
+							tweet.quoted_status.user.name,
+							"@" + tweet.quoted_status.user.screen_name,
+							tweet.quoted_status.profile_link,
+							tweet.quoted_status.profile_img_url,
+							tweet.quoted_status.is_profile_verified
+						);
+
+						const quotedStatusTweet = new TweetObject(
+							tweet.quoted_status.tweet_id,
+							tweet.quoted_status.created_at,
+							tweet.quoted_status.full_text,
+							tweet.quoted_status.entities.media,
+							tweet.quoted_status.pixel_media,
+							quotedStatusAuthor,
+							false,
+							null,
+							null
+						);
+
+						quotedStatus = quotedStatusTweet;
+					}
+
+					const tweetObject = new TweetObject(
+						tweet.tweet_id,
+						tweet.created_at,
+						tweet.full_text,
+						tweet.entities.media,
+						tweet.pixel_media,
+						tweetAuthor,
+						tweet.is_quote_status,
+						quotedStatus,
+						tweetBarData
+					);
+
+					if (tweet?.tweet_id) {
+						tweetsCommentsArr.push(tweetObject);
+					}
+				}
+
+				dispatch({
+					type: SET_TWEET_SCREEN,
+					mainTweet: tweetData,
+					tweetsComments: tweetsCommentsArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_tweet_screen");
+			} else if (response.status == 502) {
+				console.log("error in get_tweet_screen");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_tweet_screen");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_tweet_screen");
 			console.log(err);
 			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);
