@@ -6,6 +6,7 @@ import Tweet from "./Tweet";
 import WhoToFollow from "../people/WhoToFollow";
 
 import { appColors } from "../../constants/colors";
+import MainTweet from "./MainTweet";
 
 const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 	const [whoToAdded, setWhoToAdded] = useState(false);
@@ -24,6 +25,17 @@ const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 	} else if (whoToAdded && withWhoToFollow) {
 		data.splice(5, 1, { tweetId: false, whoToFollowId: uuid.v4() });
 	}
+
+	const renderItem = ({ item }) => {
+		if ("whoToFollowId" in item) {
+			return <WhoToFollow />;
+		} else if ("isMainTweet" in item) {
+			return <MainTweet tweetData={item.tweetData} />;
+		} else {
+			return <Tweet tweetData={item} />;
+		}
+	};
+
 	return (
 		<View style={styles.tweetsList}>
 			<FlatList
@@ -31,9 +43,7 @@ const TweetsList = ({ data, onRefresh, isLoading, withWhoToFollow }) => {
 				refreshing={isLoading}
 				data={data}
 				keyExtractor={(item) => (item.tweetId ? item.tweetId : item.whoToFollowId)}
-				renderItem={(itemData) => (
-					<View>{itemData.item?.tweetId ? <Tweet tweetData={itemData.item} /> : <WhoToFollow />}</View>
-				)}
+				renderItem={renderItem}
 			/>
 		</View>
 	);
