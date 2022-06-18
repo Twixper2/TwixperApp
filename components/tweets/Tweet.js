@@ -12,11 +12,11 @@ import ExpandableImg from "../UI/ExpandableImg";
 import { appColors } from "../../constants/colors";
 import { PROFILE_SCREEN, TWEET_SCREEN } from "../../constants/screenNames";
 
-const Tweet = (props) => {
+const Tweet = ({ tweetData }) => {
 	const navigation = useNavigation();
 	const [touched, setTouched] = useState(false);
 
-	const { tweetData } = props;
+	// const { tweetData } = props;
 	const { tweetId, time, fullText, media, pixelMedia, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
 
 	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
@@ -45,8 +45,8 @@ const Tweet = (props) => {
 	return (
 		<TouchableHighlight
 			onPress={navigateTo.bind(this, TWEET_SCREEN)}
-			onPressIn={() => tweetPressed(true)}
-			onPressOut={() => tweetPressed()}
+			onPressIn={tweetPressed.bind(this, true)}
+			onPressOut={tweetPressed.bind(this, false)}
 		>
 			<View key={tweetId} style={styles.container}>
 				{!isQuotedStatus ? (
@@ -74,9 +74,9 @@ const Tweet = (props) => {
 								{isProfileVerified && (
 									<MaterialCommunityIcons name={"check-decagram"} size={12} color={"white"} />
 								)}
-								<Text style={styles.userHandleAndTime}>
-									{userHandle} · {time}
-								</Text>
+							</Text>
+							<Text style={styles.userHandleAndTime}>
+								{userHandle} · {time}
 							</Text>
 						</View>
 						<View style={styles.tweetTextContainer}>
@@ -143,9 +143,11 @@ const styles = StyleSheet.create({
 	},
 	userDetails: {
 		flex: 1,
+		flexDirection: "row",
 		borderColor: "blue",
 		borderWidth: 0,
 		marginBottom: 5,
+		alignItems: "flex-start",
 	},
 	userName: {
 		color: "white",
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
 	tweetText: {
 		color: "white",
 		paddingRight: 10,
+		// fontSize: 14,
 	},
 	tweetActionsContainer: {
 		flex: 1,

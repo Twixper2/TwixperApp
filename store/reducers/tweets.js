@@ -2,6 +2,7 @@ import {
 	SET_FEED_TWEETS,
 	SET_USERS_LIKES,
 	SET_USERS_TWEETS,
+	SET_TWEET_SCREEN,
 	SET_SEARCH_QUERY,
 	SET_WHO_TO_FOLLOW,
 	CLEAR_SEARCH_QUERY,
@@ -28,6 +29,10 @@ const initialState = {
 		userFollowing: [],
 		userFollowers: [],
 	},
+	tweetScreen: {
+		mainTweet: null,
+		tweetsComments: [],
+	},
 };
 
 export default (state = initialState, action) => {
@@ -44,6 +49,15 @@ export default (state = initialState, action) => {
 					...state.profile,
 					username: action.username,
 					usersLikes: action.usersLikes,
+				},
+			};
+		case SET_TWEET_SCREEN:
+			return {
+				...state,
+				tweetScreen: {
+					...state.tweetScreen,
+					mainTweet: action.mainTweet,
+					tweetsComments: action.tweetsComments,
 				},
 			};
 		case SET_SEARCH_QUERY:
