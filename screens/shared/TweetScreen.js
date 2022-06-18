@@ -49,7 +49,7 @@ const TweetScreen = ({ route, navigation }) => {
 			<TweetsList
 				onRefresh={loadTweetsComments}
 				isLoading={isLoading}
-				data={[{ tweetId: mainTweet.tweetId, tweetData: mainTweet }, ...tweetsComments]}
+				data={[{ tweetId: mainTweet.tweetId, tweetData: mainTweet, isMainTweet: true }, ...tweetsComments]}
 				withWhoToFollow={false}
 			/>
 		</View>
