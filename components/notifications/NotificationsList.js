@@ -1,8 +1,17 @@
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 
-import Notification from "./PersonPreview";
+import AlertNotification from "./AlertNotification";
+import FollowerNotification from "./FollowerNotification";
+import SuggestionsNotification from "./SuggestionsNotification";
 
 import { appColors } from "../../constants/colors";
+import {
+	LIKE_NOTIFICATION,
+	ALERTS_NOTIFICATION,
+	RETWEETED_NOTIFICATION,
+	FOLLOWERS_NOTIFICATION,
+	SUGGESTIONS_NOTIFICATION,
+} from "../../constants/notificationTypes";
 
 const NotificationsList = ({ data, onRefresh, isLoading }) => {
 	if (isLoading) {
@@ -13,14 +22,28 @@ const NotificationsList = ({ data, onRefresh, isLoading }) => {
 		);
 	}
 
+	const renderItem = ({ item }) => {
+		if (item.notificationType === LIKE_NOTIFICATION) {
+			return <></>;
+		} else if (item.notificationType === ALERTS_NOTIFICATION) {
+			return <AlertNotification />;
+		} else if (item.notificationType === RETWEETED_NOTIFICATION) {
+			return <></>;
+		} else if (item.notificationType === FOLLOWERS_NOTIFICATION) {
+			return <FollowerNotification />;
+		} else if (item.notificationType === SUGGESTIONS_NOTIFICATION) {
+			return <SuggestionsNotification />;
+		}
+	};
+
 	return (
 		<View style={styles.notificationsList}>
 			<FlatList
 				onRefresh={onRefresh}
 				refreshing={isLoading}
 				data={data}
-				keyExtractor={(item) => item.userHandle}
-				renderItem={(itemData) => <Notification personData={itemData.item} />}
+				keyExtractor={(item) => item.notificationID}
+				renderItem={renderItem}
 			/>
 		</View>
 	);
