@@ -14,7 +14,7 @@ const NotificationsList = ({ data, onRefresh, isLoading }) => {
 	}
 
 	return (
-		<View style={styles.peopleList}>
+		<View style={styles.notificationsList}>
 			<FlatList
 				onRefresh={onRefresh}
 				refreshing={isLoading}
@@ -27,7 +27,7 @@ const NotificationsList = ({ data, onRefresh, isLoading }) => {
 };
 
 const styles = StyleSheet.create({
-	peopleList: {
+	notificationsList: {
 		// height: "90%",
 		display: "flex",
 		justifyContent: "center",
