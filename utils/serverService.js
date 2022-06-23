@@ -17,6 +17,8 @@ import { searchPeople } from "../data/Selenium/v3/search_people_data";
 import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
 import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
 
+import { notifications } from "../data/Selenium/v3/notifications_data";
+
 /* ----------------------------------------
 	User Login Functions
    ---------------------------------------- */
@@ -217,6 +219,17 @@ export const getWhoToFollow = async (username) => {
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.whoToFollow + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getNotifications = async () => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: notifications };
+	}
+	// Else, send the request to the server
+	// const requestQuery = "?username=" + username;
+	const requestUrl = serverUrl + serverEndpoints.getNotifications;
 	return await sendGetRequest(requestUrl);
 };
 

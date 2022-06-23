@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import NotificationsList from "../../components/notifications/NotificationsList";
 
-// import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../store/actions/tweets";
 
 import { appColors } from "../../constants/colors";
 
@@ -12,29 +12,29 @@ const NotificationsScreen = ({ route, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	// const { usersTweets } = useSelector((state) => state.tweets.profile);
+	const { notifications } = useSelector((state) => state.tweets);
 	const dispatch = useDispatch();
 
-	const usersNotifications = [
-		{
-			notificationType: "Alerts",
-			notificationID: "1",
-		},
-		{
-			notificationType: "Followers",
-			notificationID: "2",
-		},
-		{
-			notificationType: "Suggestions",
-			notificationID: "3",
-		},
-	];
+	// const usersNotifications = [
+	// 	{
+	// 		notificationType: "Alerts",
+	// 		notificationID: "1",
+	// 	},
+	// 	{
+	// 		notificationType: "Followers",
+	// 		notificationID: "2",
+	// 	},
+	// 	{
+	// 		notificationType: "Suggestions",
+	// 		notificationID: "3",
+	// 	},
+	// ];
 
 	const loadNotifications = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			// await dispatch(tweetsActions.get_user_tweets(username));
+			await dispatch(tweetsActions.get_notifications());
 		} catch (err) {
 			setError(err);
 		}
@@ -57,7 +57,7 @@ const NotificationsScreen = ({ route, navigation }) => {
 		);
 	}
 
-	if (!isLoading && usersNotifications.length === 0) {
+	if (!isLoading && notifications.length === 0) {
 		return (
 			<View style={styles.centered}>
 				<Text>No User Tweets Result Found.</Text>
@@ -67,7 +67,7 @@ const NotificationsScreen = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<NotificationsList onRefresh={loadNotifications} isLoading={isLoading} data={usersNotifications} />
+			<NotificationsList onRefresh={loadNotifications} isLoading={isLoading} data={notifications} />
 		</View>
 	);
 };

@@ -20,6 +20,8 @@ export const serverEndpoints = {
 	usersTweets: "/participants/getUserTimeline",
 	userFollowing: "/participants/getUserFriends",
 	userFollowers: "/participants/getUserFollowers",
+
+	getNotifications: "/participants/notifications",
 };
 
 /* Twitter Endpoint */

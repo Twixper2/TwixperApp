@@ -2,6 +2,9 @@ import TweetObject from "../../models/tweet-object";
 import TweetAuthor from "../../models/tweet-author";
 import PersonEntity from "../../models/person-entity";
 import TweetBarData from "../../models/tweet-bar-data";
+import NotificationObject from "../../models/notification-object";
+
+import { ALERTS_NOTIFICATION } from "../../constants/notificationTypes";
 
 import {
 	getFeed,
@@ -13,6 +16,7 @@ import {
 	getUserTimeline,
 	getUserFollowing,
 	getUserFollowers,
+	getNotifications,
 } from "../../utils/serverService";
 
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
@@ -21,6 +25,7 @@ export const SET_USERS_TWEETS = "SET_USERS_TWEETS";
 export const SET_TWEET_SCREEN = "SET_TWEET_SCREEN";
 export const SET_SEARCH_QUERY = "SET_SEARCH_QUERY";
 export const SET_WHO_TO_FOLLOW = "SET_WHO_TO_FOLLOW";
+export const SET_NOTIFICATIONS = "SET_NOTIFICATIONS";
 export const CLEAR_SEARCH_QUERY = "CLEAR_SEARCH_QUERY";
 export const SET_USER_FOLLOWING = "SET_USER_FOLLOWING";
 export const SET_USER_FOLLOWERS = "SET_USER_FOLLOWERS";
@@ -193,6 +198,74 @@ export const get_who_to_follow = (username) => {
 	};
 };
 
+export const get_notifications = () => {
+	return async (dispatch) => {
+		let userNotificationsArr = [];
+
+		try {
+			const response = await getNotifications();
+
+			if (response.status == 200) {
+				let notificationsFromServer = JSON.parse(JSON.stringify(response.data));
+
+				for (let notification_idx = 0; notification_idx < notificationsFromServer.length; notification_idx++) {
+					const notification = notificationsFromServer[notification_idx];
+
+					let notificationObject;
+
+					if (notification.notificationType === ALERTS_NOTIFICATION) {
+						notificationObject = new NotificationObject(
+							notification.notificationID,
+							notification.notificationType,
+							null,
+							null,
+							null,
+							null,
+							notification.title_text,
+							null
+						);
+					} else {
+						notificationObject = new NotificationObject(
+							notification.notificationID,
+							notification.notificationType,
+							notification.user.name,
+							"@" + notification.user.screen_name,
+							notification.profile_img_url,
+							notification.profile_link,
+							notification.title_text,
+							notification.body_text
+						);
+					}
+
+					if (notification?.notificationID) {
+						userNotificationsArr.push(notificationObject);
+					}
+				}
+
+				dispatch({
+					type: SET_NOTIFICATIONS,
+					notifications: userNotificationsArr,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_notifications");
+			} else if (response.status == 502) {
+				console.log("error in get_notifications");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_notifications");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_notifications");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
 /* ----------------------------------------
 	Search  Data
    ---------------------------------------- */
