@@ -10,7 +10,6 @@ import { actuallySendReqToServer } from "./config";
 import { storageKeys } from "../constants/commonKeys";
 
 import { data as users } from "../data/UserTwitterEntity";
-import { searchPeople } from "../data/Selenium/v2/search_people_data";
 
 /* ----------------------------------------
 	Prev Project Funcs
