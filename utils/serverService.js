@@ -14,24 +14,26 @@ import { userFollowers } from "../data/Selenium/v3/user_followers";
 import { userFollowing } from "../data/Selenium/v3/user_following";
 import { searchTweets } from "../data/Selenium/v3/search_tweets_data";
 import { searchPeople } from "../data/Selenium/v3/search_people_data";
+import { notifications } from "../data/Selenium/v3/notifications_data";
 import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
 import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
 
-import { notifications } from "../data/Selenium/v3/notifications_data";
+import { loginNotRegistered } from "../data/Selenium/serverResponse/login_data";
 
 /* ----------------------------------------
 	User Login Functions
    ---------------------------------------- */
-
+// serverResponse
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
 		await sleep(2000);
 		return {
 			status: 200,
-			data: {
-				participant_twitter_info: userEntity,
-				user_registered_to_experiment: true,
-			},
+			// data: {
+			// 	participant_twitter_info: userEntity,
+			// 	user_registered_to_experiment: true,
+			// },
+			data: loginNotRegistered,
 		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
@@ -273,6 +275,21 @@ const sendPostRequest = async (requestUrl, payload, options = {}) => {
 /* Create auth header object */
 
 const createAuthHeaderObj = async () => {
+	let headerObj = { "Content-Type": "application/json" };
+
+	const userTwitterToken = await AsyncStorage.getItem("user_twitter_token");
+	const userTwitterTokenSecret = await AsyncStorage.getItem("user_twitter_token_secret");
+
+	if (userTwitterToken != null && userTwitterTokenSecret != null) {
+		headerObj["User-Twitter-Token"] = userTwitterToken;
+		headerObj["User-Twitter-Token-Secret"] = userTwitterTokenSecret;
+	}
+	return headerObj;
+};
+
+/* Prev Project */
+
+const createAuthHeaderObj_prev = async () => {
 	let headerObj = { "Content-Type": "application/json" };
 
 	const userTwitterToken = await AsyncStorage.getItem("user_twitter_token");

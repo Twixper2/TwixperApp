@@ -4,10 +4,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import PersonEntity from "../models/person-entity";
 
-import { sleep } from "./helperFunctions";
+import { sleep, printLogs } from "./helperFunctions";
 import { actuallySendReqToServer } from "./config";
 
-import { tweets } from "../data/Selenium/v2/tweets_data";
+import { storageKeys } from "../constants/commonKeys";
+
 import { data as users } from "../data/UserTwitterEntity";
 import { searchPeople } from "../data/Selenium/v2/search_people_data";
 
@@ -22,11 +23,24 @@ export const saveItem = async (key, value) => {
 export const getValueFor = async (key) => {
 	let result = await SecureStore.getItemAsync(key);
 	if (result) {
-		console.log("🔐 Here's your value 🔐 \n" + result);
+		printLogs("🔐 Here's your value 🔐 \n" + result);
 		return result;
 	} else {
-		console.log("No values stored under that key.");
+		printLogs("No values stored under that key.");
 	}
+};
+
+export const deleteItem = async (key) => {
+	await SecureStore.deleteItemAsync(key);
+};
+
+export const clearSecureStore = async () => {
+	printLogs("Starting clearing store...");
+
+	for (const key in storageKeys) {
+		await SecureStore.deleteItemAsync(key);
+	}
+	printLogs("Store cleared successfully");
 };
 
 /* ----------------------------------------

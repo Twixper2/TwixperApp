@@ -1,5 +1,11 @@
 var moment = require("moment");
 
+import { withStorageLogs } from "./config";
+
+/* ----------------------------------------
+	Parsers
+   ---------------------------------------- */
+
 export const parseTwitterUserEntity = (userData) => {
 	return (userEntity = {
 		user_name: userData.username.split("\n@")[0],
@@ -56,6 +62,16 @@ export const parseTwitterDate = (twitterDate) => {
 	}
 	// Change format to "19 Oct 20" for example
 	return moment(system_date).format("D MMM YY");
+};
+
+/* ----------------------------------------
+	Dev Helpers
+   ---------------------------------------- */
+
+export const printLogs = (log) => {
+	if (withStorageLogs) {
+		console.log(log);
+	}
 };
 
 // For mocking server delay

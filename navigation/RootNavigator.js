@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Platform } from "react-native";
@@ -7,10 +8,19 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import LoginTwitterScreen from "../screens/auth/LoginTwitterScreen";
 import LoginExperimentScreen from "../screens/auth/LoginExperimentScreen";
 
-import { loginWithUsername } from "../utils/config";
+//  TODO: Not For Prod
+import { clearSecureStore } from "../utils/storageFunctions";
+import { loginWithUsername, isClearStore } from "../utils/config";
+
 const RootStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+	useEffect(async () => {
+		if (isClearStore) {
+			await clearSecureStore();
+		}
+	}, [isClearStore, clearSecureStore]);
+
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator

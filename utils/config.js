@@ -5,6 +5,10 @@ export const serverUrl = "http://192.168.1.24:3000"; // Real mode: https://rps.i
 //  NOTE: Change to true
 export const actuallySendReqToServer = false; // Real mode: true
 
+/* Storage Helpers */
+export const isClearStore = true;
+export const withStorageLogs = true;
+
 /* Way of Login: */
 //  3 way auth with token
 //  Username & Password
