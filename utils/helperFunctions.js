@@ -22,11 +22,20 @@ export const parseTwitterUserEntity = (userData) => {
 	});
 };
 
+export const parseParticipantTwitterInfo = (userData) => {
+	return (userEntity = {
+		user_name: userData.name.split("\n@")[0],
+		user_handle: userData.name.split("\n@")[1],
+		friends_count: userData.friends_count.split(" ")[0],
+		followers_count: userData.followers_count.split(" ")[0],
+		profile_image_url: userData.profile_image_url_https,
+	});
+};
+
 export const parseTwitterDate = (twitterDate) => {
 	var system_date = new Date(Date.parse(twitterDate));
 	var user_date = new Date();
 
-	//  TODO: K ??
 	// if (K.ie) {
 	// 	system_date = Date.parse(twitterDate.replace(/( \+)/, " UTC$1"));
 	// }

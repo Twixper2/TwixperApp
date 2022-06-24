@@ -2,9 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import UserTwitterEntity from "../../models/user-twitter-entity";
 
-import { parseTwitterUserEntity } from "../../utils/helperFunctions";
+import { parseTwitterUserEntity, parseParticipantTwitterInfo } from "../../utils/helperFunctions";
 import { participantLogin, registerToExperiment } from "../../utils/serverService";
-import { emptyLs, emptyStorageFromLs, saveItem, getValueFor } from "../../utils/storageFunctions";
+import { emptyLs, saveItem } from "../../utils/storageFunctions";
 
 import { storageKeys } from "../../constants/commonKeys";
 
@@ -41,34 +41,6 @@ export const user_login = (username, password) => {
 
 					dispatch(authenticate(participant_twitter_info, user_registered_to_experiment, initial_content));
 				}
-
-				// const registeredToExperiment = participantLoginResponse.data.user_registered_to_experiment;
-				// const participantTwitterInfo = participantLoginResponse.data.participant_twitter_info;
-
-				// const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
-
-				// const userTwitterEntity = new UserTwitterEntity(
-				// 	parsedInfo.user_name,
-				// 	parsedInfo.user_handle,
-				// 	parsedInfo.friends_count,
-				// 	parsedInfo.followers_count,
-				// 	parsedInfo.profile_image_url,
-				// 	parsedInfo.cover_image_url,
-				// 	parsedInfo.user_description,
-				// 	parsedInfo.user_location,
-				// 	parsedInfo.when_joined,
-				// 	parsedInfo.user_url,
-				// 	parsedInfo.user_profession
-				// );
-
-				// dispatch({
-				// 	type: USER_LOGIN,
-				// 	username: parsedInfo.user_handle,
-				// 	userTwitterEntity: userTwitterEntity,
-				// 	registeredToExperiment: registeredToExperiment,
-				// });
-
-				// return registeredToExperiment;
 			} else if (participantLoginResponse.status == 401) {
 				let message = "No params supplied.\nPlease Login again.";
 				throw new Error(message);
@@ -106,20 +78,17 @@ export const register_to_experiment = (expCode) => {
 			const registerToExpResponse = await registerToExperiment(expCode);
 
 			if (registerToExpResponse.status == 200) {
-				// Setting the registration in local storage
-				await AsyncStorage.setItem("registeredToExperiment", JSON.stringify(true));
-				await AsyncStorage.setItem(
-					"user_twitter_entity",
-					JSON.stringify(registerToExpResponse.data.participant_twitter_info)
-				);
+				const { initial_content, participant_twitter_info, user_registered_to_experiment } =
+					registerToExpResponse.data;
 
-				// Reset local storage twitter data
-				await emptyStorageFromLs();
+				await saveItem(storageKeys.REGISTERED_EXPERIMENT, JSON.stringify(user_registered_to_experiment));
 
-				// Telling the root the session validated (so it will start to collect actions)
-				// this.$root.sessionValidated()
-				// this.$router.replace('feed')
-				// window.location.reload();
+				dispatch(authenticate(participant_twitter_info, user_registered_to_experiment, initial_content));
+			} else if (registerToExpResponse.status == 400) {
+				await emptyLs();
+				await AsyncStorage.removeItem("providedCredentials");
+				let message = "Unauthorized. Login with twitter first";
+				throw new Error(message);
 			} else if (registerToExpResponse.status == 401 || registerToExpResponse.status == 428) {
 				await emptyLs();
 				await AsyncStorage.removeItem("providedCredentials");
@@ -165,7 +134,9 @@ export const register_to_experiment = (expCode) => {
 
 export const authenticate = (participantTwitterInfo, registeredToExperiment, initialContent) => {
 	return (dispatch) => {
-		const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
+		//  TODO: Which one you return?
+		// const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
+		const parsedInfo = parseParticipantTwitterInfo(participantTwitterInfo);
 
 		const userTwitterEntity = new UserTwitterEntity(
 			parsedInfo.user_name,

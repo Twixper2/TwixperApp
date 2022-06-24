@@ -8,7 +8,7 @@ export const serverEndpoints = {
 	participantLogin: "//twitterSeleniumAuth",
 
 	/* Experiment Register */
-	registerToExperimentEndpoint: "/registerToExperiment",
+	registerToExperimentEndpoint: "//registerToExperiment",
 
 	/* Data to Display */
 	getTweet: "/participants/getTweet",
