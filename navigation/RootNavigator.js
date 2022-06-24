@@ -8,7 +8,6 @@ import LoginTwitterScreen from "../screens/auth/LoginTwitterScreen";
 import LoginExperimentScreen from "../screens/auth/LoginExperimentScreen";
 
 import { loginWithUsername } from "../utils/config";
-
 const RootStack = createNativeStackNavigator();
 
 const RootNavigator = () => {

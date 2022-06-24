@@ -5,6 +5,7 @@ import {
 	SET_TWEET_SCREEN,
 	SET_SEARCH_QUERY,
 	SET_WHO_TO_FOLLOW,
+	SET_NOTIFICATIONS,
 	CLEAR_SEARCH_QUERY,
 	SET_USER_FOLLOWING,
 	SET_USER_FOLLOWERS,
@@ -15,6 +16,7 @@ import {
 const initialState = {
 	feedTweets: [],
 	whoToFollow: [],
+	notifications: [],
 	search: {
 		query: "",
 		tweetsResults: [],
@@ -81,6 +83,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				whoToFollow: action.whoToFollow,
+			};
+		case SET_NOTIFICATIONS:
+			return {
+				...state,
+				notifications: action.notifications,
 			};
 		case CLEAR_SEARCH_QUERY:
 			return {
