@@ -23,8 +23,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		paddingVertical: 11,
 		paddingHorizontal: 15,
-		borderBottomWidth: 0.4,
-		borderBottomColor: appColors.silverBorderColor,
+		borderBottomWidth: 0.3,
+		borderTopWidth: 0.3,
+		borderColor: appColors.silverBorderColor,
 		backgroundColor: appColors.screenBackgroundColor,
 	},
 	svgContainer: {
