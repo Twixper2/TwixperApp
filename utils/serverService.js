@@ -2,7 +2,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { sleep } from "./helperFunctions";
+import { getValueFor } from "./storageFunctions";
 import { serverEndpoints } from "../constants/endpoints";
+import { storageKeys, headerKeys } from "../constants/commonKeys";
 import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
 
 import { data as feedJSON } from "../data/FeedJSON";
@@ -17,7 +19,6 @@ import { searchPeople } from "../data/Selenium/v3/search_people_data";
 import { notifications } from "../data/Selenium/v3/notifications_data";
 import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
 import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
-
 import { loginNotRegistered } from "../data/Selenium/serverResponse/login_data";
 
 /* ----------------------------------------
@@ -277,12 +278,12 @@ const sendPostRequest = async (requestUrl, payload, options = {}) => {
 const createAuthHeaderObj = async () => {
 	let headerObj = { "Content-Type": "application/json" };
 
-	const userTwitterToken = await AsyncStorage.getItem("user_twitter_token");
-	const userTwitterTokenSecret = await AsyncStorage.getItem("user_twitter_token_secret");
+	const user = await getValueFor(storageKeys.USERNAME);
+	const accessToken = await getValueFor(storageKeys.ACCESS_TOKEN);
 
-	if (userTwitterToken != null && userTwitterTokenSecret != null) {
-		headerObj["User-Twitter-Token"] = userTwitterToken;
-		headerObj["User-Twitter-Token-Secret"] = userTwitterTokenSecret;
+	if (user != null && accessToken != null) {
+		headerObj[headerKeys.USER_KEY] = user;
+		headerObj[headerKeys.ACCESS_TOKEN_KEY] = accessToken;
 	}
 	return headerObj;
 };

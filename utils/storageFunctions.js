@@ -38,7 +38,7 @@ export const clearSecureStore = async () => {
 	printLogs("Starting clearing store...");
 
 	for (const key in storageKeys) {
-		await SecureStore.deleteItemAsync(key);
+		await SecureStore.deleteItemAsync(storageKeys[key]);
 	}
 	printLogs("Store cleared successfully");
 };
