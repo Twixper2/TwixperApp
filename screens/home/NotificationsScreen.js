@@ -15,21 +15,6 @@ const NotificationsScreen = ({ route, navigation }) => {
 	const { notifications } = useSelector((state) => state.tweets);
 	const dispatch = useDispatch();
 
-	// const usersNotifications = [
-	// 	{
-	// 		notificationType: "Alerts",
-	// 		notificationID: "1",
-	// 	},
-	// 	{
-	// 		notificationType: "Followers",
-	// 		notificationID: "2",
-	// 	},
-	// 	{
-	// 		notificationType: "Suggestions",
-	// 		notificationID: "3",
-	// 	},
-	// ];
-
 	const loadNotifications = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);

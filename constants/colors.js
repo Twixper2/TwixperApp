@@ -1,6 +1,7 @@
 export const appColors = {
 	/* Fonts */
 	lightFontColor: "rgb(136, 153, 166)",
+	lightWhiteFontColor: "rgb(231, 233, 234)",
 	mediumGreyFontColor: "rgb(170, 170, 170)",
 
 	/* Icons & Buttons */

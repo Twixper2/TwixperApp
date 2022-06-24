@@ -26,13 +26,13 @@ const NotificationsList = ({ data, onRefresh, isLoading }) => {
 		if (item.notificationType === LIKE_NOTIFICATION) {
 			return <></>;
 		} else if (item.notificationType === ALERTS_NOTIFICATION) {
-			return <AlertNotification />;
+			return <AlertNotification notificationData={item} />;
 		} else if (item.notificationType === RETWEETED_NOTIFICATION) {
 			return <></>;
 		} else if (item.notificationType === FOLLOWERS_NOTIFICATION) {
-			return <FollowerNotification />;
+			return <FollowerNotification notificationData={item} />;
 		} else if (item.notificationType === SUGGESTIONS_NOTIFICATION) {
-			return <SuggestionsNotification />;
+			return <SuggestionsNotification notificationData={item} />;
 		}
 	};
 
