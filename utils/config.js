@@ -3,18 +3,13 @@ export const serverUrl = "http://192.168.1.24:3000"; // Real mode: https://rps.i
 // export const serverUrl = "https://rps.ise.bgu.ac.il/njsw31";
 
 //  NOTE: Change to true
-export const actuallySendReqToServer = false; // Real mode: true
+export const actuallySendReqToServer = true; // Real mode: true
+
+export const insertCredentials = true; // Real mode: false
 
 /* Storage Helpers */
 export const isClearStore = true;
 export const withStorageLogs = true;
-
-/* Way of Login: */
-//  3 way auth with token
-//  Username & Password
-
-export const loginWithUsername = true;
-export const seleniumData = true;
 
 /* For feed */
 export const moreFeedTweetsCount = 40; // Real mode: 40

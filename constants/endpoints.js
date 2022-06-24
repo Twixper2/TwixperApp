@@ -11,17 +11,17 @@ export const serverEndpoints = {
 	registerToExperimentEndpoint: "//registerToExperiment",
 
 	/* Data to Display */
-	getTweet: "/participants/getTweet",
-	feedEndpoint: "/participants/getFeed",
-	userLikes: "/participants/getUserLikes",
-	searchPeople: "/participants/searchUsers",
-	searchTweets: "/participants/searchTweets",
-	whoToFollow: "/participants/getWhoToFollow",
-	usersTweets: "/participants/getUserTimeline",
-	userFollowing: "/participants/getUserFriends",
-	userFollowers: "/participants/getUserFollowers",
+	getTweet: "//participants/getTweet",
+	feedEndpoint: "//participants/getFeed",
+	userLikes: "//participants/getUserLikes",
+	searchPeople: "//participants/searchUsers",
+	searchTweets: "//participants/searchTweets",
+	whoToFollow: "//participants/getWhoToFollow",
+	usersTweets: "//participants/getUserTimeline",
+	userFollowing: "//participants/getUserFriends",
+	userFollowers: "//participants/getUserFollowers",
 
-	getNotifications: "/participants/notifications",
+	getNotifications: "//participants/notifications",
 };
 
 /* Twitter Endpoint */

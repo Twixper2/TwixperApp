@@ -5,9 +5,8 @@ import { sleep } from "./helperFunctions";
 import { getValueFor } from "./storageFunctions";
 import { serverEndpoints } from "../constants/endpoints";
 import { storageKeys, headerKeys } from "../constants/commonKeys";
-import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
+import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
 
-import { data as feedJSON } from "../data/FeedJSON";
 import { userEntity } from "../data/Selenium/user_entity";
 import { userLikes } from "../data/Selenium/v3/user_likes";
 import { userTweets } from "../data/Selenium/v3/user_tweets";
@@ -112,14 +111,11 @@ export const checkCredentials = async (token, tokenSecret) => {
 	Requests for data from Twitter to display
    ---------------------------------------- */
 
-export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
+// export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
+export const getFeed = async (maxId, count) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		if (seleniumData) {
-			return { status: 200, data: tweetsData };
-		} else {
-			return { status: 200, data: feedJSON };
-		}
+		return { status: 200, data: tweetsData };
 	}
 	// Else, send the request to the server
 	let requestUrl = serverUrl + serverEndpoints.feedEndpoint;

@@ -13,11 +13,18 @@ export const LOGOUT = "LOGOUT";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const REGISTER_TO_EXPERIMENT = "REGISTER_TO_EXPERIMENT";
 
+import { insertCredentials } from "../../utils/config";
+
 /**********          User Login          **********/
 
 export const user_login = (username, password) => {
 	return async (dispatch) => {
 		try {
+			if (insertCredentials) {
+				username = "Twixper_App";
+				password = "LiadMosheDini";
+			}
+
 			const participantLoginResponse = await participantLogin(username, password);
 
 			if (participantLoginResponse.status == 200) {
@@ -75,6 +82,10 @@ export const user_login = (username, password) => {
 export const register_to_experiment = (expCode) => {
 	return async (dispatch) => {
 		try {
+			if (insertCredentials) {
+				expCode = "e044c6";
+			}
+
 			const registerToExpResponse = await registerToExperiment(expCode);
 
 			if (registerToExpResponse.status == 200) {
