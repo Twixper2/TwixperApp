@@ -10,7 +10,7 @@ import Feather from "react-native-vector-icons/Feather";
 
 import { appColors } from "../../constants/colors";
 
-//  TODO: opPress?
+//  TODO: onPress?
 
 const CreateTweetScreen = (props) => {
 	const { navigation } = props;

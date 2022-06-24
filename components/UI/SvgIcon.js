@@ -2,7 +2,6 @@ import { SvgXml } from "react-native-svg";
 
 import { svgMap } from "../../constants/svgMap";
 
-//  TODO: onPress?
 const SvgIcon = ({ style, name }) => {
 	if (!(name in svgMap)) {
 		return;

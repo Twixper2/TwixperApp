@@ -16,7 +16,6 @@ import RootNavigator from "./navigation/RootNavigator";
 
 import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
-import twitterAuthReducer from "./store/reducers/twitterAuth";
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs([
@@ -29,8 +28,6 @@ enableScreens();
 const rootReducer = combineReducers({
 	auth: authReducer,
 	tweets: tweetsReducer,
-	//  TODO: Old Version Auth
-	twitterAuth: twitterAuthReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
