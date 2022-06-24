@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
 
+import SvgIcon from "../UI/SvgIcon";
+import ProfileImage from "../UI/ProfileImage";
+
 import { appColors } from "../../constants/colors";
 
-import SvgIcon from "../UI/SvgIcon";
-
-const FollowerNotification = () => {
+const FollowerNotification = ({ notificationData }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.svgContainer}>
 				<SvgIcon name="FollowersSvg" style={styles.svg} />
-				<Text style={styles.text}>Followers SVG{"    "}</Text>
+			</View>
+			<View style={styles.contentContainer}>
+				<View style={styles.imageContainer}>
+					<ProfileImage imageStyle={styles.profileImg} imageUri={notificationData.profileImgURL} />
+				</View>
+				<View style={styles.bodyTextContainer}>
+					<Text style={styles.bodyText}>{notificationData.bodyText}</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -18,26 +26,41 @@ const FollowerNotification = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		flexDirection: "row",
+		paddingVertical: 11,
+		paddingHorizontal: 15,
+		borderBottomWidth: 0.4,
+		borderBottomColor: appColors.silverBorderColor,
 		backgroundColor: appColors.screenBackgroundColor,
 	},
-	svg: {
-		width: 35,
-		height: 35,
-	},
 	svgContainer: {
-		padding: 10,
-		flexDirection: "row",
-		alignContent: "center",
-		justifyContent: "center",
-		alignItems: "center",
-		marginLeft: 130,
+		marginRight: 11,
+		paddingLeft: 11,
 	},
-	text: {
-		fontSize: 16,
-		color: appColors.mediumGreyFontColor,
-		margin: 10,
+	contentContainer: {
+		flex: 1,
+	},
+	imageContainer: {
+		marginBottom: 11,
+	},
+	bodyTextContainer: {
+		flexShrink: 1,
+		flexDirection: "row",
+	},
+	svg: {
+		width: 28,
+		height: 28,
+	},
+	profileImg: {
+		width: 30,
+		height: 30,
+		borderRadius: 50,
+	},
+	bodyText: {
+		flexShrink: 1,
+		fontSize: 14,
+		fontWeight: "bold",
+		color: appColors.lightWhiteFontColor,
 	},
 });
 
