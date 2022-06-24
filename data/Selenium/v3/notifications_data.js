@@ -10,7 +10,7 @@ exports.notifications = [
 		profile_img_url: "https://pbs.twimg.com/profile_images/1266836389993291777/AsvlcsQV_400x400.jpg",
 		profile_link: "https://twitter.com/moshebst",
 		title_text: "Moshe Bar-Siman-Tov משה בר סימן טוב",
-		body_text: "pic.twitter.com/KcJFmiKHOa מה זה אומר? סימן טוב? ",
+		body_text: "מה זה אומר? סימן טוב? pic.twitter.com/KcJFmiKHOa",
 	},
 	{
 		notificationID: "2",

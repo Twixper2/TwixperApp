@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { appColors } from "../../constants/colors";
-
 import SvgIcon from "../UI/SvgIcon";
+
+import { appColors } from "../../constants/colors";
 
 const AlertNotification = ({ notificationData }) => {
 	return (
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
 		flexShrink: 1,
 	},
 	svg: {
-		width: 35,
-		height: 35,
+		width: 28,
+		height: 28,
 	},
 	text: {
 		flexShrink: 1,
