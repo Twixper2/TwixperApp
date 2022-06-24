@@ -1,5 +1,3 @@
-/* spell-checker: disable */
-
 /* ----------------------------------------
 	Storage Keys
    ---------------------------------------- */
@@ -8,6 +6,9 @@ export const storageKeys = {
 	/* User Credentials */
 	USERNAME: "username",
 	PASSWORD: "password",
+
+	/* User Statues */
+	REGISTERED_EXPERIMENT: "registeredToExperiment",
 
 	/* data for server */
 	ACCESS_TOKEN: "access_token",
