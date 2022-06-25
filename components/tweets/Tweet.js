@@ -16,7 +16,6 @@ const Tweet = ({ tweetData }) => {
 	const navigation = useNavigation();
 	const [touched, setTouched] = useState(false);
 
-	// const { tweetData } = props;
 	const { tweetId, time, fullText, media, pixelMedia, tweetAuthor, quotedStatus, isQuotedStatus } = tweetData;
 
 	const { username, userHandle, profileImgURL, isProfileVerified } = tweetAuthor;
@@ -90,7 +89,11 @@ const Tweet = ({ tweetData }) => {
 							</View>
 						)}
 						<View style={styles.tweetActionsContainer}>
-							<TweetActionsInfoBar tweetData={tweetData.actionsBarData} />
+							<TweetActionsInfoBar
+								tweetId={tweetId}
+								userHandle={userHandle}
+								actionsBarData={tweetData.actionsBarData}
+							/>
 						</View>
 					</View>
 				</View>
