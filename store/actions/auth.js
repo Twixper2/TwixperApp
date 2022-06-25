@@ -146,8 +146,8 @@ export const register_to_experiment = (expCode) => {
 export const authenticate = (participantTwitterInfo, registeredToExperiment, initialContent) => {
 	return (dispatch) => {
 		//  TODO: Which one you return?
-		// const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
-		const parsedInfo = parseParticipantTwitterInfo(participantTwitterInfo);
+		const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
+		// const parsedInfo = parseParticipantTwitterInfo(participantTwitterInfo);
 
 		const userTwitterEntity = new UserTwitterEntity(
 			parsedInfo.user_name,

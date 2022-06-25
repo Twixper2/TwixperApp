@@ -45,7 +45,7 @@ const LoginExperimentScreen = ({ navigation }) => {
 			}
 		} catch (err) {
 			setError(err.message);
-			navigation.replace("LoginTwitter");
+			navigation.replace("Login");
 		}
 	};
 

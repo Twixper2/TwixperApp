@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, View, Image, TextInput } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -10,16 +11,30 @@ import Feather from "react-native-vector-icons/Feather";
 
 import { appColors } from "../../constants/colors";
 
+import CreateTweetHeader from "../../components/UI/CreateTweetHeader";
+
 //  TODO: onPress?
 
-const CreateTweetScreen = (props) => {
-	const { navigation } = props;
-
+const CreateTweetScreen = ({ navigation }) => {
+	const [tweetText, setTweetText] = useState("");
 	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
 	const { profileImgURL } = userEntityData;
 
+	const onTextChange = (text) => {
+		setTweetText(text);
+	};
+
+	const onPressTweet = () => {
+		if (tweetText !== "") {
+			console.log(tweetText);
+		}
+	};
+
 	return (
 		<View style={styles.screen}>
+			<View style={styles.headerContainer}>
+				<CreateTweetHeader navigation={navigation} disabled={tweetText === ""} onPressTweet={onPressTweet} />
+			</View>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>
 					<Image
@@ -30,12 +45,14 @@ const CreateTweetScreen = (props) => {
 				</View>
 				<View style={styles.inputContainer}>
 					<TextInput
+						value={tweetText}
 						multiline={true}
 						numberOfLines={0}
 						style={styles.textInput}
-						underlineColorAndroid="transparent"
 						placeholder="What's happening?"
+						underlineColorAndroid="transparent"
 						placeholderTextColor={appColors.lightFontColor}
+						onChangeText={onTextChange}
 					/>
 				</View>
 			</View>
@@ -99,6 +116,9 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		backgroundColor: appColors.backgroundColor,
+	},
+	headerContainer: {
+		paddingTop: 15,
 	},
 	container: {
 		flex: 1,
