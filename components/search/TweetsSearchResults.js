@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../tweets/TweetsList";
 
+import * as searchActions from "../../store/actions/search";
 import * as tweetsActions from "../../store/actions/tweets";
 
 import { appColors } from "../../constants/colors";
@@ -12,7 +13,7 @@ const TweetsSearchResults = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { tweetsResults: searchResults, query } = useSelector((state) => state.tweets.search);
+	const { tweetsResults, query } = useSelector((state) => state.search);
 	const { username } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ const TweetsSearchResults = () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_search_tweets(query));
+			await dispatch(searchActions.get_search_tweets(query));
 			await dispatch(tweetsActions.get_who_to_follow(username));
 		} catch (err) {
 			setError(err);
@@ -44,7 +45,7 @@ const TweetsSearchResults = () => {
 		);
 	}
 
-	if (!isLoading && searchResults.length === 0) {
+	if (!isLoading && tweetsResults.length === 0) {
 		return (
 			<View style={styles.centered}>
 				<Text>No Search Tweets Result Found.</Text>
@@ -57,7 +58,7 @@ const TweetsSearchResults = () => {
 			<TweetsList
 				onRefresh={loadSearchTweetsResults}
 				isLoading={isLoading}
-				data={searchResults}
+				data={tweetsResults}
 				withWhoToFollow={true}
 			/>
 		</View>
