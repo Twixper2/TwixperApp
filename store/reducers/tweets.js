@@ -5,8 +5,6 @@ import {
 	SET_TWEET_SCREEN,
 	SET_WHO_TO_FOLLOW,
 	SET_NOTIFICATIONS,
-	SET_USER_FOLLOWING,
-	SET_USER_FOLLOWERS,
 } from "../actions/tweets";
 
 const initialState = {
@@ -17,10 +15,6 @@ const initialState = {
 		username: "",
 		usersTweets: [],
 		usersLikes: [],
-	},
-	userFollows: {
-		userFollowing: [],
-		userFollowers: [],
 	},
 	tweetScreen: {
 		mainTweet: null,
@@ -71,22 +65,6 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				notifications: action.notifications,
-			};
-		case SET_USER_FOLLOWING:
-			return {
-				...state,
-				userFollows: {
-					...state.userFollows,
-					userFollowing: action.userFollowing,
-				},
-			};
-		case SET_USER_FOLLOWERS:
-			return {
-				...state,
-				userFollows: {
-					...state.userFollows,
-					userFollowers: action.userFollowers,
-				},
 			};
 		default:
 			return state;
