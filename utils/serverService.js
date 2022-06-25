@@ -29,11 +29,12 @@ export const participantLogin = async (user, pass) => {
 		await sleep(2000);
 		return {
 			status: 200,
-			// data: {
-			// 	participant_twitter_info: userEntity,
-			// 	user_registered_to_experiment: true,
-			// },
-			data: loginNotRegistered,
+			data: {
+				participant_twitter_info: userEntity,
+				user_registered_to_experiment: true,
+				access_token: "$2a$10$.8utOtAS0GBEKhJS6cMO4.1oRKlJBMmxnh9r7YRPg1zVUehf0yxRm",
+			},
+			// data: loginNotRegistered,
 		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
@@ -230,6 +231,20 @@ export const getNotifications = async () => {
 	// const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.getNotifications;
 	return await sendGetRequest(requestUrl);
+};
+
+/* ----------------------------------------
+    Requests for making active actions in Twitter
+   ---------------------------------------- */
+
+export const postTweet = async (payload) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userTweets[0] };
+	}
+	// Else, send the request to the server
+	const requestUrl = serverUrl + serverEndpoints.postTweet;
+	return await sendPostRequest(requestUrl, payload);
 };
 
 /* ----------------------------------------

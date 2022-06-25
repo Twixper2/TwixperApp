@@ -6,8 +6,9 @@ import NotificationObject from "../../models/notification-object";
 
 import { ALERTS_NOTIFICATION } from "../../constants/notificationTypes";
 
-import { getFeed, getTweetPage, getWhoToFollow, getNotifications } from "../../utils/serverService";
+import { getFeed, getTweetPage, getWhoToFollow, getNotifications, postTweet } from "../../utils/serverService";
 
+export const POST_TWEET = "POST_TWEET";
 export const SET_FEED_TWEETS = "SET_FEED_TWEETS";
 export const SET_TWEET_SCREEN = "SET_TWEET_SCREEN";
 export const SET_WHO_TO_FOLLOW = "SET_WHO_TO_FOLLOW";
@@ -249,7 +250,7 @@ export const get_notifications = () => {
 };
 
 /* ----------------------------------------
-	Profile Data
+	Tweet Screen
    ---------------------------------------- */
 
 export const get_tweet_screen = (tweetData) => {
@@ -346,6 +347,103 @@ export const get_tweet_screen = (tweetData) => {
 			}
 		} catch (err) {
 			console.log("error in get_tweet_screen");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
+
+/* ----------------------------------------
+	Participant's  Data
+   ---------------------------------------- */
+
+export const post_tweet = (tweetToPost) => {
+	return async (dispatch) => {
+		try {
+			const payload = {
+				tweetContext: tweetToPost,
+			};
+			const response = await postTweet(payload);
+
+			if (response.status == 200) {
+				// TODO: !! Need tweet object !!
+				console.log("TODO !! Need tweet object");
+
+				const tweet = response.data;
+
+				const tweetAuthor = new TweetAuthor(
+					tweet.user.name,
+					"@" + tweet.user.screen_name,
+					tweet.profile_link,
+					tweet.profile_img_url,
+					tweet.is_profile_verified
+				);
+
+				const tweetBarData = new TweetBarData(
+					[true, false].random(),
+					[true, false].random(),
+					[true, false].random(),
+					tweet.likes_count,
+					tweet.retweets_count,
+					tweet.comments_count
+				);
+
+				let quotedStatus = null;
+				if (tweet.quoted_status !== null) {
+					const quotedStatusAuthor = new TweetAuthor(
+						tweet.quoted_status.user.name,
+						"@" + tweet.quoted_status.user.screen_name,
+						tweet.quoted_status.profile_link,
+						tweet.quoted_status.profile_img_url,
+						tweet.quoted_status.is_profile_verified
+					);
+
+					const quotedStatusTweet = new TweetObject(
+						tweet.quoted_status.tweet_id,
+						tweet.quoted_status.created_at,
+						tweet.quoted_status.full_text,
+						tweet.quoted_status.entities.media,
+						tweet.quoted_status.pixel_media,
+						quotedStatusAuthor,
+						false,
+						null,
+						null
+					);
+
+					quotedStatus = quotedStatusTweet;
+				}
+
+				const tweetObject = new TweetObject(
+					tweet.tweet_id,
+					tweet.created_at,
+					tweet.full_text,
+					tweet.entities.media,
+					tweet.pixel_media,
+					tweetAuthor,
+					tweet.is_quote_status,
+					quotedStatus,
+					tweetBarData
+				);
+
+				dispatch({
+					type: POST_TWEET,
+					postedTweet: tweetObject,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized post_tweet");
+			} else if (response.status == 400) {
+				console.log("error in post_tweet");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in post_tweet");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in post_tweet");
 			console.log(err);
 			let message = "Error while getting search tweets. Please refresh to try again.";
 			throw new Error(message);

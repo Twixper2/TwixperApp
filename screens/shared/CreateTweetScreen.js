@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { StyleSheet, View, Image, TextInput } from "react-native";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { StyleSheet, View, Image, TextInput, Alert } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -13,27 +13,41 @@ import { appColors } from "../../constants/colors";
 
 import CreateTweetHeader from "../../components/UI/CreateTweetHeader";
 
-//  TODO: onPress?
+import * as tweetsActions from "../../store/actions/tweets";
 
 const CreateTweetScreen = ({ navigation }) => {
+	const dispatch = useDispatch();
+	const [error, setError] = useState();
 	const [tweetText, setTweetText] = useState("");
-	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
-	const { profileImgURL } = userEntityData;
+	const { profileImgURL } = useSelector((state) => state.auth.userTwitterEntity);
+
+	useEffect(() => {
+		if (error) {
+			Alert.alert("An Error Occurred!", error, [{ text: "Okay" }]);
+			navigation.navigate("Home");
+		}
+	}, [error]);
 
 	const onTextChange = (text) => {
 		setTweetText(text);
 	};
 
-	const onPressTweet = () => {
+	const onPostTweet = async () => {
 		if (tweetText !== "") {
-			console.log(tweetText);
+			try {
+				await dispatch(tweetsActions.post_tweet(tweetText));
+				navigation.goBack();
+			} catch (err) {
+				setError(err.message);
+				navigation.navigate("Home");
+			}
 		}
 	};
 
 	return (
 		<View style={styles.screen}>
 			<View style={styles.headerContainer}>
-				<CreateTweetHeader navigation={navigation} disabled={tweetText === ""} onPressTweet={onPressTweet} />
+				<CreateTweetHeader navigation={navigation} disabled={tweetText === ""} onPressTweet={onPostTweet} />
 			</View>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>

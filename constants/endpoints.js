@@ -14,14 +14,16 @@ export const serverEndpoints = {
 	getTweet: "//participants/getTweet",
 	feedEndpoint: "//participants/getFeed",
 	userLikes: "//participants/getUserLikes",
-	searchPeople: "//participants/searchUsers",
-	searchTweets: "//participants/searchTweets",
+	searchPeople: "//participants/search/people",
+	searchTweets: "//participants/search/tweets",
 	whoToFollow: "//participants/getWhoToFollow",
 	usersTweets: "//participants/getUserTimeline",
 	userFollowing: "//participants/getUserFriends",
 	userFollowers: "//participants/getUserFollowers",
-
 	getNotifications: "//participants/notifications",
+
+	/*  Actions in Twitter */
+	postTweet: "//participants/postTweet",
 };
 
 /* Twitter Endpoint */
