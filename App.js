@@ -18,6 +18,7 @@ import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
 import searchReducer from "./store/reducers/search";
 import followsReducer from "./store/reducers/follows";
+import profileReducer from "./store/reducers/profile";
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs([
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
 	tweets: tweetsReducer,
 	search: searchReducer,
 	follows: followsReducer,
+	profile: profileReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../tweets/TweetsList";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as profileActions from "../../store/actions/profile";
 
 import { appColors } from "../../constants/colors";
 
@@ -14,14 +14,14 @@ const UserLikes = ({ route, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { usersLikes } = useSelector((state) => state.tweets.profile);
+	const { usersLikes } = useSelector((state) => state.profile);
 	const dispatch = useDispatch();
 
 	const loadUsersLikesResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_user_likes(username));
+			await dispatch(profileActions.get_user_likes(username));
 		} catch (err) {
 			setError(err);
 		}
