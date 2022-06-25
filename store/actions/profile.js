@@ -1,15 +1,68 @@
 import TweetObject from "../../models/tweet-object";
 import TweetAuthor from "../../models/tweet-author";
 import TweetBarData from "../../models/tweet-bar-data";
+import UserTwitterEntity from "../../models/user-twitter-entity";
 
-import { getUserLikes, getUserTimeline } from "../../utils/serverService";
+import { getUserLikes, getUserTimeline, getUserDetails } from "../../utils/serverService";
+import { parseTwitterUserEntity } from "../../utils/helperFunctions";
 
 export const SET_USERS_LIKES = "SET_USERS_LIKES";
 export const SET_USERS_TWEETS = "SET_USERS_TWEETS";
+export const SET_USERS_DETAILS = "SET_USERS_DETAILS";
 
 /* ----------------------------------------
 	Profile Data
    ---------------------------------------- */
+
+export const get_user_details = (username) => {
+	return async (dispatch) => {
+		try {
+			const response = await getUserDetails(username);
+
+			if (response.status == 200) {
+				const { entity_details } = response.data;
+
+				const parsedInfo = parseTwitterUserEntity(entity_details);
+
+				const userTwitterEntity = new UserTwitterEntity(
+					parsedInfo.user_name,
+					parsedInfo.user_handle,
+					parsedInfo.friends_count,
+					parsedInfo.followers_count,
+					parsedInfo.profile_image_url,
+					parsedInfo.cover_image_url,
+					parsedInfo.user_description,
+					parsedInfo.user_location,
+					parsedInfo.when_joined,
+					parsedInfo.user_url,
+					parsedInfo.user_profession
+				);
+
+				dispatch({
+					type: SET_USERS_DETAILS,
+					username: username,
+					userEntity: userTwitterEntity,
+				});
+			} else if (response.status == 401 || response.status == 428) {
+				// Unauthorized
+				console.log("Unauthorized get_user_details");
+			} else if (response.status == 502) {
+				console.log("error in get_user_details");
+				let message = "Sorry, Rate limit exceeded. we'll get more tweets later";
+				throw new Error(message);
+			} else {
+				console.log("error in get_user_details");
+				let message = "Sorry, There was an error. Please try again later";
+				throw new Error(message);
+			}
+		} catch (err) {
+			console.log("error in get_user_details");
+			console.log(err);
+			let message = "Error while getting search tweets. Please refresh to try again.";
+			throw new Error(message);
+		}
+	};
+};
 
 export const get_user_tweets = (username) => {
 	return async (dispatch) => {

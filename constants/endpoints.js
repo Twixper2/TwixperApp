@@ -21,6 +21,7 @@ export const serverEndpoints = {
 	userFollowing: "//participants/getUserFriends",
 	userFollowers: "//participants/getUserFollowers",
 	getNotifications: "//participants/notifications",
+	userDetails: "//participants/getUserEntityDetails",
 
 	/*  Actions in Twitter */
 	postTweet: "//participants/postTweet",

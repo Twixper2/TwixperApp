@@ -20,6 +20,8 @@ import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
 import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
 import { loginNotRegistered } from "../data/Selenium/serverResponse/login_data";
 
+import { entity_details } from "../data/Selenium/serverResponse/entity_details";
+
 /* ----------------------------------------
 	User Login Functions
    ---------------------------------------- */
@@ -186,6 +188,17 @@ export const getUserFollowers = async (username) => {
 	// Else, send the request to the server
 	const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.userFollowers + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
+export const getUserDetails = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: { entity_details: { ...entity_details } } };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?req_user=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userDetails + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
 

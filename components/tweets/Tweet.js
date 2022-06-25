@@ -39,7 +39,7 @@ const Tweet = ({ tweetData }) => {
 			data = tweetData;
 		}
 
-		navigation.navigate(screen, { data });
+		navigation.push(screen, { data });
 	};
 
 	return (

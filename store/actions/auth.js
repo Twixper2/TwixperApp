@@ -2,18 +2,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import UserTwitterEntity from "../../models/user-twitter-entity";
 
-import { parseTwitterUserEntity, parseParticipantTwitterInfo } from "../../utils/helperFunctions";
-import { participantLogin, registerToExperiment } from "../../utils/serverService";
-import { emptyLs, saveItem } from "../../utils/storageFunctions";
-
+import { insertCredentials } from "../../utils/config";
 import { storageKeys } from "../../constants/commonKeys";
+import { emptyLs, saveItem } from "../../utils/storageFunctions";
+import { participantLogin, registerToExperiment } from "../../utils/serverService";
+import { parseTwitterUserEntity, parseParticipantTwitterInfo } from "../../utils/helperFunctions";
 
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const REGISTER_TO_EXPERIMENT = "REGISTER_TO_EXPERIMENT";
-
-import { insertCredentials } from "../../utils/config";
 
 /**********          User Login          **********/
 

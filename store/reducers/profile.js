@@ -1,4 +1,4 @@
-import { SET_USERS_LIKES, SET_USERS_TWEETS } from "../actions/profile";
+import { SET_USERS_LIKES, SET_USERS_TWEETS, SET_USERS_DETAILS } from "../actions/profile";
 
 const initialState = {
 	username: "",
@@ -20,6 +20,12 @@ export default (state = initialState, action) => {
 				...state,
 				username: action.username,
 				usersTweets: action.usersTweets,
+			};
+		case SET_USERS_DETAILS:
+			return {
+				...state,
+				username: action.username,
+				userEntity: action.userEntity,
 			};
 		default:
 			return state;
