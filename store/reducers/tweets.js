@@ -3,25 +3,16 @@ import {
 	SET_USERS_LIKES,
 	SET_USERS_TWEETS,
 	SET_TWEET_SCREEN,
-	SET_SEARCH_QUERY,
 	SET_WHO_TO_FOLLOW,
 	SET_NOTIFICATIONS,
-	CLEAR_SEARCH_QUERY,
 	SET_USER_FOLLOWING,
 	SET_USER_FOLLOWERS,
-	SET_SEARCH_TWEETS_RESULTS,
-	SET_SEARCH_PEOPLE_RESULTS,
 } from "../actions/tweets";
 
 const initialState = {
 	feedTweets: [],
 	whoToFollow: [],
 	notifications: [],
-	search: {
-		query: "",
-		tweetsResults: [],
-		peopleResults: [],
-	},
 	profile: {
 		username: "",
 		usersTweets: [],
@@ -62,14 +53,6 @@ export default (state = initialState, action) => {
 					tweetsComments: action.tweetsComments,
 				},
 			};
-		case SET_SEARCH_QUERY:
-			return {
-				...state,
-				search: {
-					...state.search,
-					query: action.query,
-				},
-			};
 		case SET_USERS_TWEETS:
 			return {
 				...state,
@@ -89,15 +72,6 @@ export default (state = initialState, action) => {
 				...state,
 				notifications: action.notifications,
 			};
-		case CLEAR_SEARCH_QUERY:
-			return {
-				...state,
-				search: {
-					query: "",
-					tweetsResults: [],
-					peopleResults: [],
-				},
-			};
 		case SET_USER_FOLLOWING:
 			return {
 				...state,
@@ -112,24 +86,6 @@ export default (state = initialState, action) => {
 				userFollows: {
 					...state.userFollows,
 					userFollowers: action.userFollowers,
-				},
-			};
-		case SET_SEARCH_TWEETS_RESULTS:
-			return {
-				...state,
-				search: {
-					...state.search,
-					query: action.query,
-					tweetsResults: action.tweetsResults,
-				},
-			};
-		case SET_SEARCH_PEOPLE_RESULTS:
-			return {
-				...state,
-				search: {
-					...state.search,
-					query: action.query,
-					peopleResults: action.peopleResults,
 				},
 			};
 		default:
