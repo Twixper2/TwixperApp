@@ -1,39 +1,41 @@
 import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import PeopleList from "../people/PeopleList";
 
-import * as followsActions from "../../store/actions/follows";
+import * as followsActions from "../../utils/actions/follows";
 
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, followsKeys } from "../../constants/commonKeys";
 
 const UserFollowers = ({ route, navigation }) => {
 	const { username } = route.params;
 
+	const [error, setError] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
-	const [error, setError] = useState();
-	const { userFollowers } = useSelector((state) => state.follows);
-	const dispatch = useDispatch();
+	const [userFollowers, setUserFollowers] = useState([]);
 
 	const loadUserFollowers = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(followsActions.get_user_followers(username));
+			await followsActions.get_user_followers(username);
+			let userFollows = await getObjectValue(collationNames.FOLLOWS + followsKeys.USER_FOLLOWERS + username);
+			setUserFollowers(userFollows.userFollowers);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadUserFollowers().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadUserFollowers]);
+	}, [loadUserFollowers]);
 
 	if (error) {
 		return (

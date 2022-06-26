@@ -1,37 +1,39 @@
 import { useState, useEffect, useCallback } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../../components/tweets/TweetsList";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../utils/actions/tweets";
 
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, tweetsKeys } from "../../constants/commonKeys";
 
 const HomeScreen = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const feedTweetsArr = useSelector((state) => state.tweets.feedTweets);
-	const dispatch = useDispatch();
+	const [feedTweetsArr, setFeedTweetsArr] = useState([]);
 
 	const loadFeedTweets = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_feed_tweets());
+			await tweetsActions.get_feed_tweets();
+			let feedTweets = await getObjectValue(collationNames.TWEETS + tweetsKeys.FEED_TWEETS);
+			setFeedTweetsArr(feedTweets);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadFeedTweets().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadFeedTweets]);
+	}, [loadFeedTweets]);
 
 	if (error) {
 		return (

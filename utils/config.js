@@ -9,7 +9,7 @@ export const insertCredentials = true; // Real mode: false
 
 /* Storage Helpers */
 export const isClearStore = true;
-export const withStorageLogs = true;
+export const withStorageLogs = false;
 
 /* For feed */
 export const moreFeedTweetsCount = 40; // Real mode: 40

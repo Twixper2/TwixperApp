@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -14,11 +15,22 @@ import NotificationsScreen from "../screens/home/NotificationsScreen";
 import CustomHeader from "../components/UI/CustomHeader";
 
 import { appColors } from "../constants/colors";
+import { getObjectValue } from "../utils/storageFunctions";
+import { localStorageKeys } from "../constants/commonKeys";
 
 const HomeBottomTabs = createBottomTabNavigator();
 
 const HomeNavigator = () => {
-	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
+	// const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
+
+	const [userEntityData, setUserEntityData] = useState("");
+	useEffect(async () => {
+		if (!userEntityData) {
+			let userEntity = await getObjectValue(localStorageKeys.USER_TWITTER_ENTITY);
+			setUserEntityData(userEntity);
+		}
+	}, []);
+
 	const profileImgURL = userEntityData?.profileImgURL;
 	return (
 		<HomeBottomTabs.Navigator

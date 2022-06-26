@@ -22,7 +22,7 @@ const TweetScreen = ({ route, navigation }) => {
 		setIsRefreshing(true);
 		try {
 			await tweetsActions.get_tweet_screen(mainTweet);
-			let tweetScreen = await getObjectValue(collationNames.TWEETS + tweetsKeys.TWEET_SCREEN);
+			let tweetScreen = await getObjectValue(collationNames.TWEETS + tweetsKeys.TWEET_SCREEN + mainTweet.tweetId);
 			setTweetsComments(tweetScreen.tweetsComments);
 		} catch (err) {
 			setError(err);

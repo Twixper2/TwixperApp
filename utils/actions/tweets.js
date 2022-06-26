@@ -10,11 +10,6 @@ import { getObjectValue, setObjectValue } from "../storageFunctions";
 import { collationNames, tweetsKeys } from "../../constants/commonKeys";
 import { getFeed, getTweetPage, getWhoToFollow, getNotifications, postTweet } from "../serverService";
 
-export const POST_TWEET = "POST_TWEET";
-export const SET_TWEET_SCREEN = "SET_TWEET_SCREEN";
-export const SET_WHO_TO_FOLLOW = "SET_WHO_TO_FOLLOW";
-export const SET_NOTIFICATIONS = "SET_NOTIFICATIONS";
-
 /* ----------------------------------------
 	Participant's  Data
    ---------------------------------------- */
@@ -315,7 +310,7 @@ export const get_tweet_screen = async (tweetData) => {
 				}
 			}
 
-			await setObjectValue(collationNames.TWEETS + tweetsKeys.TWEET_SCREEN, {
+			await setObjectValue(collationNames.TWEETS + tweetsKeys.TWEET_SCREEN + tweetData.tweetId, {
 				mainTweet: tweetData,
 				tweetsComments: tweetsCommentsArr,
 			});

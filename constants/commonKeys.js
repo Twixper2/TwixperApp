@@ -43,7 +43,13 @@ export const localStorageKeys = {
 
 export const tweetsKeys = {
 	FEED_TWEETS: "feedTweets",
-	TWEET_SCREEN: "tweetScreen",
+	TWEET_SCREEN: "tweetScreen_", // + tweetId
 	WHO_TO_FOLLOW: "whoToFollow",
 	NOTIFICATIONS: "notifications",
+};
+
+export const followsKeys = {
+	USERNAME: "username",
+	USER_FOLLOWING: "userFollowing_", // + username
+	USER_FOLLOWERS: "userFollowers_", // + username
 };
