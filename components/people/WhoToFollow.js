@@ -1,32 +1,36 @@
 import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import PeopleList from "../people/PeopleList";
 
-import * as tweetsActions from "../../store/actions/tweets";
-
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, tweetsKeys } from "../../constants/commonKeys";
 
 const WhoToFollow = ({ route, navigation }) => {
-	const [isLoading, setIsLoading] = useState(false);
-	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { whoToFollow } = useSelector((state) => state.tweets);
-	const { username } = useSelector((state) => state.auth);
-
-	const dispatch = useDispatch();
+	const [isLoading, setIsLoading] = useState(false);
+	const [whoToFollow, setWhoToFollow] = useState([]);
+	const [isRefreshing, setIsRefreshing] = useState(false);
 
 	const loadWhoToFollow = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_who_to_follow(username));
+			let whoToFollowArr = await getObjectValue(collationNames.TWEETS + tweetsKeys.WHO_TO_FOLLOW);
+			setWhoToFollow(whoToFollowArr);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
+
+	useEffect(() => {
+		setIsLoading(true);
+		loadWhoToFollow().then(() => {
+			setIsLoading(false);
+		});
+	}, [loadWhoToFollow]);
 
 	return (
 		<View style={styles.screen}>

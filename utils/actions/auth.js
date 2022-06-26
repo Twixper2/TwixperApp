@@ -9,11 +9,6 @@ import { participantLogin, registerToExperiment } from "../serverService";
 import { localStorageKeys, storageKeys } from "../../constants/commonKeys";
 import { parseTwitterUserEntity, parseParticipantTwitterInfo } from "../helperFunctions";
 
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
-export const AUTHENTICATE = "AUTHENTICATE";
-export const REGISTER_TO_EXPERIMENT = "REGISTER_TO_EXPERIMENT";
-
 /**********          User Login          **********/
 
 export const user_login = async (username, password) => {

@@ -1,39 +1,41 @@
 import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../tweets/TweetsList";
 
-import * as profileActions from "../../store/actions/profile";
+import * as profileActions from "../../utils/actions/profile";
 
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, profileKeys } from "../../constants/commonKeys";
 
 const UserLikes = ({ route, navigation }) => {
 	const { username } = route.params;
 
+	const [error, setError] = useState();
+	const [usersLikes, setUserLikes] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
-	const [error, setError] = useState();
-	const { usersLikes } = useSelector((state) => state.profile);
-	const dispatch = useDispatch();
 
 	const loadUsersLikesResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(profileActions.get_user_likes(username));
+			await profileActions.get_user_likes(username);
+			let userLikesArr = await getObjectValue(collationNames.PROFILE + profileKeys.USER_LIKES + username);
+			setUserLikes(userLikesArr.usersLikes);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadUsersLikesResults().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadUsersLikesResults]);
+	}, [loadUsersLikesResults]);
 
 	if (error) {
 		return (

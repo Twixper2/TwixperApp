@@ -53,3 +53,10 @@ export const followsKeys = {
 	USER_FOLLOWING: "userFollowing_", // + username
 	USER_FOLLOWERS: "userFollowers_", // + username
 };
+
+export const profileKeys = {
+	USERNAME: "username",
+	USER_LIKES: "usersLikes_", // + username
+	USER_ENTITY: "userEntity_", // + username
+	USER_TWEETS: "usersTweets_", // + username
+};

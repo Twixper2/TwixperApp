@@ -1,11 +1,8 @@
 import PersonEntity from "../../models/person-entity";
-import { getUserFollowing, getUserFollowers } from "../../utils/serverService";
+import { getUserFollowing, getUserFollowers } from "../serverService";
 
 import { setObjectValue } from "../storageFunctions";
 import { collationNames, followsKeys } from "../../constants/commonKeys";
-
-export const SET_USER_FOLLOWING = "SET_USER_FOLLOWING";
-export const SET_USER_FOLLOWERS = "SET_USER_FOLLOWERS";
 
 export const get_user_following = async (username) => {
 	let userFollowingArr = [];
