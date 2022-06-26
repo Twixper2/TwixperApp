@@ -40,3 +40,10 @@ export const localStorageKeys = {
 	PROVIDED_CREDENTIALS: "providedCredentials",
 	REGISTERED_TO_EXPERIMENT: "registeredToExperiment",
 };
+
+export const tweetsKeys = {
+	FEED_TWEETS: "feedTweets",
+	TWEET_SCREEN: "tweetScreen",
+	WHO_TO_FOLLOW: "whoToFollow",
+	NOTIFICATIONS: "notifications",
+};

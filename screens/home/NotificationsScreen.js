@@ -1,37 +1,39 @@
 import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import NotificationsList from "../../components/notifications/NotificationsList";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../utils/actions/tweets";
 
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, tweetsKeys } from "../../constants/commonKeys";
 
 const NotificationsScreen = ({ route, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { notifications } = useSelector((state) => state.tweets);
-	const dispatch = useDispatch();
+	const [notifications, setNotifications] = useState([]);
 
 	const loadNotifications = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_notifications());
+			await tweetsActions.get_notifications();
+			let notificationsArr = await getObjectValue(collationNames.TWEETS + tweetsKeys.NOTIFICATIONS);
+			setNotifications(notificationsArr);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadNotifications().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadNotifications]);
+	}, [loadNotifications]);
 
 	if (error) {
 		return (

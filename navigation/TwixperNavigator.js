@@ -19,6 +19,8 @@ import ConfirmButton from "../components/UI/ConfirmButton";
 
 import { appColors } from "../constants/colors";
 // import { getUserTwitterEntity } from "../utils/storageFunctions";
+import { getObjectValue } from "../utils/storageFunctions";
+import { localStorageKeys } from "../constants/commonKeys";
 
 const HomeProfileNavigator = createNativeStackNavigator();
 
@@ -69,11 +71,18 @@ const HomeTweetStack = () => {
 const AppDrawer = createDrawerNavigator();
 
 const TwixperNavigator = () => {
-	// const [userEntityData, setUserEntityData] = useState("");
-	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
+	const [userEntityData, setUserEntityData] = useState("");
+	// const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
+
+	useEffect(async () => {
+		if (!userEntityData) {
+			let userEntity = await getObjectValue(localStorageKeys.USER_TWITTER_ENTITY);
+			setUserEntityData(userEntity);
+		}
+	}, []);
 
 	if (!userEntityData) {
-		//  TODO: Fix it to better Solution !
+		//  TODO: Fix it to better Solution ! - maybe loading screen
 		return null;
 	}
 

@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../../components/tweets/TweetsList";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../utils/actions/tweets";
 
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, tweetsKeys } from "../../constants/commonKeys";
 
 const TweetScreen = ({ route, navigation }) => {
 	const mainTweet = route.params.data;
@@ -14,26 +15,27 @@ const TweetScreen = ({ route, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { tweetsComments } = useSelector((state) => state.tweets.tweetScreen);
-	const dispatch = useDispatch();
+	const [tweetsComments, setTweetsComments] = useState([]);
 
 	const loadTweetsComments = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_tweet_screen(mainTweet));
+			await tweetsActions.get_tweet_screen(mainTweet);
+			let tweetScreen = await getObjectValue(collationNames.TWEETS + tweetsKeys.TWEET_SCREEN);
+			setTweetsComments(tweetScreen.tweetsComments);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadTweetsComments().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadTweetsComments]);
+	}, [loadTweetsComments]);
 
 	if (error) {
 		return (
