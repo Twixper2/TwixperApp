@@ -25,6 +25,10 @@ export const serverEndpoints = {
 
 	/*  Actions in Twitter */
 	postTweet: "//participants/postTweet",
+
+	likeTweet: "//participants/addAction/like",
+	replyTweet: "//participants/addAction/reply",
+	retweetTweet: "//participants/addAction/retweet",
 };
 
 /* Twitter Endpoint */

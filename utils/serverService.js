@@ -260,6 +260,26 @@ export const postTweet = async (payload) => {
 	return await sendPostRequest(requestUrl, payload);
 };
 
+export const likeTweet = async (payload) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: {} };
+	}
+	// Else, send the request to the server
+	const requestUrl = serverUrl + serverEndpoints.likeTweet;
+	return await sendPostRequest(requestUrl, payload);
+};
+
+export const unlikeTweet = async (payload) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: {} };
+	}
+	// Else, send the request to the server
+	const requestUrl = serverUrl + serverEndpoints.likeTweet;
+	return await sendPostRequest(requestUrl, payload);
+};
+
 /* ----------------------------------------
 	Helper Functions
    ---------------------------------------- */
