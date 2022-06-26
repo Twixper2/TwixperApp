@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { View, Text, Image, TextInput, Button, Alert, StyleSheet, Platform } from "react-native";
-import { useDispatch } from "react-redux";
 
 import LoadingScreen from "../shared/LoadingScreen";
-import { getValueFor } from "../../utils/storageFunctions";
 
 import { appColors } from "../../constants/colors";
-import { storageKeys } from "../../constants/commonKeys";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { localStorageKeys } from "../../constants/commonKeys";
 
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../utils/actions/auth";
 
 const LoginScreen = ({ navigation }) => {
-	const dispatch = useDispatch();
 	const [error, setError] = useState();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -20,11 +18,9 @@ const LoginScreen = ({ navigation }) => {
 	const onSignInHandler = async () => {
 		try {
 			setIsLoading(true);
-			await dispatch(authActions.user_login(username, password));
+			await authActions.user_login(username, password);
+			const isRegistered = await getObjectValue(localStorageKeys.REGISTERED_TO_EXPERIMENT);
 
-			const registeredToExperiment = await getValueFor(storageKeys.REGISTERED_EXPERIMENT);
-
-			const isRegistered = JSON.parse(registeredToExperiment);
 			if (!isRegistered) {
 				navigation.replace("LoginExperiment");
 			} else {

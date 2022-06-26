@@ -22,3 +22,21 @@ export const headerKeys = {
 	USER_KEY: "user",
 	ACCESS_TOKEN_KEY: "accesstoken",
 };
+
+/* ----------------------------------------
+	Local Storage Keys
+   ---------------------------------------- */
+
+export const collationNames = {
+	TWEETS: "tweets_",
+	SEARCH: "search_",
+	PROFILE: "profile_",
+	FOLLOWS: "follows_",
+};
+
+export const localStorageKeys = {
+	USERNAME: "username",
+	USER_TWITTER_ENTITY: "userTwitterEntity",
+	PROVIDED_CREDENTIALS: "providedCredentials",
+	REGISTERED_TO_EXPERIMENT: "registeredToExperiment",
+};

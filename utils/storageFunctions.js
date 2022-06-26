@@ -12,7 +12,7 @@ import { storageKeys } from "../constants/commonKeys";
 import { data as users } from "../data/UserTwitterEntity";
 
 /* ----------------------------------------
-	Prev Project Funcs
+	Secure Store
    ---------------------------------------- */
 
 export const saveItem = async (key, value) => {
@@ -40,6 +40,68 @@ export const clearSecureStore = async () => {
 		await SecureStore.deleteItemAsync(storageKeys[key]);
 	}
 	printLogs("Store cleared successfully");
+};
+
+/* ----------------------------------------
+	Async Storage
+   ---------------------------------------- */
+
+/*************     Getters     *************/
+
+export const getStringValue = async (key) => {
+	try {
+		const result = await AsyncStorage.getItem(key);
+		if (result) {
+			printLogs("Here's your value \n" + result);
+			return result;
+		} else {
+			printLogs("No values stored under that key.");
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const getObjectValue = async (key) => {
+	try {
+		const jsonValue = await AsyncStorage.getItem(key);
+		const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+		if (result) {
+			printLogs("Here's your value \n" + result);
+			return result;
+		} else {
+			printLogs("No values stored under that key.");
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+/*************     Setters     *************/
+
+export const setStringValue = async (key, value) => {
+	try {
+		await AsyncStorage.setItem(key, value);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const setObjectValue = async (key, value) => {
+	try {
+		const jsonValue = JSON.stringify(value);
+		await AsyncStorage.setItem(key, jsonValue);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const removeValue = async (key) => {
+	try {
+		await AsyncStorage.removeItem(key);
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 /* ----------------------------------------

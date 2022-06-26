@@ -1,22 +1,18 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, Alert, StyleSheet, Button, ActivityIndicator } from "react-native";
-import { useDispatch } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text, Image, TextInput, Alert, StyleSheet, Button } from "react-native";
 
 import LoadingScreen from "../shared/LoadingScreen";
 
 import { appColors } from "../../constants/colors";
-import { storageKeys } from "../../constants/commonKeys";
-import { getValueFor } from "../../utils/storageFunctions";
+import { localStorageKeys } from "../../constants/commonKeys";
+import { getObjectValue } from "../../utils/storageFunctions";
 
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../utils/actions/auth";
 
 const LoginExperimentScreen = ({ navigation }) => {
-	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
 	const [expCode, setExpCode] = useState("");
-
-	const dispatch = useDispatch();
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (error) {
@@ -32,11 +28,10 @@ const LoginExperimentScreen = ({ navigation }) => {
 	const onInsertExpCodeHandler = async () => {
 		try {
 			setIsLoading(true);
-			await dispatch(authActions.register_to_experiment(expCode));
+			await authActions.register_to_experiment(expCode);
 
-			const registeredToExperiment = await getValueFor(storageKeys.REGISTERED_EXPERIMENT);
+			const isRegistered = await getObjectValue(localStorageKeys.REGISTERED_TO_EXPERIMENT);
 
-			const isRegistered = JSON.parse(registeredToExperiment);
 			if (isRegistered) {
 				navigation.replace("App");
 			} else {
