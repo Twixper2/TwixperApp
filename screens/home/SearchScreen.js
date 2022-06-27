@@ -1,19 +1,17 @@
 import { useState, useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
 import SearchInput from "../../components/search/SearchInput";
 import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
 
-import * as searchActions from "../../store/actions/search";
+import * as searchActions from "../../utils/actions/search";
 
 import { appColors } from "../../constants/colors";
 
 const SearchScreen = () => {
 	const [searchText, setSearchText] = useState("");
 	const [hasQuery, setHasQuery] = useState(false);
-	const dispatch = useDispatch();
 
 	useFocusEffect(
 		useCallback(() => {
@@ -24,14 +22,14 @@ const SearchScreen = () => {
 		}, [])
 	);
 
-	const onClear = () => {
-		dispatch(searchActions.set_search_query(""));
+	const onClear = async () => {
+		await searchActions.set_search_query("");
 		setHasQuery(false);
 		setSearchText("");
 	};
 
-	const onSearchHandler = () => {
-		dispatch(searchActions.set_search_query(searchText));
+	const onSearchHandler = async () => {
+		await searchActions.set_search_query(searchText);
 		setHasQuery(true);
 	};
 

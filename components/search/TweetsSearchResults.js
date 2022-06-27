@@ -1,40 +1,45 @@
 import { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 
 import TweetsList from "../tweets/TweetsList";
 
-import * as searchActions from "../../store/actions/search";
-import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../utils/actions/tweets";
+import * as searchActions from "../../utils/actions/search";
 
 import { appColors } from "../../constants/colors";
+import { getStringValue, getObjectValue } from "../../utils/storageFunctions";
+import { collationNames, searchKeys, localStorageKeys } from "../../constants/commonKeys";
 
 const TweetsSearchResults = () => {
+	const [error, setError] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
-	const [error, setError] = useState();
-	const { tweetsResults, query } = useSelector((state) => state.search);
-	const { username } = useSelector((state) => state.auth);
-	const dispatch = useDispatch();
+	const [tweetsResults, setTweetsResults] = useState([]);
 
 	const loadSearchTweetsResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(searchActions.get_search_tweets(query));
-			await dispatch(tweetsActions.get_who_to_follow(username));
+			let searchQuery = await getStringValue(collationNames.SEARCH + searchKeys.QUERY);
+			let username = await getStringValue(collationNames.SEARCH + localStorageKeys.USERNAME);
+
+			await searchActions.get_search_tweets(searchQuery);
+			let searchTweetsArr = await getObjectValue(collationNames.SEARCH + searchKeys.TWEETS_RESULTS + searchQuery);
+
+			await tweetsActions.get_who_to_follow(username);
+			setTweetsResults(searchTweetsArr.tweetsResults);
 		} catch (err) {
 			setError(err);
 		}
 		setIsRefreshing(false);
-	}, [dispatch, setIsLoading, setError]);
+	}, [setIsLoading, setError]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadSearchTweetsResults().then(() => {
 			setIsLoading(false);
 		});
-	}, [dispatch, loadSearchTweetsResults]);
+	}, [loadSearchTweetsResults]);
 
 	if (error) {
 		return (

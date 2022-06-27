@@ -60,3 +60,9 @@ export const profileKeys = {
 	USER_ENTITY: "userEntity_", // + username
 	USER_TWEETS: "usersTweets_", // + username
 };
+
+export const searchKeys = {
+	QUERY: "query",
+	TWEETS_RESULTS: "tweetsResults_", // + query
+	PEOPLE_RESULTS: "peopleResults_", // + query
+};
