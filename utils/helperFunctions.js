@@ -8,8 +8,8 @@ import { withStorageLogs } from "./config";
 
 export const parseTwitterUserEntity = (userData) => {
 	return (userEntity = {
-		user_name: userData.username.split("\n@")[0],
-		user_handle: userData.username.split("\n@")[1],
+		user_name: userData.name,
+		user_handle: userData.screen_name,
 		friends_count: userData.following_count.split(" ")[0],
 		followers_count: userData.followers_count.split(" ")[0],
 		profile_image_url: userData.profile_img,
@@ -19,7 +19,22 @@ export const parseTwitterUserEntity = (userData) => {
 		when_joined: userData.when_joined,
 		user_url: userData.user_url,
 		user_profession: userData.user_profession,
+		user_following_statues: userData.FollowingStatus,
 	});
+
+	// return (userEntity = {
+	// 	user_name: userData.username.split("\n@")[0],
+	// 	user_handle: userData.username.split("\n@")[1],
+	// 	friends_count: userData.following_count.split(" ")[0],
+	// 	followers_count: userData.followers_count.split(" ")[0],
+	// 	profile_image_url: userData.profile_img,
+	// 	cover_image_url: userData.cover_photo,
+	// 	user_description: userData.user_description,
+	// 	user_location: userData.user_location,
+	// 	when_joined: userData.when_joined,
+	// 	user_url: userData.user_url,
+	// 	user_profession: userData.user_profession,
+	// });
 };
 
 export const parseParticipantTwitterInfo = (userData) => {

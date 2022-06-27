@@ -77,12 +77,11 @@ export const register_to_experiment = async (expCode) => {
 		const registerToExpResponse = await registerToExperiment(expCode);
 
 		if (registerToExpResponse.status == 200) {
-			const { initial_content, participant_twitter_info, user_registered_to_experiment } =
-				registerToExpResponse.data;
+			const { initial_content, user_registered_to_experiment } = registerToExpResponse.data;
 
 			// await setObjectValue(localStorageKeys.REGISTERED_TO_EXPERIMENT, user_registered_to_experiment);
 
-			await authenticate(participant_twitter_info, user_registered_to_experiment, initial_content);
+			await authenticate(user_registered_to_experiment, initial_content.entity_details);
 		} else if (registerToExpResponse.status == 400) {
 			await emptyLs();
 			await AsyncStorage.removeItem("providedCredentials");
@@ -130,9 +129,9 @@ export const register_to_experiment = async (expCode) => {
 
 /**********     Register Experiment     **********/
 
-export const authenticate = async (participantTwitterInfo, registeredToExperiment, initialContent) => {
+export const authenticate = async (registeredToExperiment, entity_details) => {
 	//  TODO: Which one you return?
-	const parsedInfo = parseTwitterUserEntity(participantTwitterInfo);
+	const parsedInfo = parseTwitterUserEntity(entity_details);
 	// const parsedInfo = parseParticipantTwitterInfo(participantTwitterInfo);
 
 	const userTwitterEntity = new UserTwitterEntity(

@@ -19,6 +19,7 @@ import { notifications } from "../data/Selenium/v3/notifications_data";
 import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
 import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
 import { loginNotRegistered } from "../data/Selenium/serverResponse/login_data";
+import { register_data } from "../data/Selenium/serverResponse/register_data";
 
 import { entity_details } from "../data/Selenium/serverResponse/entity_details";
 
@@ -33,7 +34,7 @@ export const participantLogin = async (user, pass) => {
 			status: 200,
 			data: {
 				participant_twitter_info: userEntity,
-				user_registered_to_experiment: true,
+				user_registered_to_experiment: false,
 				access_token: "$2a$10$.8utOtAS0GBEKhJS6cMO4.1oRKlJBMmxnh9r7YRPg1zVUehf0yxRm",
 			},
 			// data: loginNotRegistered,
@@ -57,8 +58,7 @@ export const registerToExperiment = async (expCode) => {
 		return {
 			status: 200,
 			data: {
-				participant_twitter_info: userEntity,
-				user_registered_to_experiment: true,
+				...register_data,
 			},
 		};
 	}
