@@ -4,10 +4,10 @@ import UserTwitterEntity from "../../models/user-twitter-entity";
 
 import { insertCredentials } from "../config";
 import { emptyLs, saveItem } from "../storageFunctions";
-import { setStringValue, setObjectValue } from "../storageFunctions";
+import { setStringValue, setObjectValue, clearAsyncStorage, clearSecureStore } from "../storageFunctions";
 import { participantLogin, registerToExperiment } from "../serverService";
 import { localStorageKeys, storageKeys } from "../../constants/commonKeys";
-import { parseTwitterUserEntity, parseParticipantTwitterInfo } from "../helperFunctions";
+import { parseTwitterUserEntity } from "../helperFunctions";
 
 /**********          User Login          **********/
 
@@ -39,14 +39,13 @@ export const user_login = async (username, password) => {
 				await authenticate(participant_twitter_info, user_registered_to_experiment, initial_content);
 			}
 		} else if (participantLoginResponse.status == 401) {
-			let message = "No params supplied.\nPlease Login again.";
+			let message = "Wrong username or password.\nPlease Login again.";
 			throw new Error(message);
 		} else if (participantLoginResponse.status == 400) {
-			let message = "This user has already been authenticated.\nPlease Login again.";
+			let message = "Something went wrong.\nPlease Login again.";
 			throw new Error(message);
 		} else if (participantLoginResponse.status == 502) {
 			let message = "Something went wrong in the server.\nPlease Login again.";
-			dispatch({ type: LOGOUT });
 			throw new Error(message);
 		} else if (participantLoginResponse.status == 500) {
 			let message = "Something went wrong, Server unreachable.\nPlease try again later.";
@@ -62,6 +61,8 @@ export const user_login = async (username, password) => {
 	} catch (err) {
 		console.log("error in user_login");
 		console.log(err);
+		await clearAsyncStorage();
+		await clearSecureStore();
 		throw err;
 	}
 };
@@ -79,50 +80,39 @@ export const register_to_experiment = async (expCode) => {
 		if (registerToExpResponse.status == 200) {
 			const { initial_content, user_registered_to_experiment } = registerToExpResponse.data;
 
-			// await setObjectValue(localStorageKeys.REGISTERED_TO_EXPERIMENT, user_registered_to_experiment);
-
 			await authenticate(user_registered_to_experiment, initial_content.entity_details);
-		} else if (registerToExpResponse.status == 400) {
-			await emptyLs();
-			await AsyncStorage.removeItem("providedCredentials");
-			let message = "Unauthorized. Login with twitter first";
-			throw new Error(message);
-		} else if (registerToExpResponse.status == 401 || registerToExpResponse.status == 428) {
-			await emptyLs();
-			await AsyncStorage.removeItem("providedCredentials");
-			let message = "Unauthorized. Login with twitter first";
-			throw new Error(message);
-		} else {
-			if (registerToExpResponse.data && registerToExpResponse.data.message) {
-				if (registerToExpResponse.data.name == "UserAlreadyRegistered") {
-					// Setting the registration in local storage
-					await AsyncStorage.setItem("registeredToExperiment", JSON.stringify(true));
-
-					// Telling the root the session validated (so it will start to collect actions)
-					// this.$root.sessionValidated()
-					// this.$router.replace('feed')
-					// window.location.reload();
-				} else if (registerToExpResponse.data.name == "InvalidAuthInfo") {
-					await emptyLs();
-					await AsyncStorage.removeItem("providedCredentials");
-					let message = "Unauthorized. Login with twitter first";
-					throw new Error(message);
-				} else {
-					let message = registerToExpResponse.data.message;
-					throw new Error(message);
-				}
-			} else if (typeof registerToExpResponse.data === "string") {
-				let message = registerToExpResponse.data;
-				throw new Error(message);
-			} else {
-				let message = "Network error. Please try again later.";
-				throw new Error(message);
+		} else if (registerToExpResponse.status == 401) {
+			let message = "Wrong username or password.\nPlease Login again.";
+			if (registerToExpResponse.data.presentToUser) {
+				message = registerToExpResponse.data.message;
 			}
+			throw new Error(message);
+		} else if (registerToExpResponse.status == 400) {
+			let message = "No .\nPlease Login again.";
+			if (registerToExpResponse.data.presentToUser) {
+				message = registerToExpResponse.data.message;
+			}
+			throw new Error(message);
+		} else if (registerToExpResponse.status == 502) {
+			let message = "Something went wrong in the server.\nPlease Login again.";
+			throw new Error(message);
+		} else if (registerToExpResponse.status == 500) {
+			let message = "Something went wrong, Server unreachable.\nPlease try again later.";
+			throw new Error(message);
+		} else if (registerToExpResponse.status == 0) {
+			let message = "Something went wrong, Server unreachable.\nPlease try again later.";
+			throw new Error(registerToExpResponse.data);
+		} else {
+			console.log("error in user_login - got to final else...");
+			let message = "Something went wrong.\nPlease Try again Login again.";
+			throw new Error(message);
 		}
 	} catch (err) {
 		console.log("error in register_to_experiment");
 		console.log(err);
 		let message = "Error while loading the sign-in button. Please refresh to try again.";
+		await clearAsyncStorage();
+		await clearSecureStore();
 		throw new Error(message);
 	}
 };

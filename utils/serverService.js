@@ -292,7 +292,7 @@ const sendGetRequest = async (requestUrl, options = {}) => {
 	options.headers = await createAuthHeaderObj();
 	return await axios.get(requestUrl, options).catch(function (error) {
 		if (error.response) {
-			console.log(error.response);
+			// console.log(error.response);
 			return error.response;
 		} else {
 			// This is network error
@@ -306,11 +306,11 @@ const sendPostRequest = async (requestUrl, payload, options = {}) => {
 	options.headers = await createAuthHeaderObj();
 	return await axios.post(requestUrl, payload, options).catch(function (error) {
 		if (error.response) {
-			console.log(error.response);
+			// console.log(error.response);
 			return error.response;
 		} else {
 			// This is network error
-			console.log(error);
+			// console.log(error);
 			return {
 				status: 0,
 				data: "Network error, server probably down",

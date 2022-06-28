@@ -52,10 +52,10 @@ export const getStringValue = async (key) => {
 	try {
 		const result = await AsyncStorage.getItem(key);
 		if (result) {
-			printLogs("Here's your value \n" + result);
+			// printLogs("Here's your value \n" + result);
 			return result;
 		} else {
-			printLogs("No values stored under that key.");
+			// printLogs("No values stored under that key.");
 		}
 	} catch (error) {
 		console.error(error);
@@ -67,10 +67,10 @@ export const getObjectValue = async (key) => {
 		const jsonValue = await AsyncStorage.getItem(key);
 		const result = jsonValue != null ? JSON.parse(jsonValue) : null;
 		if (result) {
-			printLogs("Here's your value \n" + result);
+			// printLogs("Here's your value \n" + result);
 			return result;
 		} else {
-			printLogs("No values stored under that key.");
+			// printLogs("No values stored under that key.");
 		}
 	} catch (error) {
 		console.error(error);
@@ -145,9 +145,12 @@ export const getAllKeys = async () => {
 	}
 };
 
-export const clearAsyncStorage = async (keys) => {
+export const clearAsyncStorage = async () => {
 	printLogs("Starting clearing store...");
-
+	let keys = await getAllKeys();
+	if (keys.length == 0) {
+		return;
+	}
 	try {
 		await AsyncStorage.multiRemove(keys);
 	} catch (error) {
