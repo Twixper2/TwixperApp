@@ -77,6 +77,22 @@ export const getObjectValue = async (key) => {
 	}
 };
 
+export const getMultiple = async (keysArr) => {
+	let values;
+	try {
+		values = await AsyncStorage.multiGet(keysArr);
+		return values;
+	} catch (error) {
+		console.error(error);
+	}
+
+	// example -
+	// keys:
+	//  ["@MyApp_user", "@MyApp_key"]
+	// console.log output:
+	//  [ ['@MyApp_user', 'myUserValue'], ['@MyApp_key', 'myKeyValue'] ]
+};
+
 /*************     Setters     *************/
 
 export const setStringValue = async (key, value) => {
@@ -96,12 +112,52 @@ export const setObjectValue = async (key, value) => {
 	}
 };
 
+export const multiSet = async (itemsArr) => {
+	try {
+		await AsyncStorage.multiSet(itemsArr);
+	} catch (e) {
+		//save error
+	}
+
+	// example -
+	//  firstPair = ["@MyApp_user", "value_1"]
+	// itemsArr:
+	//  [firstPair, secondPair]
+};
+
 export const removeValue = async (key) => {
 	try {
 		await AsyncStorage.removeItem(key);
 	} catch (error) {
 		console.error(error);
 	}
+};
+
+/*************     Setup & Cleanup      *************/
+
+export const getAllKeys = async () => {
+	let keys = [];
+	try {
+		keys = await AsyncStorage.getAllKeys();
+		return keys;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const clearAsyncStorage = async (keys) => {
+	printLogs("Starting clearing store...");
+
+	try {
+		await AsyncStorage.multiRemove(keys);
+	} catch (error) {
+		// remove error
+		console.error(error);
+	}
+	printLogs("Store cleared successfully");
+
+	// example -
+	// keys = ['@MyApp_USER_1', '@MyApp_USER_2']
 };
 
 /* ----------------------------------------
