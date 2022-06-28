@@ -10,6 +10,8 @@ import { getObjectValue, setObjectValue } from "../storageFunctions";
 import { collationNames, tweetsKeys } from "../../constants/commonKeys";
 import { getFeed, getTweetPage, getWhoToFollow, getNotifications, postTweet } from "../serverService";
 
+import uuid from "react-native-uuid";
+
 /* ----------------------------------------
 	Participant's  Data
    ---------------------------------------- */
@@ -184,7 +186,7 @@ export const get_notifications = async () => {
 
 				if (notification.notificationType === ALERTS_NOTIFICATION) {
 					notificationObject = new NotificationObject(
-						notification.notificationID,
+						uuid.v4(),
 						notification.notificationType,
 						null,
 						null,
@@ -195,7 +197,7 @@ export const get_notifications = async () => {
 					);
 				} else {
 					notificationObject = new NotificationObject(
-						notification.notificationID,
+						uuid.v4(),
 						notification.notificationType,
 						notification.user.name,
 						"@" + notification.user.screen_name,
@@ -206,7 +208,7 @@ export const get_notifications = async () => {
 					);
 				}
 
-				if (notification?.notificationID) {
+				if (notificationObject?.notificationID) {
 					userNotificationsArr.push(notificationObject);
 				}
 			}

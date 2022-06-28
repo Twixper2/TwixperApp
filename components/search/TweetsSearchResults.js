@@ -24,9 +24,9 @@ const TweetsSearchResults = () => {
 			let username = await getStringValue(collationNames.SEARCH + localStorageKeys.USERNAME);
 
 			await searchActions.get_search_tweets(searchQuery);
+			await tweetsActions.get_who_to_follow(username);
 			let searchTweetsArr = await getObjectValue(collationNames.SEARCH + searchKeys.TWEETS_RESULTS + searchQuery);
 
-			await tweetsActions.get_who_to_follow(username);
 			setTweetsResults(searchTweetsArr.tweetsResults);
 		} catch (err) {
 			setError(err);

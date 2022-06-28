@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState, useCallback } from "react";
 import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
 import { Button } from "react-native-elements";
 
@@ -21,35 +21,45 @@ import { collationNames, profileKeys, localStorageKeys } from "../../constants/c
 const ProfileScreen = ({ route, navigation }) => {
 	const { data } = route.params;
 
+	const [isLoading, setIsLoading] = useState(false);
+	const [isRefreshing, setIsRefreshing] = useState(false);
+	const [error, setError] = useState();
+
 	const [userData, setUserEntity] = useState("");
 	const [participantUsername, setParticipantUsername] = useState("");
 
-	useEffect(() => {
-		const loadUserDetails = async () => {
+	const loadUserDetails = useCallback(async () => {
+		setError(null);
+		setIsRefreshing(true);
+		try {
 			let participantName = await getStringValue(localStorageKeys.USERNAME);
-			setParticipantUsername(participantName);
+			// setParticipantUsername(participantName);
 
 			if (data.userHandle !== participantName) {
 				console.log("It's not the participant");
-				try {
-					await profileActions.get_user_details(data.userHandle);
-					let userEntityData = await getObjectValue(
-						collationNames.PROFILE + profileKeys.USER_ENTITY + data.userHandle
-					);
-					setUserEntity(userEntityData.userEntity);
-				} catch (err) {
-					// setError(err);
-					console.log(err);
-				}
+
+				await profileActions.get_user_details(data.userHandle);
+				let userEntityData = await getObjectValue(
+					collationNames.PROFILE + profileKeys.USER_ENTITY + data.userHandle
+				);
+				setUserEntity(userEntityData.userEntity);
 			} else {
 				console.log("It's the participant");
 				let userEntityData = await getObjectValue(localStorageKeys.USER_TWITTER_ENTITY);
 				setUserEntity(userEntityData);
 			}
-		};
+		} catch (err) {
+			setError(err);
+		}
+		setIsRefreshing(false);
+	}, [setIsLoading, setError]);
 
-		loadUserDetails();
-	}, []);
+	useEffect(() => {
+		setIsLoading(true);
+		loadUserDetails().then(() => {
+			setIsLoading(false);
+		});
+	}, [loadUserDetails]);
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -68,6 +78,23 @@ const ProfileScreen = ({ route, navigation }) => {
 			navigation.navigate(screen, { data: userData });
 		}
 	};
+
+	if (error) {
+		return (
+			<View style={styles.centered}>
+				<Text>An error occurred!</Text>
+				<Button title="Try again" onPress={loadUserDetails} />
+			</View>
+		);
+	}
+
+	if (isLoading) {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="small" color={appColors.iconColor} />
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.container}>

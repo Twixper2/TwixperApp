@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, Button } from "react-native";
 
 import PeopleList from "../people/PeopleList";
 
+import * as tweetsActions from "../../utils/actions/tweets";
+
 import { appColors } from "../../constants/colors";
 import { getObjectValue } from "../../utils/storageFunctions";
 import { collationNames, tweetsKeys } from "../../constants/commonKeys";
@@ -17,6 +19,7 @@ const WhoToFollow = ({ route, navigation }) => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
+			await tweetsActions.get_who_to_follow();
 			let whoToFollowArr = await getObjectValue(collationNames.TWEETS + tweetsKeys.WHO_TO_FOLLOW);
 			setWhoToFollow(whoToFollowArr);
 		} catch (err) {

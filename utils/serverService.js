@@ -141,7 +141,7 @@ export const searchForTweets = async (query) => {
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
-	const requestQuery = "?q=" + convertedQuery;
+	const requestQuery = "?query=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -153,7 +153,7 @@ export const searchForPeople = async (query) => {
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
-	const requestQuery = "?q=" + convertedQuery;
+	const requestQuery = "?query=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchPeople + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -208,7 +208,8 @@ export const getUserTimeline = async (username) => {
 		return { status: 200, data: userTweets };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
+	// const requestQuery = "?username=" + username;
+	const requestQuery = "?req_user=" + username;
 	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -219,7 +220,7 @@ export const getUserLikes = async (username) => {
 		return { status: 200, data: userLikes.sort(() => Math.random() - 0.5).slice(0, 5) };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
+	const requestQuery = "?req_user=" + username;
 	const requestUrl = serverUrl + serverEndpoints.userLikes + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -230,8 +231,9 @@ export const getWhoToFollow = async (username) => {
 		return { status: 200, data: whoToFollow.sort(() => Math.random() - 0.5).slice(0, 3) };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
-	const requestUrl = serverUrl + serverEndpoints.whoToFollow + requestQuery;
+	// const requestQuery = "?username=" + username;
+	// const requestUrl = serverUrl + serverEndpoints.whoToFollow + requestQuery;
+	const requestUrl = serverUrl + serverEndpoints.whoToFollow;
 	return await sendGetRequest(requestUrl);
 };
 
@@ -294,7 +296,7 @@ const sendGetRequest = async (requestUrl, options = {}) => {
 			return error.response;
 		} else {
 			// This is network error
-			console.log(error);
+			// console.log(error);
 			return { status: 0, data: "Network error, server probably down" };
 		}
 	});
