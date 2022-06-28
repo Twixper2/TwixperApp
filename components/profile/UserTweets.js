@@ -23,7 +23,6 @@ const UserTweets = ({ route, navigation }) => {
 		setIsRefreshing(true);
 		try {
 			await profileActions.get_user_tweets(username);
-			// await tweetsActions.get_who_to_follow(username);
 			let userTweetsArr = await getObjectValue(collationNames.PROFILE + profileKeys.USER_TWEETS + username);
 			setUserTweets(userTweetsArr.usersTweets);
 		} catch (err) {

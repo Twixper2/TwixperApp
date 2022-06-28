@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View, Image, TextInput, Alert } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useCallback } from "react";
+import { StyleSheet, View, Image, TextInput, Alert, ActivityIndicator } from "react-native";
+import { useDispatch } from "react-redux";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -10,16 +10,39 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 
 import { appColors } from "../../constants/colors";
+import { getObjectValue } from "../../utils/storageFunctions";
+import { localStorageKeys } from "../../constants/commonKeys";
 
 import CreateTweetHeader from "../../components/UI/CreateTweetHeader";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as tweetsActions from "../../utils/actions/tweets";
 
 const CreateTweetScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const [error, setError] = useState();
 	const [tweetText, setTweetText] = useState("");
-	const { profileImgURL } = useSelector((state) => state.auth.userTwitterEntity);
+	const [profileImgURL, setProfileImgURL] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const [isRefreshing, setIsRefreshing] = useState(false);
+
+	const getUserData = useCallback(async () => {
+		setError(null);
+		setIsRefreshing(true);
+		try {
+			let userEntity = await getObjectValue(localStorageKeys.USER_TWITTER_ENTITY);
+			setProfileImgURL(userEntity.profileImgURL);
+		} catch (err) {
+			setError(err);
+		}
+		setIsRefreshing(false);
+	}, [setIsLoading, setError]);
+
+	useEffect(() => {
+		setIsLoading(true);
+		getUserData().then(() => {
+			setIsLoading(false);
+		});
+	}, [getUserData]);
 
 	useEffect(() => {
 		if (error) {
@@ -35,7 +58,7 @@ const CreateTweetScreen = ({ navigation }) => {
 	const onPostTweet = async () => {
 		if (tweetText !== "") {
 			try {
-				await dispatch(tweetsActions.post_tweet(tweetText));
+				await tweetsActions.post_tweet(tweetText);
 				navigation.goBack();
 			} catch (err) {
 				setError(err.message);
@@ -43,6 +66,14 @@ const CreateTweetScreen = ({ navigation }) => {
 			}
 		}
 	};
+
+	if (isLoading || !profileImgURL) {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="small" color={appColors.iconColor} />
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.screen}>
@@ -195,6 +226,15 @@ const styles = StyleSheet.create({
 		borderLeftColor: "black",
 		borderLeftWidth: 0.8,
 		paddingLeft: 15,
+	},
+	centered: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
+		backgroundColor: appColors.screenBackgroundColor,
 	},
 });
 

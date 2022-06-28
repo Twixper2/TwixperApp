@@ -19,7 +19,6 @@ const WhoToFollow = ({ route, navigation }) => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await tweetsActions.get_who_to_follow();
 			let whoToFollowArr = await getObjectValue(collationNames.TWEETS + tweetsKeys.WHO_TO_FOLLOW);
 			setWhoToFollow(whoToFollowArr);
 		} catch (err) {

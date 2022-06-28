@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 import HomeNavigator from "./HomeNavigator";
 import DrawerContainer from "./DrawerContainer";
@@ -15,12 +12,12 @@ import TweetButtonWrapper from "../screens/shared/TweetButtonWrapper";
 import ProfileScreen from "../screens/user/ProfileScreen";
 import FollowsScreen from "../screens/user/FollowsScreen";
 import CustomHeader from "../components/UI/CustomHeader";
-import ConfirmButton from "../components/UI/ConfirmButton";
 
-import { appColors } from "../constants/colors";
-// import { getUserTwitterEntity } from "../utils/storageFunctions";
 import { getObjectValue } from "../utils/storageFunctions";
 import { localStorageKeys } from "../constants/commonKeys";
+
+import * as tweetsActions from "../utils/actions/tweets";
+import { getWhoToFollow } from "../utils/serverService";
 
 const HomeProfileNavigator = createNativeStackNavigator();
 
@@ -77,6 +74,7 @@ const TwixperNavigator = () => {
 	useEffect(async () => {
 		if (!userEntityData) {
 			let userEntity = await getObjectValue(localStorageKeys.USER_TWITTER_ENTITY);
+			await tweetsActions.get_who_to_follow(userEntity.userHandle);
 			setUserEntityData(userEntity);
 		}
 	}, []);

@@ -21,10 +21,8 @@ const TweetsSearchResults = () => {
 		setIsRefreshing(true);
 		try {
 			let searchQuery = await getStringValue(collationNames.SEARCH + searchKeys.QUERY);
-			let username = await getStringValue(collationNames.SEARCH + localStorageKeys.USERNAME);
 
 			await searchActions.get_search_tweets(searchQuery);
-			await tweetsActions.get_who_to_follow(username);
 			let searchTweetsArr = await getObjectValue(collationNames.SEARCH + searchKeys.TWEETS_RESULTS + searchQuery);
 
 			setTweetsResults(searchTweetsArr.tweetsResults);
