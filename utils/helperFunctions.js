@@ -8,8 +8,8 @@ import { withStorageLogs } from "./config";
 
 export const parseTwitterUserEntity = (userData) => {
 	return (userEntity = {
-		user_name: userData.username.split("\n@")[0],
-		user_handle: userData.username.split("\n@")[1],
+		user_name: userData.name,
+		user_handle: userData.screen_name,
 		friends_count: userData.following_count.split(" ")[0],
 		followers_count: userData.followers_count.split(" ")[0],
 		profile_image_url: userData.profile_img,
