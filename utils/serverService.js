@@ -208,7 +208,7 @@ export const getUserTimeline = async (username) => {
 		return { status: 200, data: userTweets };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
+	const requestQuery = "?req_user=" + username;
 	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -219,7 +219,7 @@ export const getUserLikes = async (username) => {
 		return { status: 200, data: userLikes.sort(() => Math.random() - 0.5).slice(0, 5) };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
+	const requestQuery = "?req_user=" + username;
 	const requestUrl = serverUrl + serverEndpoints.userLikes + requestQuery;
 	return await sendGetRequest(requestUrl);
 };

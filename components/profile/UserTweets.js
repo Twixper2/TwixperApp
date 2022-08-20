@@ -10,7 +10,7 @@ import * as profileActions from "../../store/actions/profile";
 import { appColors } from "../../constants/colors";
 
 const UserTweets = ({ route, navigation }) => {
-	const { username } = route.params;
+	const { username, userHandle } = route.params;
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
@@ -22,8 +22,8 @@ const UserTweets = ({ route, navigation }) => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(profileActions.get_user_tweets(username));
-			await dispatch(tweetsActions.get_who_to_follow(username));
+			await dispatch(profileActions.get_user_tweets(userHandle));
+			await dispatch(tweetsActions.get_who_to_follow(userHandle));
 		} catch (err) {
 			setError(err);
 		}

@@ -9,7 +9,7 @@ import * as profileActions from "../../store/actions/profile";
 import { appColors } from "../../constants/colors";
 
 const UserLikes = ({ route, navigation }) => {
-	const { username } = route.params;
+	const { username, userHandle } = route.params;
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
@@ -21,7 +21,7 @@ const UserLikes = ({ route, navigation }) => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(profileActions.get_user_likes(username));
+			await dispatch(profileActions.get_user_likes(userHandle));
 		} catch (err) {
 			setError(err);
 		}

@@ -152,7 +152,7 @@ const ProfileScreen = ({ route, navigation }) => {
 				</View>
 			</View>
 			<View style={styles.TabsContainer}>
-				<ProfileTabsNavigator username={userData.username} />
+				<ProfileTabsNavigator username={userData.username} userHandle={userData.userHandle} />
 			</View>
 		</View>
 	);
