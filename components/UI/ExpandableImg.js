@@ -8,23 +8,13 @@ import { appColors } from "../../constants/colors";
 const ExpandableImg = ({ onPress, mediaData, pixelMedia }) => {
 	const { media_url_https, sizes } = mediaData;
 
-	const urlParams = new URLSearchParams(media_url_https);
-	const imageSize = urlParams.get("name");
-
 	const normalImgSize = {
 		flex: 1,
-		height: sizes[imageSize].h * 0.5,
-		width: sizes[imageSize].w * 0.5,
+		height: sizes["small"].h * 0.5,
+		width: sizes["small"].w * 0.5,
 	};
 
 	const [imageStyle, setImageStyle] = useState(normalImgSize);
-
-	// const imageStyle = {
-	// 	height: sizes[imageSize].h,
-	// 	width: sizes[imageSize].w,
-	// 	// resizeMode: sizes[imageSize].resize,
-	// 	resizeMode: "center",
-	// };
 
 	return (
 		<Lightbox underlayColor={appColors.screenBackgroundColor} navigator={false}>
