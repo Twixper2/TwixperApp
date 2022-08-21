@@ -143,7 +143,7 @@ export const searchForTweets = async (query) => {
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
-	const requestQuery = "?q=" + convertedQuery;
+	const requestQuery = "?query=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -155,7 +155,7 @@ export const searchForPeople = async (query) => {
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
-	const requestQuery = "?q=" + convertedQuery;
+	const requestQuery = "?query=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchPeople + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
