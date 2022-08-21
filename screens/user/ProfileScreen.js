@@ -132,7 +132,7 @@ const ProfileScreen = ({ route, navigation }) => {
 						<Text style={styles.dob}>{userData.whenJoined}</Text>
 					</View>
 					<View style={styles.followingAndFollowersContainer}>
-						<View style={styles.followingContainer}>
+						{/* <View style={styles.followingContainer}>
 							<PressableText
 								onPress={navigateTo.bind(this, FOLLOWING_SCREEN)}
 								textStyle={styles.followingCount}
@@ -147,6 +147,20 @@ const ProfileScreen = ({ route, navigation }) => {
 							>
 								{userData.followersCount} <Text style={styles.followersText}> Followers</Text>
 							</PressableText>
+						</View> */}
+						<View style={styles.followingContainer}>
+							<View>
+								<Text onPress={() => {}} style={styles.followingCount}>
+									{userData.friendsCount} <Text style={styles.followingText}> Following</Text>
+								</Text>
+							</View>
+						</View>
+						<View style={styles.followersContainer}>
+							<View>
+								<Text onPress={() => {}} style={styles.followersCount}>
+									{userData.followersCount} <Text style={styles.followersText}> Followers</Text>
+								</Text>
+							</View>
 						</View>
 					</View>
 				</View>
