@@ -21,6 +21,7 @@ import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
 import { loginNotRegistered } from "../data/Selenium/serverResponse/login_data";
 
 import { entity_details } from "../data/Selenium/serverResponse/entity_details";
+import { initialContent } from "../data/Selenium/initialContent";
 
 /* ----------------------------------------
 	User Login Functions
@@ -35,6 +36,7 @@ export const participantLogin = async (user, pass) => {
 				participant_twitter_info: userEntity,
 				user_registered_to_experiment: true,
 				access_token: "$2a$10$.8utOtAS0GBEKhJS6cMO4.1oRKlJBMmxnh9r7YRPg1zVUehf0yxRm",
+				initial_content: initialContent,
 			},
 			// data: loginNotRegistered,
 		};
