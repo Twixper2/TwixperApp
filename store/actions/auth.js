@@ -81,7 +81,8 @@ export const register_to_experiment = (expCode) => {
 	return async (dispatch) => {
 		try {
 			if (insertCredentials) {
-				expCode = "e044c6";
+				// expCode = "e044c6";
+				expCode = "0d42b0";
 			}
 
 			const registerToExpResponse = await registerToExperiment(expCode);
