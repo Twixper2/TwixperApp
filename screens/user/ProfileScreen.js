@@ -1,7 +1,6 @@
-import { useLayoutEffect } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-
-import { useSelector } from "react-redux";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-native-elements";
 
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
@@ -14,27 +13,47 @@ import ProfileImage from "../../components/UI/ProfileImage";
 import PressableText from "../../components/UI/PressableText";
 
 import { appColors } from "../../constants/colors";
-import { PROFILE_SCREEN, FOLLOWING_SCREEN, FOLLOWERS_SCREEN } from "../../constants/screenNames";
+import { FOLLOWING_SCREEN, FOLLOWERS_SCREEN } from "../../constants/screenNames";
+
+import * as profileActions from "../../store/actions/profile";
 
 const ProfileScreen = ({ route, navigation }) => {
-	const { data: userData } = route.params;
+	const { data } = route.params;
+	const dispatch = useDispatch();
+	const [isParticipant, setIsParticipant] = useState("");
+	const { userEntity } = useSelector((state) => state.profile);
 	const { username: participantUsername } = useSelector((state) => state.auth);
+	let userData;
+
+	useEffect(() => {
+		const loadUserDetails = async () => {
+			if (data.userHandle !== participantUsername) {
+				console.log("It's not the participant");
+				try {
+					await dispatch(profileActions.get_user_details(data.userHandle));
+					setIsParticipant(false);
+				} catch (err) {
+					// setError(err);
+					console.log(err);
+				}
+			} else {
+				console.log("It's the participant");
+				setIsParticipant(true);
+			}
+		};
+
+		loadUserDetails();
+	}, [dispatch]);
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			title: (
 				<Text>
-					{userData.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
+					{data.username} <MaterialCommunityIcons name={"check-decagram"} size={16} color={"white"} />
 				</Text>
 			),
 		});
 	}, [navigation]);
-
-	// if (userData.userHandle !== participantUsername) {
-	// 	console.log("Not the Participant -> Need Get User's Data");
-	// } else {
-	// 	console.log("It's the participant");
-	// }
 
 	const navigateTo = (screen) => {
 		if (Array.isArray(screen)) {
@@ -43,6 +62,20 @@ const ProfileScreen = ({ route, navigation }) => {
 			navigation.navigate(screen, { data: userData });
 		}
 	};
+
+	if (isParticipant) {
+		userData = data;
+	} else {
+		userData = userEntity;
+	}
+
+	if (isParticipant === "") {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="small" color={appColors.iconColor} />
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.container}>
@@ -99,7 +132,7 @@ const ProfileScreen = ({ route, navigation }) => {
 						<Text style={styles.dob}>{userData.whenJoined}</Text>
 					</View>
 					<View style={styles.followingAndFollowersContainer}>
-						<View style={styles.followingContainer}>
+						{/* <View style={styles.followingContainer}>
 							<PressableText
 								onPress={navigateTo.bind(this, FOLLOWING_SCREEN)}
 								textStyle={styles.followingCount}
@@ -114,12 +147,26 @@ const ProfileScreen = ({ route, navigation }) => {
 							>
 								{userData.followersCount} <Text style={styles.followersText}> Followers</Text>
 							</PressableText>
+						</View> */}
+						<View style={styles.followingContainer}>
+							<View>
+								<Text onPress={() => {}} style={styles.followingCount}>
+									{userData.friendsCount} <Text style={styles.followingText}> Following</Text>
+								</Text>
+							</View>
+						</View>
+						<View style={styles.followersContainer}>
+							<View>
+								<Text onPress={() => {}} style={styles.followersCount}>
+									{userData.followersCount} <Text style={styles.followersText}> Followers</Text>
+								</Text>
+							</View>
 						</View>
 					</View>
 				</View>
 			</View>
 			<View style={styles.TabsContainer}>
-				<ProfileTabsNavigator username={userData.username} />
+				<ProfileTabsNavigator username={userData.username} userHandle={userData.userHandle} />
 			</View>
 		</View>
 	);
@@ -267,6 +314,15 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		// paddingTop: 5,
 		paddingHorizontal: 5,
+		backgroundColor: appColors.screenBackgroundColor,
+	},
+	centered: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
 		backgroundColor: appColors.screenBackgroundColor,
 	},
 });

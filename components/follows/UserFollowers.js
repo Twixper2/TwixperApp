@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import PeopleList from "../people/PeopleList";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as followsActions from "../../store/actions/follows";
 
 import { appColors } from "../../constants/colors";
 
@@ -14,14 +14,14 @@ const UserFollowers = ({ route, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { userFollowers } = useSelector((state) => state.tweets.userFollows);
+	const { userFollowers } = useSelector((state) => state.follows);
 	const dispatch = useDispatch();
 
 	const loadUserFollowers = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_user_followers(username));
+			await dispatch(followsActions.get_user_followers(username));
 		} catch (err) {
 			setError(err);
 		}

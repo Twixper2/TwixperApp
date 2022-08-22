@@ -1,9 +1,15 @@
 var moment = require("moment");
 
+import { withStorageLogs } from "./config";
+
+/* ----------------------------------------
+	Parsers
+   ---------------------------------------- */
+
 export const parseTwitterUserEntity = (userData) => {
 	return (userEntity = {
-		user_name: userData.username.split("\n@")[0],
-		user_handle: userData.username.split("\n@")[1],
+		user_name: userData.name,
+		user_handle: userData.screen_name,
 		friends_count: userData.following_count.split(" ")[0],
 		followers_count: userData.followers_count.split(" ")[0],
 		profile_image_url: userData.profile_img,
@@ -16,11 +22,20 @@ export const parseTwitterUserEntity = (userData) => {
 	});
 };
 
+export const parseParticipantTwitterInfo = (userData) => {
+	return (userEntity = {
+		user_name: userData.name.split("\n@")[0],
+		user_handle: userData.name.split("\n@")[1],
+		friends_count: userData.friends_count.split(" ")[0],
+		followers_count: userData.followers_count.split(" ")[0],
+		profile_image_url: userData.profile_image_url_https,
+	});
+};
+
 export const parseTwitterDate = (twitterDate) => {
 	var system_date = new Date(Date.parse(twitterDate));
 	var user_date = new Date();
 
-	//  TODO: K ??
 	// if (K.ie) {
 	// 	system_date = Date.parse(twitterDate.replace(/( \+)/, " UTC$1"));
 	// }
@@ -56,6 +71,16 @@ export const parseTwitterDate = (twitterDate) => {
 	}
 	// Change format to "19 Oct 20" for example
 	return moment(system_date).format("D MMM YY");
+};
+
+/* ----------------------------------------
+	Dev Helpers
+   ---------------------------------------- */
+
+export const printLogs = (log) => {
+	if (withStorageLogs) {
+		console.log(log);
+	}
 };
 
 // For mocking server delay

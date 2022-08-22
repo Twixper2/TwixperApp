@@ -1,14 +1,50 @@
+import * as SecureStore from "expo-secure-store";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import PersonEntity from "../models/person-entity";
 
-import { sleep } from "./helperFunctions";
-
+import { sleep, printLogs } from "./helperFunctions";
 import { actuallySendReqToServer } from "./config";
+
+import { storageKeys } from "../constants/commonKeys";
+
 import { data as users } from "../data/UserTwitterEntity";
 
-import { tweets } from "../data/Selenium/v2/tweets_data";
-// import { tweets as tweetsData } from "../data/Selenium/v2/tweets_data";
-import { searchPeople } from "../data/Selenium/v2/search_people_data";
+/* ----------------------------------------
+	Prev Project Funcs
+   ---------------------------------------- */
+
+export const saveItem = async (key, value) => {
+	await SecureStore.setItemAsync(key, value);
+};
+
+export const getValueFor = async (key) => {
+	let result = await SecureStore.getItemAsync(key);
+	if (result) {
+		printLogs("🔐 Here's your value 🔐 \n" + result);
+		return result;
+	} else {
+		printLogs("No values stored under that key.");
+	}
+};
+
+export const deleteItem = async (key) => {
+	await SecureStore.deleteItemAsync(key);
+};
+
+export const clearSecureStore = async () => {
+	printLogs("Starting clearing store...");
+
+	for (const key in storageKeys) {
+		await SecureStore.deleteItemAsync(storageKeys[key]);
+	}
+	printLogs("Store cleared successfully");
+};
+
+/* ----------------------------------------
+	Prev Project Funcs
+   ---------------------------------------- */
 
 export const emptyStorageFromLs = async () => {
 	try {

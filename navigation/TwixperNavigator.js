@@ -52,40 +52,7 @@ const HomeTweetStack = () => {
 			<HomeTweetNavigator.Screen
 				name="CreateTweet"
 				component={CreateTweetScreen}
-				options={({ navigation }) => ({
-					headerStyle: {
-						backgroundColor: appColors.backgroundColor,
-					},
-					headerLeft: () => (
-						<Ionicons
-							name="close"
-							size={30}
-							color={appColors.iconColor}
-							onPress={() => {
-								navigation.goBack();
-							}}
-							style={{ marginBottom: 12 }}
-						/>
-					),
-					headerRight: () => (
-						<ConfirmButton
-							text={{ color: "white", fontSize: 16, fontWeight: "bold" }}
-							button={{
-								backgroundColor: appColors.iconColor,
-								borderRadius: 30,
-								paddingVertical: 7,
-								paddingHorizontal: 20,
-								marginBottom: 12,
-							}}
-							onPress={() => {
-								navigation.goBack();
-							}}
-						>
-							Tweet
-						</ConfirmButton>
-					),
-					title: "",
-				})}
+				options={{ header: () => null }}
 			/>
 			<HomeProfileNavigator.Screen
 				name="TweetScreen"

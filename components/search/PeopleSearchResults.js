@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import PeopleList from "../people/PeopleList";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as searchActions from "../../store/actions/search";
 
 import { appColors } from "../../constants/colors";
 
@@ -12,14 +12,14 @@ const PeopleSearchResults = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { peopleResults: searchResults, query } = useSelector((state) => state.tweets.search);
+	const { peopleResults, query } = useSelector((state) => state.search);
 	const dispatch = useDispatch();
 
 	const loadSearchPeopleResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_search_people(query));
+			await dispatch(searchActions.get_search_people(query));
 		} catch (err) {
 			setError(err);
 		}
@@ -42,7 +42,7 @@ const PeopleSearchResults = () => {
 		);
 	}
 
-	if (!isLoading && searchResults.length === 0) {
+	if (!isLoading && peopleResults.length === 0) {
 		return (
 			<View style={styles.centered}>
 				<Text>No Search People Result Found.</Text>
@@ -52,7 +52,7 @@ const PeopleSearchResults = () => {
 
 	return (
 		<View style={styles.container}>
-			<PeopleList onRefresh={loadSearchPeopleResults} isLoading={isLoading} data={searchResults} />
+			<PeopleList onRefresh={loadSearchPeopleResults} isLoading={isLoading} data={peopleResults} />
 		</View>
 	);
 };

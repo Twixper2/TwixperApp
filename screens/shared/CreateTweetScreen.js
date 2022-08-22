@@ -1,5 +1,6 @@
-import { StyleSheet, View, Image, TextInput } from "react-native";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { StyleSheet, View, Image, TextInput, Alert } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -10,16 +11,44 @@ import Feather from "react-native-vector-icons/Feather";
 
 import { appColors } from "../../constants/colors";
 
-//  TODO: opPress?
+import CreateTweetHeader from "../../components/UI/CreateTweetHeader";
 
-const CreateTweetScreen = (props) => {
-	const { navigation } = props;
+import * as tweetsActions from "../../store/actions/tweets";
 
-	const userEntityData = useSelector((state) => state.auth.userTwitterEntity);
-	const { profileImgURL } = userEntityData;
+const CreateTweetScreen = ({ navigation }) => {
+	const dispatch = useDispatch();
+	const [error, setError] = useState();
+	const [tweetText, setTweetText] = useState("");
+	const { profileImgURL } = useSelector((state) => state.auth.userTwitterEntity);
+
+	useEffect(() => {
+		if (error) {
+			Alert.alert("An Error Occurred!", error, [{ text: "Okay" }]);
+			navigation.navigate("Home");
+		}
+	}, [error]);
+
+	const onTextChange = (text) => {
+		setTweetText(text);
+	};
+
+	const onPostTweet = async () => {
+		if (tweetText !== "") {
+			try {
+				await dispatch(tweetsActions.post_tweet(tweetText));
+				navigation.goBack();
+			} catch (err) {
+				setError(err.message);
+				navigation.navigate("Home");
+			}
+		}
+	};
 
 	return (
 		<View style={styles.screen}>
+			<View style={styles.headerContainer}>
+				<CreateTweetHeader navigation={navigation} disabled={tweetText === ""} onPressTweet={onPostTweet} />
+			</View>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>
 					<Image
@@ -30,12 +59,14 @@ const CreateTweetScreen = (props) => {
 				</View>
 				<View style={styles.inputContainer}>
 					<TextInput
+						value={tweetText}
 						multiline={true}
 						numberOfLines={0}
 						style={styles.textInput}
-						underlineColorAndroid="transparent"
 						placeholder="What's happening?"
+						underlineColorAndroid="transparent"
 						placeholderTextColor={appColors.lightFontColor}
+						onChangeText={onTextChange}
 					/>
 				</View>
 			</View>
@@ -99,6 +130,9 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		backgroundColor: appColors.backgroundColor,
+	},
+	headerContainer: {
+		paddingTop: 15,
 	},
 	container: {
 		flex: 1,

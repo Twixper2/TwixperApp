@@ -7,13 +7,13 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { appColors } from "../../constants/colors";
 
 const TweetActionsInfoBar = (props) => {
-	const { tweetData, hideCount } = props;
+	const { tweetId, userHandle, actionsBarData, hideCount } = props;
 
 	// TODO: Prev version didn't had comments number
-	const [retweeted, setRetweeted] = useState(tweetData.retweeted);
-	const [retweets, setRetweets] = useState(tweetData.retweetsCount);
-	const [liked, setLiked] = useState(tweetData.liked);
-	const [likes, setLikes] = useState(tweetData.likesCount);
+	const [liked, setLiked] = useState(actionsBarData.liked);
+	const [likes, setLikes] = useState(actionsBarData.likesCount);
+	const [retweeted, setRetweeted] = useState(actionsBarData.retweeted);
+	const [retweets, setRetweets] = useState(actionsBarData.retweetsCount);
 
 	const retweet = () => {
 		if (retweeted) {
@@ -43,7 +43,7 @@ const TweetActionsInfoBar = (props) => {
 					size={25}
 					color={appColors.lightFontColor}
 				/>
-				{!hideCount && <Text style={styles.commentsCount}>{tweetData.commentsCount}</Text>}
+				{!hideCount && <Text style={styles.commentsCount}>{actionsBarData.commentsCount}</Text>}
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => retweet()} style={styles.retweetButton}>
 				<EvilIcons

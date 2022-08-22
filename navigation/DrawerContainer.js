@@ -46,13 +46,25 @@ const DrawerContainer = (props) => {
 				</View>
 
 				<View style={styles.followContainer}>
-					<PressableText onPress={navigateTo.bind(this, FOLLOWING_SCREEN)} textStyle={styles.followText}>
+					{/* <PressableText onPress={navigateTo.bind(this, FOLLOWING_SCREEN)} textStyle={styles.followText}>
 						{userData.friendsCount} <Text style={styles.followLightText}> Following</Text>
 					</PressableText>
 
 					<PressableText onPress={navigateTo.bind(this, FOLLOWERS_SCREEN)} textStyle={styles.followText}>
 						{userData.followersCount} <Text style={styles.followLightText}> Followers</Text>
-					</PressableText>
+					</PressableText> */}
+
+					<View>
+						<Text onPress={() => {}} style={styles.followText}>
+							{userData.friendsCount} <Text style={styles.followLightText}> Following</Text>
+						</Text>
+					</View>
+
+					<View>
+						<Text onPress={() => {}} style={styles.followText}>
+							{userData.followersCount} <Text style={styles.followLightText}> Followers</Text>
+						</Text>
+					</View>
 				</View>
 			</View>
 

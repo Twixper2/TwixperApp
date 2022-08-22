@@ -79,7 +79,12 @@ const MainTweet = ({ tweetData }) => {
 				</Text>
 			</View>
 			<View style={styles.tweetActionsContainer}>
-				<TweetActionsInfoBar hideCount={true} tweetData={tweetData.actionsBarData} />
+				<TweetActionsInfoBar
+					tweetId={tweetId}
+					userHandle={userHandle}
+					hideCount={true}
+					actionsBarData={tweetData.actionsBarData}
+				/>
 			</View>
 		</View>
 	);

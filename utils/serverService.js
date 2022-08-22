@@ -2,10 +2,11 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { sleep } from "./helperFunctions";
+import { getValueFor } from "./storageFunctions";
 import { serverEndpoints } from "../constants/endpoints";
-import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount, seleniumData } from "./config";
+import { storageKeys, headerKeys } from "../constants/commonKeys";
+import { serverUrl, actuallySendReqToServer, moreFeedTweetsCount } from "./config";
 
-import { data as feedJSON } from "../data/FeedJSON";
 import { userEntity } from "../data/Selenium/user_entity";
 import { userLikes } from "../data/Selenium/v3/user_likes";
 import { userTweets } from "../data/Selenium/v3/user_tweets";
@@ -14,15 +15,18 @@ import { userFollowers } from "../data/Selenium/v3/user_followers";
 import { userFollowing } from "../data/Selenium/v3/user_following";
 import { searchTweets } from "../data/Selenium/v3/search_tweets_data";
 import { searchPeople } from "../data/Selenium/v3/search_people_data";
+import { notifications } from "../data/Selenium/v3/notifications_data";
 import { tweetsV3 as tweetsData } from "../data/Selenium/v3/new_tweets_data";
 import { tweetsReplies } from "../data/Selenium/v3/tweet_replies_screen_data";
+import { loginNotRegistered } from "../data/Selenium/serverResponse/login_data";
 
-import { notifications } from "../data/Selenium/v3/notifications_data";
+import { entity_details } from "../data/Selenium/serverResponse/entity_details";
+import { initialContent } from "../data/Selenium/initialContent";
 
 /* ----------------------------------------
 	User Login Functions
    ---------------------------------------- */
-
+// serverResponse
 export const participantLogin = async (user, pass) => {
 	if (!actuallySendReqToServer) {
 		await sleep(2000);
@@ -31,7 +35,10 @@ export const participantLogin = async (user, pass) => {
 			data: {
 				participant_twitter_info: userEntity,
 				user_registered_to_experiment: true,
+				access_token: "$2a$10$.8utOtAS0GBEKhJS6cMO4.1oRKlJBMmxnh9r7YRPg1zVUehf0yxRm",
+				initial_content: initialContent,
 			},
+			// data: loginNotRegistered,
 		};
 	}
 	const requestUrl = serverUrl + serverEndpoints.participantLogin;
@@ -109,14 +116,11 @@ export const checkCredentials = async (token, tokenSecret) => {
 	Requests for data from Twitter to display
    ---------------------------------------- */
 
-export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
+// export const getFeed = async (maxId, count = moreFeedTweetsCount) => {
+export const getFeed = async (maxId, count) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
-		if (seleniumData) {
-			return { status: 200, data: tweetsData };
-		} else {
-			return { status: 200, data: feedJSON };
-		}
+		return { status: 200, data: tweetsData };
 	}
 	// Else, send the request to the server
 	let requestUrl = serverUrl + serverEndpoints.feedEndpoint;
@@ -139,7 +143,7 @@ export const searchForTweets = async (query) => {
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
-	const requestQuery = "?q=" + convertedQuery;
+	const requestQuery = "?query=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -151,7 +155,7 @@ export const searchForPeople = async (query) => {
 	}
 	// Else, send the request to the server
 	const convertedQuery = encodeURIComponent(query);
-	const requestQuery = "?q=" + convertedQuery;
+	const requestQuery = "?query=" + convertedQuery;
 	const requestUrl = serverUrl + serverEndpoints.searchPeople + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -189,13 +193,24 @@ export const getUserFollowers = async (username) => {
 	return await sendGetRequest(requestUrl);
 };
 
+export const getUserDetails = async (username) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: { entity_details: { ...entity_details } } };
+	}
+	// Else, send the request to the server
+	const requestQuery = "?req_user=" + username;
+	const requestUrl = serverUrl + serverEndpoints.userDetails + requestQuery;
+	return await sendGetRequest(requestUrl);
+};
+
 export const getUserTimeline = async (username) => {
 	if (!actuallySendReqToServer) {
 		await sleep(600);
 		return { status: 200, data: userTweets };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
+	const requestQuery = "?req_user=" + username;
 	const requestUrl = serverUrl + serverEndpoints.usersTweets + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -206,7 +221,7 @@ export const getUserLikes = async (username) => {
 		return { status: 200, data: userLikes.sort(() => Math.random() - 0.5).slice(0, 5) };
 	}
 	// Else, send the request to the server
-	const requestQuery = "?username=" + username;
+	const requestQuery = "?req_user=" + username;
 	const requestUrl = serverUrl + serverEndpoints.userLikes + requestQuery;
 	return await sendGetRequest(requestUrl);
 };
@@ -231,6 +246,40 @@ export const getNotifications = async () => {
 	// const requestQuery = "?username=" + username;
 	const requestUrl = serverUrl + serverEndpoints.getNotifications;
 	return await sendGetRequest(requestUrl);
+};
+
+/* ----------------------------------------
+    Requests for making active actions in Twitter
+   ---------------------------------------- */
+
+export const postTweet = async (payload) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: userTweets[0] };
+	}
+	// Else, send the request to the server
+	const requestUrl = serverUrl + serverEndpoints.postTweet;
+	return await sendPostRequest(requestUrl, payload);
+};
+
+export const likeTweet = async (payload) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: {} };
+	}
+	// Else, send the request to the server
+	const requestUrl = serverUrl + serverEndpoints.likeTweet;
+	return await sendPostRequest(requestUrl, payload);
+};
+
+export const unlikeTweet = async (payload) => {
+	if (!actuallySendReqToServer) {
+		await sleep(600);
+		return { status: 200, data: {} };
+	}
+	// Else, send the request to the server
+	const requestUrl = serverUrl + serverEndpoints.likeTweet;
+	return await sendPostRequest(requestUrl, payload);
 };
 
 /* ----------------------------------------
@@ -273,6 +322,21 @@ const sendPostRequest = async (requestUrl, payload, options = {}) => {
 /* Create auth header object */
 
 const createAuthHeaderObj = async () => {
+	let headerObj = { "Content-Type": "application/json" };
+
+	const user = await getValueFor(storageKeys.USERNAME);
+	const accessToken = await getValueFor(storageKeys.ACCESS_TOKEN);
+
+	if (user != null && accessToken != null) {
+		headerObj[headerKeys.USER_KEY] = user;
+		headerObj[headerKeys.ACCESS_TOKEN_KEY] = accessToken;
+	}
+	return headerObj;
+};
+
+/* Prev Project */
+
+const createAuthHeaderObj_prev = async () => {
 	let headerObj = { "Content-Type": "application/json" };
 
 	const userTwitterToken = await AsyncStorage.getItem("user_twitter_token");

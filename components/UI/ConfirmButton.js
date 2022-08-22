@@ -4,7 +4,7 @@ import { appColors } from "../../constants/colors";
 
 const ConfirmButton = (props) => {
 	return (
-		<TouchableOpacity activeOpacity={0.6} onPress={props.onPress}>
+		<TouchableOpacity activeOpacity={props.opacity ? props.opacity : 0.6} onPress={props.onPress}>
 			<View style={[styles.button, props.button]}>
 				<Text style={[styles.buttonText, props.text]}>{props.children}</Text>
 			</View>

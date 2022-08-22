@@ -12,10 +12,13 @@ import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import { enableScreens } from "react-native-screens";
 
+import RootNavigator from "./navigation/RootNavigator";
+
 import authReducer from "./store/reducers/auth";
 import tweetsReducer from "./store/reducers/tweets";
-import twitterAuthReducer from "./store/reducers/twitterAuth";
-import RootNavigator from "./navigation/RootNavigator";
+import searchReducer from "./store/reducers/search";
+import followsReducer from "./store/reducers/follows";
+import profileReducer from "./store/reducers/profile";
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs([
@@ -28,8 +31,9 @@ enableScreens();
 const rootReducer = combineReducers({
 	auth: authReducer,
 	tweets: tweetsReducer,
-	//  TODO: Old Version Auth
-	twitterAuth: twitterAuthReducer,
+	search: searchReducer,
+	follows: followsReducer,
+	profile: profileReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

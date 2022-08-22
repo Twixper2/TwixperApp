@@ -3,11 +3,13 @@ import { View, Text, Image, TextInput, Alert, StyleSheet, Button, ActivityIndica
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as authActions from "../../store/actions/auth";
-
 import LoadingScreen from "../shared/LoadingScreen";
 
 import { appColors } from "../../constants/colors";
+import { storageKeys } from "../../constants/commonKeys";
+import { getValueFor } from "../../utils/storageFunctions";
+
+import * as authActions from "../../store/actions/auth";
 
 const LoginExperimentScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +33,11 @@ const LoginExperimentScreen = ({ navigation }) => {
 		try {
 			setIsLoading(true);
 			await dispatch(authActions.register_to_experiment(expCode));
-			const registeredToExperiment = await AsyncStorage.getItem("registeredToExperiment");
-			if (registeredToExperiment) {
+
+			const registeredToExperiment = await getValueFor(storageKeys.REGISTERED_EXPERIMENT);
+
+			const isRegistered = JSON.parse(registeredToExperiment);
+			if (isRegistered) {
 				navigation.replace("App");
 			} else {
 				// TODO: Navigate To ** I Don't Know ** Screen
@@ -40,7 +45,7 @@ const LoginExperimentScreen = ({ navigation }) => {
 			}
 		} catch (err) {
 			setError(err.message);
-			navigation.replace("LoginTwitter");
+			navigation.replace("Login");
 		}
 	};
 

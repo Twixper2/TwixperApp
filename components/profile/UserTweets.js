@@ -5,24 +5,25 @@ import { useSelector, useDispatch } from "react-redux";
 import TweetsList from "../tweets/TweetsList";
 
 import * as tweetsActions from "../../store/actions/tweets";
+import * as profileActions from "../../store/actions/profile";
 
 import { appColors } from "../../constants/colors";
 
 const UserTweets = ({ route, navigation }) => {
-	const { username } = route.params;
+	const { username, userHandle } = route.params;
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const { usersTweets } = useSelector((state) => state.tweets.profile);
+	const { usersTweets } = useSelector((state) => state.profile);
 	const dispatch = useDispatch();
 
 	const loadUsersTweetsResults = useCallback(async () => {
 		setError(null);
 		setIsRefreshing(true);
 		try {
-			await dispatch(tweetsActions.get_user_tweets(username));
-			await dispatch(tweetsActions.get_who_to_follow(username));
+			await dispatch(profileActions.get_user_tweets(userHandle));
+			await dispatch(tweetsActions.get_who_to_follow(userHandle));
 		} catch (err) {
 			setError(err);
 		}

@@ -6,7 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import SearchInput from "../../components/search/SearchInput";
 import SearchTabsNavigator from "../../navigation/SearchTabsNavigator";
 
-import * as tweetsActions from "../../store/actions/tweets";
+import * as searchActions from "../../store/actions/search";
 
 import { appColors } from "../../constants/colors";
 
@@ -25,13 +25,13 @@ const SearchScreen = () => {
 	);
 
 	const onClear = () => {
-		dispatch(tweetsActions.set_search_query(""));
+		dispatch(searchActions.set_search_query(""));
 		setHasQuery(false);
 		setSearchText("");
 	};
 
 	const onSearchHandler = () => {
-		dispatch(tweetsActions.set_search_query(searchText));
+		dispatch(searchActions.set_search_query(searchText));
 		setHasQuery(true);
 	};
 
